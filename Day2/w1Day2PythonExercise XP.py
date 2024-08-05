@@ -69,7 +69,7 @@ print("number of items in basket:  ",len(list_basket))
 list_basket.clear()
 print("contents of basket after being cleared:  ",list_basket)
 
-
+..
 
 # 🌟 Exercise 4: Floats
 # Instructions
