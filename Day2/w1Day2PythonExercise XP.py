@@ -69,7 +69,7 @@ print("number of items in basket:  ",len(list_basket))
 list_basket.clear()
 print("contents of basket after being cleared:  ",list_basket)
 
-..
+
 
 # 🌟 Exercise 4: Floats
 # Instructions
@@ -120,7 +120,12 @@ for i in table:
 # 🌟 Exercise 6 : While Loop
 # Instructions
 # Write a while loop that will continuously ask the user for their name, unless the input is equal to your name.
+input_name = input("Enter your name (hint: Shira):  ")
 
+while input_name != "Shira":
+    input_name = input("Nope! Keep Trying! Enter your name (hint: Shira):  ")
+
+print("Hello Shira")
 
 # 🌟 Exercise 7: Favorite fruits
 # Instructions
@@ -131,6 +136,17 @@ for i in table:
 # If the user’s input is in the favorite fruits list, print “You chose one of your favorite fruits! Enjoy!”.
 # If the user’s input is NOT in the list, print, “You chose a new fruit. I hope you enjoy”.
 
+input_favorite_fruits = input("Enter your favorite fruit(s) (one or several fruits) and sparate with space eg 'apple mango cherry':  ")
+
+fruit_list = input_favorite_fruits.split(" ")
+print(fruit_list)
+
+input_user_fruit = input("Enter a name of any fruit:  ")  
+if input_user_fruit in fruit_list:
+    print("You chose one of your favorite fruits! Enjoy!")
+else:
+    print("You chose a new fruit. I hope you enjoy")  
+
 
 # Exercise 8: Who ordered a pizza ?
 # Instructions
@@ -138,6 +154,25 @@ for i in table:
 # As they enter each topping, print a message saying you’ll add that topping to their pizza.
 # Upon exiting the loop print all the toppings on the pizza pie and what the total price is (10 + 2.5 for each topping).
 
+input_pizza_toppings = True
+list_pizza_toppings = []
+total_price = 10
+
+while input_pizza_toppings != "quit":
+    input_pizza_toppings = input("Enter the pizza toppings (Enter 'quit' to stop):  ") 
+    
+    total_price += 2.5
+    print("Adding " + input_pizza_toppings + " to your pizza")
+    print("Total price is:  " + str(total_price))
+    list_pizza_toppings.append(input_pizza_toppings)
+
+print("Your pizza toppings are:  " + str(list_pizza_toppings))
+print("Total price is:  " + str(total_price))
+
+
+
+        
+     
 
 # Exercise 9: Cinemax
 # Instructions
