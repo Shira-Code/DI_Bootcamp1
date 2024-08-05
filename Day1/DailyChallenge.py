@@ -4,7 +4,7 @@
 # If it’s less than 10 characters, print a message which states “string not long enough”.
 # If it’s more than 10 characters, print a message which states “string too long”.
 # If it’s 10 characters, print a message which states “perfect string” and continue the exercise.
-
+1
 
 input_string = input("Enter a string: ")
 if len(input_string) < 10:
