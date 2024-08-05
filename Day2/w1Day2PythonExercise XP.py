@@ -101,6 +101,21 @@ print(seq)
 # Using a for loop, that loops from 1 to 20(inclusive), print out every element which has an even index.
 
 
+table = range(1, 21)
+
+for i in table:
+    print("all numbers:  ",i)
+
+for i in table:
+    if i % 2 == 0:
+        print("all even numbers:  ",i)
+
+   
+
+
+
+
+
 
 # 🌟 Exercise 6 : While Loop
 # Instructions

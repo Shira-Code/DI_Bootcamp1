@@ -6,9 +6,9 @@ list1 = [5, 10, 15, 20, 25, 50, 20]
 
 #we use reange() function to produce the index range
 
-nubers = range(0, 10)
+numbers = range(0, 10)
 numbers = list(range(0, len(list1)))
-print(nubers)
+print(numbers)
 
 for i in range (0, len(list1)):
     print(i, list1[i])
