@@ -3,6 +3,6 @@ git commit -m "messge"
 git push
 
 
-git push origin name of branch 
+git push origin "name of branch" 
 git log
 git checkout 8e07434319d8c89a326316a1706f4f9a1810524a
