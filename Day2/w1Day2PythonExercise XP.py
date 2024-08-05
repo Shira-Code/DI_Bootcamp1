@@ -156,18 +156,18 @@ else:
 
 input_pizza_toppings = True
 list_pizza_toppings = []
-total_price = 10
+total_price_pizza = 10
 
 while input_pizza_toppings != "quit":
     input_pizza_toppings = input("Enter the pizza toppings (Enter 'quit' to stop):  ") 
     
-    total_price += 2.5
+    total_price_pizza += 2.5
     print("Adding " + input_pizza_toppings + " to your pizza")
-    print("Total price is:  " + str(total_price))
+    print("Total price is:  " + str(total_price_pizza))
     list_pizza_toppings.append(input_pizza_toppings)
 
 print("Your pizza toppings are:  " + str(list_pizza_toppings))
-print("Total price is:  " + str(total_price))
+print("Total price is:  " + str(total_price_pizza))
 
 
 
@@ -185,10 +185,41 @@ print("Total price is:  " + str(total_price))
 
 # Store the total cost of all the family’s tickets and print it out.
 
+
+input_age = True
+list_age = []
+total_price = 0
+
+while input_age != "quit":
+
+    input_age = int(input("Enter the age of the person (Enter 'quit' to stop):  "))
+        
+    if input_age < 3:
+        print("Ticket is free")
+        total_price += 0
+
+    elif input_age >= 3 and input_age <= 12:
+        print("Ticket is $10")
+        total_price += 10
+
+    elif input_age > 12:
+        print("Ticket is $15")
+        total_price += 15
+
+print("Total price is:  " + str(total_price))
+
+
 # A group of teenagers are coming to your movie theater and want to watch a movie that is restricted for people between the ages of 16 and 21.
 # Given a list of names, write a program that asks teenager for their age, if they are not permitted to watch the movie, remove them from the list.
 # At the end, print the final list.
 
+list_names = ["Shira", "Bob", "Max", "Pippa", "Susie"]
+
+for name in list_names:
+    input_age = int(input("Enter the age of the person (Enter 'quit' to stop):  ")) 
+    if input_age < 16 or input_age > 21:
+        list_names.remove(name)
+print("The list of names after removing the ones not allowed:  " + str(list_names))
 
 # Exercise 10 : Sandwich Orders
 # Instructions
