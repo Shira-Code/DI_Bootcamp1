@@ -45,8 +45,6 @@ for name, age in family_name_age_dict.items():
 print(family_name_age_dict)
 print("Total cost: $", total_cost)
 
-
-
 # 🌟 Exercise 3: Zara
 # Instructions
 # Here is some information about a brand.
@@ -81,8 +79,29 @@ print("Total cost: $", total_cost)
 
 # 13. Use a method to add the information from the dictionary more_on_zara to the dictionary brand.
 # 14. Print the value of the key number_stores. What just happened ?
+brand = {
+    "name": "Zara", 
+    "creation_date": 1975,
+    "type_of_clothes": "men, women, children, home",
+    "international_competitors": "Gap, H&M, Benetton",
+    "number_stores": 7000,
+    "major_color": {
+        "France": "blue",
+        "Spain": "red",
+        "US": "pink, green"
+} 
+    } 
 
+more_on_zara = {
+    "creation_date": 1975,
+    "number_stores": 10000
+}
 
+brand.update(more_on_zara)
+print(brand)
+
+print(len(brand))
+print("Brand keys only: ",brand.keys())
 
 # Exercise 4 : Disney characters
 # Instructions
