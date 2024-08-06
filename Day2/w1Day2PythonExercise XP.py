@@ -186,30 +186,30 @@ print("Total price is:  " + str(total_price_pizza))
 # Store the total cost of all the family’s tickets and print it out.
 
 
-# input_age = True
-# list_age = []
-# total_price = 0
+input_age = True
+list_age = []
+total_price = 0
 
-# while input_age != "quit":
+while input_age != "quit":
 
-#     input_age = int(input("Enter the age of the person (Enter 'quit' to stop):  "))
+    input_age = int(input("Enter the age of the person (Enter 'quit' to stop):  "))
         
-#     if input_age < 3 and input_age > 0:
-#         print("Ticket is free")
-#         total_price += 0
+    if input_age < 3 and input_age > 0:
+        print("Ticket is free")
+        total_price += 0
 
-#     elif input_age >= 3 and input_age <= 12:
-#         print("Ticket is $10")
-#         total_price += 10
+    elif input_age >= 3 and input_age <= 12:
+        print("Ticket is $10")
+        total_price += 10
 
-#     elif input_age > 12:
-#         print("Ticket is $15")
-#         total_price += 15
+    elif input_age > 12:
+        print("Ticket is $15")
+        total_price += 15
     
-#     elif input_age == "quit":
-#         break   
+    elif input_age == "quit":
+        break   
     
-#         print("Total price is:  " + str(total_price))
+        print("Total price is:  " + str(total_price))
 
 
 
@@ -220,7 +220,8 @@ print("Total price is:  " + str(total_price_pizza))
 list_names = ["Shira", "Bob", "Max", "Pippa", "Susie"]
 
 for name in list_names:
-    input_age = int(input("Enter the age of the person (Enter 'quit' to stop):  ")) 
+    input_age = int(input("Enter the age of " + name + " (Enter 'quit' to stop):  "))
+
     if input_age < 16 or input_age > 21:
         list_names.remove(name)
 print("The list of names after removing the ones not allowed:  " + str(list_names))
@@ -240,3 +241,18 @@ print("The list of names after removing the ones not allowed:  " + str(list_name
 # I made your avocado sandwich
 # I made your egg sandwich
 # I made your chicken sandwich
+
+
+sandwich_orders = ["Tuna sandwich", "Pastrami sandwich", "Avocado sandwich", "Pastrami sandwich", "Egg sandwich", "Chicken sandwich", "Pastrami sandwich"]
+
+while "Pastrami sandwich" in sandwich_orders:
+    sandwich_orders.remove("Pastrami sandwich")
+
+print(sandwich_orders)
+
+finished_sandwiches = []
+
+while sandwich_orders:
+    current_sandwich = sandwich_orders.pop()
+    print("I made your " + current_sandwich)
+    finished_sandwiches.append(current_sandwich)    
