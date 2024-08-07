@@ -48,40 +48,94 @@ print(a_dict)
 
 # The key is the product, the value is the price
 
+# items_purchase = {
+#   "Water": "$1",
+#   "Bread": "$3",
+#   "TV": "$1,000",
+#   "Fertilizer": "$20"
+# }
+
+# wallet = "$300"
+
+# ➞ ["Bread", "Fertilizer", "Water"]
+
+# items_purchase = {
+#   "Apple": "$4",
+#   "Honey": "$3",
+#   "Fan": "$14",
+#   "Bananas": "$4",
+#   "Pan": "$100",
+#   "Spoon": "$2"
+# }
+
+# wallet = "$100" 
+
+# ➞ ["Apple", "Bananas", "Fan", "Honey", "Spoon"]
+
+# # In fact the prices of Apple + Honey + Fan + Bananas + Pan is more that $100, so you cannot by the Pan, 
+# # instead you can by the Spoon that is $2
+
+# items_purchase = {
+#   "Phone": "$999",
+#   "Speakers": "$300",
+#   "Laptop": "$5,000",
+#   "PC": "$1200"
+# }
+
+# wallet = "$1" 
+
+# ➞ "Nothing"
+
 items_purchase = {
-  "Water": "$1",
-  "Bread": "$3",
-  "TV": "$1,000",
-  "Fertilizer": "$20"
+  "Water": 1,
+  "Bread": 3,
+  "TV": 1000,
+  "Fertilizer": 20
 }
 
-wallet = "$300"
+wallet = 300
 
-["Bread", "Fertilizer", "Water"]
+for key, value in items_purchase.items():
+    if wallet >= value:
+        print("purchased items for $300 wallet: ",key)
+
+# result ["Bread", "Fertilizer", "Water"]
 
 items_purchase = {
-  "Apple": "$4",
-  "Honey": "$3",
-  "Fan": "$14",
-  "Bananas": "$4",
-  "Pan": "$100",
-  "Spoon": "$2"
+  "Apple": 4,
+  "Honey": 3,
+  "Fan": 14,
+  "Bananas": 4,
+  "Pan": 100,
+  "Spoon": 2
 }
 
-wallet = "$100" 
+wallet = 100 
 
-["Apple", "Bananas", "Fan", "Honey", "Spoon"]
+for key, value in items_purchase.items():
+    if wallet >= value:
+        print("purchased items for $100 wallet: ",key)
+
+#➞ ["Apple", "Bananas", "Fan", "Honey", "Spoon"]
+
 
 # In fact the prices of Apple + Honey + Fan + Bananas + Pan is more that $100, so you cannot by the Pan, 
 # instead you can by the Spoon that is $2
 
 items_purchase = {
-  "Phone": "$999",
-  "Speakers": "$300",
-  "Laptop": "$5,000",
-  "PC": "$1200"
+  "Phone": 9999,
+  "Speakers": 300,
+  "Laptop": 5000,
+  "PC": 1200
 }
 
-wallet = "$1" 
+wallet = 1 
 
-# ➞ "Nothing"
+for key, value in items_purchase.items():
+    if wallet >= value:
+        print("purchased items for $1 wallet: ",key)
+
+if wallet < value:
+    print("purchased items for $1 wallet: Nothing")    
+
+#➞ "Nothing"

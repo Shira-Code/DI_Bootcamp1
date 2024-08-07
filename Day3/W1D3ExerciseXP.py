@@ -132,3 +132,20 @@ print("Brand keys only: ",brand.keys())
 # Only recreate the 1st result for:
 # The characters, which names contain the letter “i”.
 # The characters, which names start with the letter “m” or “p”.
+
+users = ["Mickey","Minnie","Donald","Ariel","Pluto"]
+
+disney_users_A = {}
+disney_users_B = {}
+disney_users_C = {}
+
+for i in range(len(users)):
+    disney_users_A[users[i]] = i
+    disney_users_B[i] = users[i]
+
+disney_users_C = dict(sorted(disney_users_A.items()))  
+
+print("users A: ",disney_users_A)
+print("users B: ",disney_users_B)
+print("users C: ",disney_users_C)
+
