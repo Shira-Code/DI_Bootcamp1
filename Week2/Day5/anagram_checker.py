@@ -1,5 +1,5 @@
 # Create a new file called anagram_checker.py which contains a class called AnagramChecker.
-
+#
 # The class should have the following methods:
 # __init__ - should load the word list file (text file) into a variable, so that it can be searched later on in the code.
 # is_valid_word(word) – should check if the given word (ie. the word of the user) is a valid word.
