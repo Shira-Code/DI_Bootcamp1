@@ -17,57 +17,54 @@
 # If the user inputs incorrect data, print an error message and end the program.
 # If the user inputs correct data, run your code.
 
-
 import random
 
 def get_words_from_file(filename: str) -> list[str]:
     """Reads words from a file and returns them as a list."""
-    with open(filename, 'r') as file:
-        words = [line.strip() for line in file if line.strip()]
-    return words
-
-def get_random_sentence(words: list[str], length: int) -> str:
-    """Generates a random sentence with the given length using the words list."""
-    if length < 2:
-        raise ValueError("Sentence length should be at least 2.")
-    if length > 20:
-        raise ValueError("Sentence length should not exceed 20.")
+    try:
+        with open(filename, 'r') as file:
+            words = [line.strip().lower() for line in file if line.strip()]
+        return words
+    except FileNotFoundError:
+        print(f"Error: The file {filename} was not found.")
+        return []
+    except IOError:
+        print(f"Error: Could not read the file {filename}.")
+        return []
     
-    random_words = random.sample(words, length)  # Get 'length' random words
-    sentence = ' '.join(random_words)  # Join words into a sentence
+def get_random_sentence(words: list[str], length: int) -> str:
+    """Generates a random sentence of the specified length."""
+    if length < 2 or length > 20:
+        raise ValueError("Length must be between 2 and 20.")
+    
+    sentence = ' '.join(random.choices(words, k=length))
     return sentence.lower()
 
 def main():
     print("Welcome to the Random Sentence Generator!")
-    print("This program generates a random sentence from a list of words.")
+    print("This program will generate a random sentence based on a list of words.")
 
-    # Get user input
-    try:
-        length = int(input("How long do you want the sentence to be? (2-20): "))
-        if length < 2 or length > 20:
-            raise ValueError("The length must be between 2 and 20.")
-    except ValueError as e:
-        print(f"Error: {e}")
+    filename = 'sowpods.txt'  
+    words = get_words_from_file(filename)
+    
+    if not words:
+        print("No words loaded. Exiting the program.")
         return
 
-    # File containing the list of words
-    filename = 'sowpods.txt'  # Make sure 'words.txt' is in your development directory
+    while True:
+        try:
+            length = int(input("How long do you want the sentence to be (2-20)? ").strip())
+            if length < 2 or length > 20:
+                print("Error: Please enter an integer between 2 and 20.")
+                continue
+            
+            sentence = get_random_sentence(words, length)
+            print(f"Generated Sentence: {sentence}")
+            break
 
-    # Get words from file
-    words = get_words_from_file(filename)
+        except ValueError as e:
+            print(f"Error: {e}")
+            continue
 
-    # Generate and print the random sentence
-    sentence = get_random_sentence(words, length)
-    print(f"Generated Sentence: {sentence}")
-
-# Run the main function
 if __name__ == "__main__":
     main()
-
-    
-
-
-
-
-
-

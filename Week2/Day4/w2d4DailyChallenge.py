@@ -23,7 +23,7 @@
 class Text:
     def __init__(self, text):
         self.text = text
-
+__
     @classmethod
     def from_string(cls, text):
         return cls(text)

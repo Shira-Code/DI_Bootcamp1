@@ -1,0 +1,54 @@
+# Instructions
+# Part 1 : Quizz :
+# Answer the following questions
+
+# What is a class? A class is a blueprint for creating objects, defining attributes and methods.
+# What is an instance? An instance is a specific object created from a class.
+# What is encapsulation? Encapsulation is the bundling of data and methods that operate on that data within a class, and restricting direct access to some of the object's components.
+# What is abstraction? Abstraction is hiding complex implementation details and showing only the essential features of an object.
+# What is inheritance? Inheritance is the process of creating a new class from an existing class.
+# What is multiple inheritance? Multiple inheritance is the process of creating a new class from multiple existing classes.
+# What is polymorphism? Polymorphism is the ability of an object to take on many forms.
+# What is method resolution order or MRO? The method resolution order (MRO) is the order in which a class's methods are resolved.
+
+# Part 2: Create a deck of cards class.
+# The Deck of cards class should NOT inherit from a Card class.
+
+# The requirements are as follows:
+
+# The Card class should have a suit (Hearts, Diamonds, Clubs, Spades) and a value (A,2,3,4,5,6,7,8,9,10,J,Q,K)
+# The Deck class :
+# should have a shuffle method which makes sure the deck of cards has all 52 cards and then rearranges them randomly.
+# should have a method called deal which deals a single card from the deck. After a card is dealt, it should be removed from the deck.
+
+
+import random
+from random import shuffle
+
+class Card:
+    def __init__(self, suit, value):
+        self.suit = suit
+        self.value = value
+
+    def __str__(self):
+        return f"{self.value} of {self.suit}"
+
+    def __repr__(self):
+        return f"{self.value} of {self.suit}"
+    
+class Deck:
+    def __init__(self):
+        self.cards = [Card(s, v) for s in ["Hearts", "Diamonds", "Clubs", "Spades"] for v in ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]]
+
+    def shuffle(self):
+        random.shuffle(self.cards)
+
+    def deal(self):
+        return self.cards.pop()
+
+deck = Deck()
+deck.shuffle()
+card = deck.deal()
+print(card)
+
+

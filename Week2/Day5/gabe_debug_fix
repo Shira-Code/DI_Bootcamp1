@@ -1,0 +1,16 @@
+Python Instructor
+10:33 AM
+{
+    "name": "Python: Current File",
+    "type": "python",
+    "request": "launch",
+    "program": "${file}",
+    "console": "integratedTerminal",
+    "cwd": "${workspaceFolder}",
+    "env": {},
+    "envFile": "${workspaceFolder}/.env"
+}
+
+Vlad Grinberg
+10:37 AM
+"cwd": "${fileDirname}"
