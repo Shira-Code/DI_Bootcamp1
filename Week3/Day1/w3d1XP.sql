@@ -104,4 +104,4 @@ select * from customers where customer_last_name = 'Jones';
 
 -- All customers whose firstname is not ‘Scott’.
 
-select * from customers where customer_last_name = 'Scott';
+select * from customers where customer_last_name != 'Scott';
