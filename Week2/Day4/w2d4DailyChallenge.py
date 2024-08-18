@@ -85,49 +85,49 @@ print("Word frequency 'good': ", text.word_frequency("good"))
 
 
 
-class TextModification(Text):
+# class TextModification(Text):
 
-    def __init__(self, text):
-        self.text = text
+#     def __init__(self, text):
+#         self.text = text
 
-    def remove_punctuation(self):
-         import re
-         return re.sub(r'[^\w\s]','',self.text)
+#     def remove_punctuation(self):
+#          import re
+#          return re.sub(r'[^\w\s]','',self.text)
 
-    def remove_stopwords(self):
-        from nltk.corpus import stopwords
-        stop_words = set(stopwords.words('english'))
-        return ' '.join([word for word in self.text.split() if word.lower() not in stop_words])
+#     def remove_stopwords(self):
+#         from nltk.corpus import stopwords
+#         stop_words = set(stopwords.words('english'))
+#         return ' '.join([word for word in self.text.split() if word.lower() not in stop_words])
     
     
-    def remove_special_chars(self):
-         import re
-         return re.sub(r'[^a-zA-Z0-9\s]','',self.text)
+#     def remove_special_chars(self):
+#          import re
+#          return re.sub(r'[^a-zA-Z0-9\s]','',self.text)
     
-    def __str__(self):
-         return self.text
+#     def __str__(self):
+#          return self.text
     
-import nltk
-nltk.download('stopwords')
-my_file = open('the_stranger.txt', 'r')
-my_text = my_file.read()
-my_text_mod = TextModification(my_text)
-#print("START CAMUS TEXT NO PUNC: ",my_text_mod.remove_punctuation())
-#print("START CAMUS TEXT NO STOPWORDS#: ",my_text_mod.remove_stopwords())
-print("START CAMUS TEXT NO SPECIAL CHAR: ",my_text_mod.remove_special_chars())
-my_file.close()
-# print(my_text_mod.remove_stopwords())
-# print(my_text_mod.remove_special_chars())
+# import nltk
+# nltk.download('stopwords')
+# my_file = open('the_stranger.txt', 'r')
+# my_text = my_file.read()
+# my_text_mod = TextModification(my_text)
+# #print("START CAMUS TEXT NO PUNC: ",my_text_mod.remove_punctuation())
+# #print("START CAMUS TEXT NO STOPWORDS#: ",my_text_mod.remove_stopwords())
+# print("START CAMUS TEXT NO SPECIAL CHAR: ",my_text_mod.remove_special_chars())
+# my_file.close()
+# # print(my_text_mod.remove_stopwords())
+# # print(my_text_mod.remove_special_chars())
 
 
 
-# my_file = open('the_stranger.txt')
-# my_file.seek(196600)
-# print("first attempt read seek 196600: ",my_file.read())
-# my_file.seek(196600)
-# print("second attempt readlines seek 196600: ",my_file.readlines())  
-# my_file.seek(196600)
-# print("third attempt readline seek 196600: ",my_file.readline()) 
-# my_file.close()     
-# # data = my_file.read()
-# # print(data)
+# # my_file = open('the_stranger.txt')
+# # my_file.seek(196600)
+# # print("first attempt read seek 196600: ",my_file.read())
+# # my_file.seek(196600)
+# # print("second attempt readlines seek 196600: ",my_file.readlines())  
+# # my_file.seek(196600)
+# # print("third attempt readline seek 196600: ",my_file.readline()) 
+# # my_file.close()     
+# # # data = my_file.read()
+# # # print(data)

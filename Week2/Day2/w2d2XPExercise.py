@@ -193,6 +193,30 @@
 
 # Call the incredible_presentation method again.
 
-# class TheIncredibles(Family):
-#     pass
+
+class TheIncredibles(Family):
+    def __init__(self, last_name, members):
+        super().__init__(last_name, members)
+    
+    def use_power(self, name, age, gender, is_child, power, incredible_name):
+        if age > 18:
+            print(f"{name} has {power}!")
+        else:
+            raise Exception(f"{name} is not over 18 years old.")
+
+    def incredible_presentation(self):
+        for member in self.members:
+            print(f"{member['name']} is {member['age']} years old.")
+        print(f"The {self.last_name} family has {len(self.members)} members.")
+
+    def born(self, name, age, gender, is_child, power, incredible_name):
+        self.members.append({'name': name, 'age': age, 'gender': gender, 'is_child': is_child, 'power': power, 'incredible_name': incredible_name})
+        print(f"{name} was born in the family!")
+        print(f"Contratulations, {name} was born!")
+
+the_family = TheIncredibles(last_name="Incredibles", members=[])
+the_family.born(name="Michael", age=35, gender="Male", is_child=False, power="fly", incredible_name="MikeFly")
+the_family.born(name="Sarah", age=32, gender="Female", is_child=False, power="read minds", incredible_name="SuperWoman")
+the_family.incredible_presentation()
+
 
