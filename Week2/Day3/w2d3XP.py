@@ -264,27 +264,27 @@
 # Create an empty list called users. Tip: It should be a list of dictionaries.
 # Create a function that adds new dictionaries to the users list. Each user has the following keys: name, adress, langage_code. Use faker to populate them with fake data.
 
-from faker import Faker
-fake = Faker()
-users = []
+# from faker import Faker
+# fake = Faker()
+# users = []
 
-def add_fake_user():
+# def add_fake_user():
 
-    user = {
-        'name': fake.name(),
-        'address': fake.address(),
-        'language_code': fake.language_code()
-    }
+#     user = {
+#         'name': fake.name(),
+#         'address': fake.address(),
+#         'language_code': fake.language_code()
+#     }
     
 
-    users.append(user)
+#     users.append(user)
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
     
-    for _ in range(5):
-        add_fake_user()
+#     for _ in range(5):
+#         add_fake_user()
     
     
-    for user in users:
-        print(user)
+#     for user in users:
+#         print(user)
