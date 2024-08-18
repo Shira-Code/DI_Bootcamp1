@@ -17,54 +17,103 @@
 # If the user inputs incorrect data, print an error message and end the program.
 # If the user inputs correct data, run your code.
 
-import random
+# import random
 
-def get_words_from_file(filename: str) -> list[str]:
-    """Reads words from a file and returns them as a list."""
-    try:
-        with open(filename, 'r') as file:
-            words = [line.strip().lower() for line in file if line.strip()]
-        return words
-    except FileNotFoundError:
-        print(f"Error: The file {filename} was not found.")
-        return []
-    except IOError:
-        print(f"Error: Could not read the file {filename}.")
-        return []
+# def get_words_from_file(filename: str) -> list[str]:
+#     """Reads words from a file and returns them as a list."""
+#     try:
+#         with open(filename, 'r') as file:
+#             words = [line.strip().lower() for line in file if line.strip()]
+#         return words
+#     except FileNotFoundError:
+#         print(f"Error: The file {filename} was not found.")
+#         return []
+#     except IOError:
+#         print(f"Error: Could not read the file {filename}.")
+#         return []
     
-def get_random_sentence(words: list[str], length: int) -> str:
-    """Generates a random sentence of the specified length."""
-    if length < 2 or length > 20:
-        raise ValueError("Length must be between 2 and 20.")
+# def get_random_sentence(words: list[str], length: int) -> str:
+#     """Generates a random sentence of the specified length."""
+#     if length < 2 or length > 20:
+#         raise ValueError("Length must be between 2 and 20.")
     
-    sentence = ' '.join(random.choices(words, k=length))
-    return sentence.lower()
+#     sentence = ' '.join(random.choices(words, k=length))
+#     return sentence.lower()
 
-def main():
-    print("Welcome to the Random Sentence Generator!")
-    print("This program will generate a random sentence based on a list of words.")
+# def main():
+#     print("Welcome to the Random Sentence Generator!")
+#     print("This program will generate a random sentence based on a list of words.")
 
-    filename = 'sowpods.txt'  
-    words = get_words_from_file(filename)
+#     filename = 'sowpods.txt'  
+#     words = get_words_from_file(filename)
     
-    if not words:
-        print("No words loaded. Exiting the program.")
-        return
+#     if not words:
+#         print("No words loaded. Exiting the program.")
+#         return
 
-    while True:
-        try:
-            length = int(input("How long do you want the sentence to be (2-20)? ").strip())
-            if length < 2 or length > 20:
-                print("Error: Please enter an integer between 2 and 20.")
-                continue
+#     while True:
+#         try:
+#             length = int(input("How long do you want the sentence to be (2-20)? ").strip())
+#             if length < 2 or length > 20:
+#                 print("Error: Please enter an integer between 2 and 20.")
+#                 continue
             
-            sentence = get_random_sentence(words, length)
-            print(f"Generated Sentence: {sentence}")
-            break
+#             sentence = get_random_sentence(words, length)
+#             print(f"Generated Sentence: {sentence}")
+#             break
 
-        except ValueError as e:
-            print(f"Error: {e}")
-            continue
+#         except ValueError as e:
+#             print(f"Error: {e}")
+#             continue
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
+
+
+
+    # 🌟 Exercise 2: Working with JSON
+# Instructions
+# import json
+# sampleJson = """{ 
+#    "company":{ 
+#       "employee":{ 
+#          "name":"emma",
+#          "payable":{ 
+#             "salary":7000,
+#             "bonus":800
+#          }
+#       }
+#    }
+# }"""
+
+
+# Access the nested “salary” key from the JSON-string above.
+# Add a key called “birth_date” to the JSON-string at the same level as the “name” key.
+# Save the dictionary as JSON to a file.
+
+
+# import json
+
+# sampleJson = """{ 
+#    "company":{ 
+#       "employee":{ 
+#          "name":"emma",
+#          "payable":{ 
+#             "salary":7000,
+#             "bonus":800
+#          }
+#       }
+#    }
+# }"""
+
+
+# data = json.loads(sampleJson)
+
+# salary = data["company"]["employee"]["payable"]["salary"]
+# print("Salary:", salary)
+
+# data["company"]["employee"]["birth_date"] = "1990-01-01"  
+# with open('updated_data.json', 'w') as json_file:
+#     json.dump(data, json_file, indent=4)
+
+# print("Updated JSON data saved to 'updated_data.json'.")
