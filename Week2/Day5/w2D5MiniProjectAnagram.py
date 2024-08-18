@@ -66,8 +66,7 @@
 #     print("Welcome to the Anagram Checker!")
 #     print("Loading word list...")
     
-#     # Initialize AnagramChecker with the word list file
-#     checker = AnagramChecker('word_list.txt')  # Replace with the actual path to your word list file
+#     checker = AnagramChecker('word_list.txt')  
 
 #     while True:
 #         print("\nMenu:")
@@ -82,7 +81,7 @@
 #         elif choice == '1':
 #             user_input = input("Enter a word: ").strip()
 
-#             # Validate user input
+#         
 #             if not user_input.isalpha():
 #                 print("Error: Only alphabetic characters are allowed.")
 #                 continue
@@ -91,7 +90,7 @@
 #                 print("Error: Only a single word is allowed.")
 #                 continue
 
-#             # Check if the word is valid
+#            
 #             if checker.is_valid_word(user_input):
 #                 anagrams = checker.get_anagrams(user_input)
 #                 print(f"\nYOUR WORD: \"{user_input}\"")
