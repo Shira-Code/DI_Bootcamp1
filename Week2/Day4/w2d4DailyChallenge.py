@@ -18,54 +18,51 @@
 # a method to return the frequency of a word in the text (assume words are separated by whitespace) return None or a meaningful message.
 # a method that returns the most common word in the text.
 # a method that returns a list of all the unique words in the text.
-# import re
+# class Text:
+#     def __init__(self, text):
+       
+#         self.text = text
+#         self.words = self._process_text()
 
-class Text:
-    def __init__(self, text):
-        self.text = text
-__
-    @classmethod
-    def from_string(cls, text):
-        return cls(text)
+#     def _process_text(self):
+        
+#         return self.text.lower().split()
 
-    @classmethod
-    def from_file(cls, file):
-        with open(file, 'r') as f:
-            text = f.read()
-        return cls(text)
+#     def word_frequency(self, word):
+     
+#         if not word:
+#             return None
+        
+#         word = word.lower()
+#         return self.words.count(word)
 
-    def word_count(self):
-        return len(self.text.split())
+#     def most_common_word(self):
+        
+#         if not self.words:
+#             return None
 
-    def most_common_word(self):
-        words = self.text.split()
-        counts = {}
-        for word in words:
-            if word in counts:
-                counts[word] += 1
-            else:
-                counts[word] = 1
-        return max(counts, key=counts.get)
 
-    def unique_words(self):
-        words = self.text.split()
-        return list(set(words))
+#         word_count = {}
+#         for word in self.words:
+#             if word in word_count:
+#                 word_count[word] += 1
+#             else:
+#                 word_count[word] = 1
+        
+#         most_common = max(word_count, key=word_count.get)
+#         return most_common
 
-    def word_frequency(self, word):
-        words = self.text.split()
-        return words.count(word)
+#     def unique_words(self):
+       
+#         return list(set(self.words))
 
-    def __str__(self):
-        return self.text
-    
 
-text = Text.from_string("A good book would sometimes cost as much as a good house.")
 
-print("Analysis of the quote: ", text)
-print("Word count: ", text.word_count())
-print("Most common word: ", text.most_common_word())
-print("Unique words: ", text.unique_words())
-print("Word frequency 'good': ", text.word_frequency("good"))
+# text = "A good book would sometimes cost as much as a good house."
+# analyzer = Text(text)
+# print("Frequency of 'good':", analyzer.word_frequency("good"))
+# print("Most common word:", analyzer.most_common_word())
+# print("Unique words:", analyzer.unique_words())
 
 
 # Part II
@@ -129,5 +126,5 @@ print("Word frequency 'good': ", text.word_frequency("good"))
 # # my_file.seek(196600)
 # # print("third attempt readline seek 196600: ",my_file.readline()) 
 # # my_file.close()     
-# # # data = my_file.read()
-# # # print(data)
+# # data = my_file.read()
+# # print(data)
