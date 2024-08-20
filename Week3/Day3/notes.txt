@@ -1,0 +1,75 @@
+-- parent table
+
+-- create table colors(
+-- 	color_id serial primary key,
+-- 	color_name varchar(50)
+-- );
+
+-- select * from colors
+
+-- insert into colors (color_name) values
+-- ('Red'), ('Blue'), ('Green'), ('Yellow')
+
+--child table: options for delete/update
+--option 1:  restrict
+
+create table cars_restrict(
+	car_id serial primary key, car_name varchar(50),
+	car_color_id integer references colors (color_id) on delete restrict
+);
+
+insert into cars_restrict (car_name, car_color_id) values
+('Toyota',1),
+('Ford', 2),
+('Honda', 3),
+('Mazda', 2)
+
+select * from cars_restrict
+
+-- delete from colors
+-- where color_id = 2 --error can't delte because column is 'on restrict'
+
+insert into  colors (color_name) values
+('purple')
+
+select * from colors
+
+delete from colors
+where color_id = 5
+
+update colors
+set color_name = 'Bordo'
+where color_id = 1;
+
+update colors
+set color_id = 10  -- error because of restriction
+where color_id = 1;
+select * from colors
+
+--- Option 2:  cascade
+
+create table cars_cascade(
+car_id serial primary key, 
+car_name varchar(50),
+car_color_id integer references colors (color_id) on delete cascade
+);
+
+insert into cars_cascade (car_name, car_color_id) values
+('Toyota',1),
+('Ford', 2),
+('Honda', 3),
+('Mazda', 2)
+
+select * from cars_cascade -- allows to delet row from 
+delete from colors where color_id = 2
+
+create table cars_set_default (
+	car_id serial primary key,
+	car_name varchar(50),
+	car_color integer default 1 references colors (color_id) on delete set default on update set default)
+
+alter table cars_set_default reame column car_color to 
+insert into cars_set_default (car_name, car_color_id) values
+('Toyota',1)
+
+select * from colors

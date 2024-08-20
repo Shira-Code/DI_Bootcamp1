@@ -1,0 +1,12 @@
+-- EXERCISE IN CLASS:
+-- 1 - Create a table called cars_set_default. It will have three columns:
+-- car_id (the primary key), car_name and car_color (CAR COLOR WILL BE SET DEFAULT):
+-- car_color INTEGER DEFAULT 1 REFERENCES colors (color_id) ON DELETE SET DEFAULT ON UPDATE SET DEFAULT
+-- INSERT data to the cars_set_default table:
+-- INSERT INTO cars_cascade (car_name, car_color_id) VALUES
+-- ('Toyota',1),
+-- ('Ford', 2),
+-- ('Honda', 3),
+-- ('Mazda', 2)
+-- 2 - create a delete statement to delete from the colors table one color id.
+-- 3 - select * from cars_set_default and analyse. What happened?
