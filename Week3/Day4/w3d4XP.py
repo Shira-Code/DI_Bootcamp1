@@ -2,8 +2,6 @@
 # Instructions
 # Description: Create a restaurant menu management system for a manager. The program should allow the manager to view the menu, add an item and delete an item.
 
-
-
 # PART 1
 # In this exercise we will use PostgreSQL and Python.
 
@@ -31,6 +29,7 @@
 # item.update('Veggie Burger', 37)
 # item2 = MenuManager.get_by_name('Beef Stew')
 # items = MenuManager.all()
+
 # SQL
 # CREATE TABLE Menu_Items (
 #     item_id SERIAL PRIMARY KEY,
@@ -47,11 +46,11 @@
 #         self.price = price
     
 #     def save(self):
-#         """Save the item to the database."""
+#        
 #         conn = psycopg2.connect(
-#             dbname='your_database_name',
-#             user='your_username',
-#             password='your_password',
+#             dbname='Bootcamp',
+#             user='postgres',
+#             password='0501',
 #             host='localhost',
 #             port='5432'
 #         )
@@ -65,11 +64,11 @@
 #         conn.close()
     
 #     def delete(self):
-#         """Delete the item from the database."""
+#       
 #         conn = psycopg2.connect(
-#             dbname='your_database_name',
-#             user='your_username',
-#             password='your_password',
+#             dbname='Bootcamp',
+#             user='postgres',
+#             password='0501',
 #             host='localhost',
 #             port='5432'
 #         )
@@ -83,11 +82,11 @@
 #         conn.close()
     
 #     def update(self, new_name=None, new_price=None):
-#         """Update the item's name and/or price."""
+#        
 #         conn = psycopg2.connect(
-#             dbname='your_database_name',
-#             user='your_username',
-#             password='your_password',
+#             dbname='Bootcamp',
+#             user='postgres',
+#             password='0501',
 #             host='localhost',
 #             port='5432'
 #         )
@@ -110,67 +109,59 @@
 
 # menu_manager.py
 
-import psycopg2
+# import psycopg2
 
-class MenuManager:
-    @classmethod
-    def get_by_name(cls, name):
-        """Return a single item by name."""
-        conn = psycopg2.connect(
-            dbname='your_database_name',
-            user='your_username',
-            password='your_password',
-            host='localhost',
-            port='5432'
-        )
-        cursor = conn.cursor()
-        cursor.execute(
-            "SELECT item_name, item_price FROM Menu_Items WHERE item_name = %s",
-            (name,)
-        )
-        result = cursor.fetchone()
-        cursor.close()
-        conn.close()
-        if result:
-            return {'name': result[0], 'price': result[1]}
-        return None
+# class MenuManager:
+#     @classmethod
+#     def get_by_name(cls, name):
+#         conn = psycopg2.connect(
+#             dbname='Bootcamp',
+#             user='postgres',
+#             password='0501',
+#             host='localhost',
+#             port='5432'
+#         )
+#         cursor = conn.cursor()
+#         cursor.execute(
+#             "SELECT item_name, item_price FROM Menu_Items WHERE item_name = %s",
+#             (name,)
+#         )
+#         result = cursor.fetchone()
+#         cursor.close()
+#         conn.close()
+#         if result:
+#             return {'name': result[0], 'price': result[1]}
+#         return None
     
-    @classmethod
-    def all_items(cls):
-        """Return a list of all items."""
-        conn = psycopg2.connect(
-            dbname='your_database_name',
-            user='your_username',
-            password='your_password',
-            host='localhost',
-            port='5432'
-        )
-        cursor = conn.cursor()
-        cursor.execute("SELECT item_name, item_price FROM Menu_Items")
-        results = cursor.fetchall()
-        cursor.close()
-        conn.close()
-        return [{'name': row[0], 'price': row[1]} for row in results]
+#     @classmethod
+#     def all_items(cls):
+#         conn = psycopg2.connect(
+#             dbname='bootcamp',
+#             user='postgres',
+#             password='0501',
+#             host='localhost',
+#             port='5432'
+#         )
+#         cursor = conn.cursor()
+#         cursor.execute("SELECT item_name, item_price FROM Menu_Items")
+#         results = cursor.fetchall()
+#         cursor.close()
+#         conn.close()
+#         return [{'name': row[0], 'price': row[1]} for row in results]
     
+# item = MenuItem(name='Burger', price=35)
+# item.save()
 
-    # Adding an item
-item = MenuItem(name='Burger', price=35)
-item.save()
+# item.update(new_name='Veggie Burger', new_price=37)
 
-# Updating an item
-item.update(new_name='Veggie Burger', new_price=37)
+# item.delete()
 
-# Deleting an item
-item.delete()
+# manager = MenuManager()
+# items = manager.all_items()
+# print(items)
 
-# Viewing all items
-manager = MenuManager()
-items = manager.all_items()
-print(items)
-
-# Getting a specific item by name
-item = manager.get_by_name('Veggie Burger')
-print(item)
+# item = manager.get_by_name('Veggie Burger')
+# print(item)
 
 
 
@@ -202,79 +193,79 @@ print(item)
 
 # menu_editor.py
 
-from menu_item import MenuItem
-from menu_manager import MenuManager
+# from menu_item import MenuItem
+# from menu_manager import MenuManager
 
-def show_user_menu():
+# def show_user_menu():
    
-    while True:
-        print("\n--- Restaurant Menu Manager ---")
-        print("V - View an Item")
-        print("A - Add an Item")
-        print("D - Delete an Item")
-        print("U - Update an Item")
-        print("S - Show the Menu")
-        print("E - Exit")
+#     while True:
+#         print("\n--- Restaurant Menu Manager ---")
+#         print("V - View an Item")
+#         print("A - Add an Item")
+#         print("D - Delete an Item")
+#         print("U - Update an Item")
+#         print("S - Show the Menu")
+#         print("E - Exit")
         
-        choice = input("Please choose an option: ").strip().upper()
+#         choice = input(" choose option: ").strip().upper()
         
-        if choice == 'V':
-            view_item()
-        elif choice == 'A':
-            add_item_to_menu()
-        elif choice == 'D':
-            remove_item_from_menu()
-        elif choice == 'U':
-            update_item_from_menu()
-        elif choice == 'S':
-            show_restaurant_menu()
-        elif choice == 'E':
-            print("Exiting the program...")
-            show_restaurant_menu()
-            break
-        else:
-            print("Invalid option. Please try again.")
+#         if choice == 'V':
+#             view_item()
+#         elif choice == 'A':
+#             add_item_to_menu()
+#         elif choice == 'D':
+#             remove_item_from_menu()
+#         elif choice == 'U':
+#             update_item_from_menu()
+#         elif choice == 'S':
+#             show_restaurant_menu()
+#         elif choice == 'E':
+#             print("Exiting the program...")
+#             show_restaurant_menu()
+#             break
+#         else:
+#             print("Invalid option. Please try again.")
 
-def add_item_to_menu():
+# def add_item_to_menu():
     
-    name = input("Enter the name of the item: ").strip()
-    price = int(input("Enter the price of the item: ").strip())
-    item = MenuItem(name, price)
-    item.save()
-    print(f"Item '{name}' was added successfully.")
+#     name = input("Enter name of item: ").strip()
+#     price = int(input("Enter price of item: ").strip())
+#     item = MenuItem(name, price)
+#     item.save()
+#     print(f"Item '{name}' was added successfully.")
 
-def remove_item_from_menu():
+# def remove_item_from_menu():
    
-    name = input("Enter the name of the item to remove: ").strip()
-    item = MenuItem(name, 0) 
-    print(f"Item '{name}' was deleted successfully.")
+#     name = input("name of the item to remove: ").strip()
+#     item = MenuItem(name, 0) 
+#     print(f"Item '{name}'  deleted.")
 
-def update_item_from_menu():
+# def update_item_from_menu():
     
-    name = input("Enter the name of the item to update: ").strip()
-    new_name = input("Enter the new name of the item (or press Enter to keep the same): ").strip()
-    new_price_input = input("Enter the new price of the item (or press Enter to keep the same): ").strip()
+#     name = input("name of the item to update: ").strip()
+#     new_name = input("new name of the item (or  Enter to not change): ").strip()
+#     new_price_input = input("new price of the item ( press Entertokeep the same): ").strip()
     
-    new_price = int(new_price_input) if new_price_input else None
-    item = MenuItem(name, 0)  
-    try:
-        item.update(new_name or None, new_price)
-        print(f"Item '{name}' was updated successfully.")
-    except Exception as e:
-        print(f"Error updating item: {e}")
+#     new_price = int(new_price_input) if new_price_input else None
+#     item = MenuItem(name, 0)  
+#     try:
+#         item.update(new_name or None, new_price)
+#         print(f"Item '{name}' updated.")
+#     except Exception as e:
+#         print(f"Error updating item: {e}")
 
-def show_restaurant_menu():
+# def show_restaurant_menu():
 
-    items = MenuManager.all_items()
-    print("\n--- Restaurant Menu ---")
-    if not items:
-        print("No items available.")
-    else:
-        for item in items:
-            print(f"Name: {item['name']}, Price: {item['price']}")
-    print()
+#     items = MenuManager.all_items()
+#     print("\n--- Restaurant Menu ---")
+#     if not items:
+#         print("No items available.")
+#     else:
+#         for item in items:
+#             print(f"Name: {item['name']}, Price: {item['price']}")
+#     print()
 
-if __name__ == "__main__":
-    show_user_menu()
+# if __name__ == "__main__":
+#     show_user_menu()
 
 
