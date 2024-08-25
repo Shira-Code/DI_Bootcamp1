@@ -1,0 +1,79 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Parking Spot</title>
+</head>
+<body>
+    <h1>Select a Parking Spot</h1>
+    <form action="/save_spot" method="POST">
+        <label for="parking_spot">Choose a spot:</label>
+        <select name="parking_spot" id="parking_spot">
+            {% for spot in parking_spots %}
+                <option value="{{ spot[0] }}">{{ spot[1] }} - {{ spot[2] }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Save Spot</button>
+    </form>
+</body>
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Parking Spot</title>
+</head>
+<body>
+    <h1>Select a Parking Spot</h1>
+    <form action="/" method="POST">
+        <label for="parking_spot">Choose a spot:</label>
+        <select name="parking_spot" id="parking_spot">
+            {% for spot in parking_spots %}
+                <option value="{{ spot[0] }}">{{ spot[1] }} - {{ spot[2] }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Save Spot</button>
+    </form>
+
+    <h2>Selected Parking Spots</h2>
+    <ul>
+        {% for spot in selected_spots %}
+            <li>{{ spot[1] }} - {{ spot[2] }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Parking Lot </title>
+</head>
+<body>
+    <h1>Select a Parking Lot</h1>
+    <form action="/" method="POST">
+        <label for="parking_spot">Choose a spot:</label>
+        <select name="parking_spot" id="parking_spot">
+            {% for spot in parking_spots %}
+                <option value="{{ spot[0] }}">{{ spot[1] }} - {{ spot[2] }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Save Lots</button>
+    </form>
+
+    <h2>Selected Parking Lots</h2>
+    <ul>
+        {% for spot in selected_spots %}
+            <li>
+                {{ spot[1] }} - {{ spot[2] }} - Selected at {{ spot[3] }}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+

@@ -84,12 +84,35 @@
 import psycopg2
 import requests
 import json
+from dotenv import load_dotenv
+import os
 
-connection=psycopg2.connect(database= 'countries',
-                                user='postgres',
-                                password='0501',
-                                host='localhost',
-                                port='5432'
+load_dotenv()
+
+DB_HOST = os.getenv('DB_HOST')
+DB_NAME = os.getenv('DB_NAME')
+DB_USER = os.getenv('DB_USER')
+DB_PASSWORD = os.getenv('DB_PASSWORD')
+DB_PORT = os.getenv('DB_PORT')
+
+# db_params = {
+#     'dbname': 'DB_NAME',          #countries
+#     'user': 'DB_USER',           #postgres
+#     'password': 'DB_PASSWORD',     #0501  
+#     'host': 'DB_HOST',            #localhost   
+#     'port': 'DB_PORT'               #5432 
+# connection=psycopg2.connect(database= 'countries',
+#                                 user='postgres',
+#                                 password='0501',
+#                                 host='localhost',
+#                                 port='5432'
+#                                 )
+# for env file
+connection=psycopg2.connect(database= DB_NAME,
+                                user= DB_USER,
+                                password= DB_PASSWORD,
+                                host= DB_HOST,
+                                port= DB_PORT
                                 )
 
 cursor = connection.cursor()
