@@ -248,8 +248,8 @@
 // // Hint: a string is an array of letters
 // // Console.log the name of their secret society. The output should be “ABJKPS”
 
-const names = ["Jack", "Philip", "Sarah", "Amanda", "Bernard", "Kyle"];
-const firstLetters = names.map(name => name[0]);
-const sortedLetters = firstLetters.sort();
-const societyName = sortedLetters.join('');
-console.log("secret code is :" + societyName);
+// const names = ["Jack", "Philip", "Sarah", "Amanda", "Bernard", "Kyle"];
+// const firstLetters = names.map(name => name[0]);
+// const sortedLetters = firstLetters.sort();
+// const societyName = sortedLetters.join('');
+// console.log("secret code is :" + societyName);
