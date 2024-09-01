@@ -1,0 +1,112 @@
+/* 
+
+
+
+ul {
+    list-style: none;
+}
+
+li {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+li * {
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+li i {
+    --width:16px;
+    width: var(--width);
+    height: var(--width);
+    cursor: pointer;
+    
+}
+   
+li *::before {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+
+}
+
+li.is-done {
+    text-decoration: line-through;
+
+} */
+
+body {
+    background-color: pink;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px; 
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+#clear {
+    margin-top: 10px;
+    padding: 10px;
+    width: 100%;
+    max-width: 200px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    width: 100%;
+    max-width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 200px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    margin-top: 20px;
+}
+
+li {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    justify-content: center;
+}
+
+li.is-done {
+    text-decoration: line-through;
+}
