@@ -23,9 +23,14 @@ function funcOne() {
 }
 
 // #1.1 - run in the console:
+//alert will display :inside the funcOne function 3
+// because a is initially set to 5, and  5 > 1, a is reassigned to 3 within the if block.
+
 funcOne()
 // #1.2 What will happen if the variable is declared 
-// with const instead of let ?
+// with const instead of let ? 
+//TypeError will be displayed because trying to reassign a to 3, and const variables cannot be reassigned after their initial declaration
+
 
 //#2
 let a = 0;
@@ -38,11 +43,17 @@ function funcThree() {
 }
 
 // #2.1 - run in the console:
-funcThree()
+funcThree()  
+// alert will display :inside the funcThree function 0 because funcTwo hasn't been called yet and a remains 0
 funcTwo()
+//will set a to 5
 funcThree()
+//  he alert will display:  inside the funcThree function  because funcTwo was called, and a was updated to 5.
+
+
 // #2.2 What will happen if the variable is declared 
-// with const instead of let ?
+// with const instead of let ?  funcTwo will caus TypeError because it attempts to reassign a const variable. 
+// the first funcThree() would alert "0", but calling funcTwo() would produce an error and prevent the second funcThree() from running
 
 
 //#3
@@ -56,8 +67,8 @@ function funcFive() {
 }
 
 // #3.1 - run in the console:
-funcFour()
-funcFive()
+funcFour()  // will assign the str hello to the global a property on the window object
+funcFive()  // will alert: inside the funcFive function hello bc a was set to "hello" globally by funcFour()
 
 //#4
 let a = 1;
@@ -68,10 +79,10 @@ function funcSix() {
 
 
 // #4.1 - run in the console:
-funcSix()
-// #4.2 What will happen if the variable is declared 
-// with const instead of let ?
+funcSix()  //// with const instead of let ? alert will display :inside the funcSix function test bc the a inside funcSix is a new variable scoped to that function, shadowing the outer a with the val 1
 
+// #4.2 What will happen if the variable is declared 
+//result will be  same as long as there is no reassignment bc const allows variable shadowing.  alert will still display "inside the funcSix function test
 //#5
 let a = 2;
 if (true) {
@@ -81,8 +92,14 @@ if (true) {
 alert(`outside of the if block ${a}`);
 
 // #5.1 - run the code in the console
+// first alert will display "in the if block 5" bc a is set to 5 within the if block, second alert will display "outside of the if block 2" because the a inside the if block is block-scoped and doesn't affect the outer a
+
 // #5.2 What will happen if the variable is declared 
-// with const instead of let ?
+// with const instead of let ? 
+//will be the same as long as there is no reassignment within the block,
+// first alert will display "in the if block 5",  second will display "outside of the if block 2"
+// if reassignment were attempted within the blocks, an error would occur
+
 
 
 // 🌟 Exercise 2 : Ternary operator
@@ -97,13 +114,9 @@ alert(`outside of the if block ${a}`);
 // Assign to this variable, a ternary operator. If winBattle() is true, the experiencePoints variable should be equal to 10, else the variable should be equal to 1.
 // Console.log the experiencePoints variable.
 
-// // Transforming the winBattle function into an arrow function
+
 // const winBattle = () => true;
-
-// // Using a ternary operator to assign a value to experiencePoints
 // const experiencePoints = winBattle() ? 10 : 1;
-
-// // Logging the experiencePoints variable
 // console.log(experiencePoints);
 
 
@@ -112,17 +125,11 @@ alert(`outside of the if block ${a}`);
 // Write a JavaScript arrow function that checks whether the value of the argument passed, is a string or not. The function should return true or false
 // Check out the example below to see the expected output
 // Example:
-
 // console.log(isString('hello')); 
-// //true
 // console.log(isString([1, 2, 4, 0]));
-// //false
 
 
-// //**answer 
 // const isString = value => typeof value === 'string';
-
-// // Example usage:
 // console.log(isString('hello')); // true
 // console.log(isString([1, 2, 4, 0])); // false
 
@@ -132,7 +139,7 @@ alert(`outside of the if block ${a}`);
 // Instructions
 // Create a one line function (ie. an arrow function) that receives two numbers as parameters and returns the sum.
 // const sum = (a, b) => a + b;
-// console.log(sum(5, 3)); // 8
+// console.log(sum(5, 3)); 
 
 
 // 🌟 Exercise 5 : Kg and grams
@@ -144,29 +151,21 @@ alert(`outside of the if block ${a}`);
 // Write in a one line comment, the difference between function declaration and function expression.
 // Finally, use a one line arrow function and invoke it.
 
-// // Function Declaration
+
 // function kgToGrams(weightInKg) {
 //     return weightInKg * 1000;
 // }
 
-// // Invoking the function
-// console.log(kgToGrams(5)); // 5000
+// console.log(kgToGrams(5));
 
-// // Function Expression
 // const convertKgToGrams = function(weightInKg) {
 //     return weightInKg * 1000;
 // };
 
-// // Invoking the function
-// console.log(convertKgToGrams(3)); // 3000
+// console.log(convertKgToGrams(3));
 
-// // One-Line Arrow Function
 // const kgToGramsArrow = weightInKg => weightInKg * 1000;
-
-// // Invoking the function
-// console.log(kgToGramsArrow(7)); // 7000
-
-
+// console.log(kgToGramsArrow(7)); 
 
 // 🌟 Exercise 6 : Fortune teller
 // Instructions
@@ -196,7 +195,7 @@ alert(`outside of the if block ${a}`);
     
 //     const predictionDiv = document.getElementById('prediction');
 //     predictionDiv.textContent = prediction;
-// })(3, 'Alex', 'New York', 'Software Developer');
+// })(12, 'Hava', 'Tel Aviv', 'Professional Surfer');
 
 
 
@@ -208,7 +207,7 @@ alert(`outside of the if block ${a}`);
 // In your js file, create a self invoking funtion that takes 1 argument: the name of the user that just signed in.
 // The function should add a div in the nabvar, displaying the name of the user and his profile picture.
 
-//html
+// html
 // <!DOCTYPE html>
 // <html lang="en">
 // <head>
@@ -227,50 +226,50 @@ alert(`outside of the if block ${a}`);
 // </html>
 
 
-// //css
+//css
 
-// #navbar {
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: center;
-//     padding: 10px;
-//     background-color: #333;
-//     color: white;
-// }
+{/* #navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+}
 
-// #user-info {
-//     display: flex;
-//     align-items: center;
-//     gap: 10px;
-// }
+#user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
-// #user-info img {
-//     width: 40px;
-//     height: 40px;
-//     border-radius: 50%;
-// }
+#user-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+} */}
 
 
 // //js    
+{/* 
+(function(userName) {
+const navbar = document.getElementById('navbar');
 
-// (function(userName) {
-//     const navbar = document.getElementById('navbar');
+const userDiv = document.createElement('div');
+userDiv.id = 'user-info';
 
-//     const userDiv = document.createElement('div');
-//     userDiv.id = 'user-info';
+const profilePic = document.createElement('img');
+profilePic.src = 'https://www.whitehouse.gov/wp-content/uploads/2021/04/V20210305LJ-0043-cropped.jpg?resize=1536,1152'; 
+profilePic.alt = 'Profile Picture';
 
-//     const profilePic = document.createElement('img');
-//     profilePic.src = 'https://via.placeholder.com/40'; // Placeholder image URL, replace with actual URL
-//     profilePic.alt = 'Profile Picture';
+const userNameSpan = document.createElement('span');
+userNameSpan.textContent = `Welcome, ${userName}`;
 
-//     const userNameSpan = document.createElement('span');
-//     userNameSpan.textContent = `Welcome, ${userName}`;
+userDiv.appendChild(profilePic);
+userDiv.appendChild(userNameSpan);
 
-//     userDiv.appendChild(profilePic);
-//     userDiv.appendChild(userNameSpan);
-
-//     navbar.appendChild(userDiv);
-// })('John');
+navbar.appendChild(userDiv);
+})('Kamala'); */}
 
 
 
