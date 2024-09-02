@@ -9,87 +9,87 @@
 // Arrow functions
 
 
-🌟 Exercise 1 : Scope
-Instructions
-Analyse the code below, and predict what will be the value of a in all the following functions.
-Write your prediction as comments in a js file. Explain your predictions.
-// #1
-function funcOne() {
-    let a = 5;
-    if(a > 1) {
-        a = 3;
-    }
-    alert(`inside the funcOne function ${a}`);
-}
+// 🌟 Exercise 1 : Scope
+// Instructions
+// Analyse the code below, and predict what will be the value of a in all the following functions.
+// Write your prediction as comments in a js file. Explain your predictions.
+// // #1
+// function funcOne() {
+//     let a = 5;
+//     if(a > 1) {
+//         a = 3;
+//     }
+//     alert(`inside the funcOne function ${a}`);
+// }
 
-// #1.1 - run in the console:
-//alert will display :inside the funcOne function 3
-// because a is initially set to 5, and  5 > 1, a is reassigned to 3 within the if block.
+// // #1.1 - run in the console:
+// //alert will display :inside the funcOne function 3
+// // because a is initially set to 5, and  5 > 1, a is reassigned to 3 within the if block.
 
-funcOne()
+// funcOne()
 // #1.2 What will happen if the variable is declared 
 // with const instead of let ? 
 //TypeError will be displayed because trying to reassign a to 3, and const variables cannot be reassigned after their initial declaration
 
 
-//#2
-let a = 0;
-function funcTwo() {
-    a = 5;
-}
+// //#2
+// let a = 0;
+// function funcTwo() {
+//     a = 5;
+// }
 
-function funcThree() {
-    alert(`inside the funcThree function ${a}`);
-}
+// function funcThree() {
+//     alert(`inside the funcThree function ${a}`);
+// }
 
-// #2.1 - run in the console:
-funcThree()  
-// alert will display :inside the funcThree function 0 because funcTwo hasn't been called yet and a remains 0
-funcTwo()
+// // #2.1 - run in the console:
+// funcThree()  
+// // alert will display :inside the funcThree function 0 because funcTwo hasn't been called yet and a remains 0
+// funcTwo()
 //will set a to 5
-funcThree()
-//  he alert will display:  inside the funcThree function  because funcTwo was called, and a was updated to 5.
+// funcThree()
+// //  he alert will display:  inside the funcThree function  because funcTwo was called, and a was updated to 5.
 
 
-// #2.2 What will happen if the variable is declared 
-// with const instead of let ?  funcTwo will caus TypeError because it attempts to reassign a const variable. 
-// the first funcThree() would alert "0", but calling funcTwo() would produce an error and prevent the second funcThree() from running
+// // #2.2 What will happen if the variable is declared 
+// // with const instead of let ?  funcTwo will caus TypeError because it attempts to reassign a const variable. 
+// // the first funcThree() would alert "0", but calling funcTwo() would produce an error and prevent the second funcThree() from running
 
 
-//#3
-function funcFour() {
-    window.a = "hello";
-}
+// //#3
+// function funcFour() {
+//     window.a = "hello";
+// }
 
 
-function funcFive() {
-    alert(`inside the funcFive function ${a}`);
-}
+// function funcFive() {
+//     alert(`inside the funcFive function ${a}`);
+// }
 
-// #3.1 - run in the console:
-funcFour()  // will assign the str hello to the global a property on the window object
-funcFive()  // will alert: inside the funcFive function hello bc a was set to "hello" globally by funcFour()
+// // #3.1 - run in the console:
+// funcFour()  // will assign the str hello to the global a property on the window object
+// funcFive()  // will alert: inside the funcFive function hello bc a was set to "hello" globally by funcFour()
 
-//#4
-let a = 1;
-function funcSix() {
-    let a = "test";
-    alert(`inside the funcSix function ${a}`);
-}
+// //#4
+// let a = 1;
+// function funcSix() {
+//     let a = "test";
+//     alert(`inside the funcSix function ${a}`);
+// }
 
 
-// #4.1 - run in the console:
-funcSix()  //// with const instead of let ? alert will display :inside the funcSix function test bc the a inside funcSix is a new variable scoped to that function, shadowing the outer a with the val 1
+// // #4.1 - run in the console:
+// funcSix()  //// with const instead of let ? alert will display :inside the funcSix function test bc the a inside funcSix is a new variable scoped to that function, shadowing the outer a with the val 1
 
-// #4.2 What will happen if the variable is declared 
-//result will be  same as long as there is no reassignment bc const allows variable shadowing.  alert will still display "inside the funcSix function test
-//#5
-let a = 2;
-if (true) {
-    let a = 5;
-    alert(`in the if block ${a}`);
-}
-alert(`outside of the if block ${a}`);
+// // #4.2 What will happen if the variable is declared 
+// //result will be  same as long as there is no reassignment bc const allows variable shadowing.  alert will still display "inside the funcSix function test
+// //#5
+// let a = 2;
+// if (true) {
+//     let a = 5;
+//     alert(`in the if block ${a}`);
+// }
+// alert(`outside of the if block ${a}`);
 
 // #5.1 - run the code in the console
 // first alert will display "in the if block 5" bc a is set to 5 within the if block, second alert will display "outside of the if block 2" because the a inside the if block is block-scoped and doesn't affect the outer a
