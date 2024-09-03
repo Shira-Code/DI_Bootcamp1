@@ -1,0 +1,35 @@
+<!-- # After launching flask in virtual env, must run app.py, and then
+# view html file in http://127.0.0.1:5000/ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Parking Lot </title>
+</head>
+<body>
+    <!-- dropdwn select postgres name address from table -->
+    <h1>Select a Parking Lot from Achuazat Hachof Parking</h1>
+    <h2>**Tel Aviv Residents Cars Registered with a Handicap Tag Park for Free**</h2>
+    <form action="/" method="POST">
+        <label for="parking_spot">Choose a spot:</label>
+        <select name="parking_spot" id="parking_spot">
+            {% for spot in parking_spots %}
+                <option value="{{ spot[0] }}">{{ spot[1] }} - {{ spot[2] }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Save Lots</button>
+    </form>
+<!-- saves and displays selected spots w date & time --** need to remove seconds -->
+    <h2>Selected Parking Lots with Date and Time</h2>
+    <ul>
+        {% for spot in selected_spots %}
+            <li>
+                {{ spot[1] }} - {{ spot[2] }} - Selected at {{ spot[3] }}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+
