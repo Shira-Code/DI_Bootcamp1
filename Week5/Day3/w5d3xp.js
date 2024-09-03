@@ -81,24 +81,19 @@ console.log(updatedUserArray);
 //part 1
 const users = { user1: 18273, user2: 92833, user3: 90315 };
 
-// Convert the object to an array of key-value pairs
 const userArray = Object.entries(users);
 
 console.log(userArray);
-// Output: [ [ 'user1', 18273 ], [ 'user2', 92833 ], [ 'user3', 90315 ] ]
+
 
 //part 2
 const users = { user1: 18273, user2: 92833, user3: 90315 };
 
-// Convert the object to an array of key-value pairs
 const userArray = Object.entries(users);
 
-// Multiply each user's ID by 2
 const updatedUserArray = userArray.map(([user, id]) => [user, id * 2]);
 
 console.log(updatedUserArray);
-// Output: [ [ 'user1', 36546 ], [ 'user2', 185666 ], [ 'user3', 180630 ] ]
-
 
 
 // Exercise 4 : Person class
@@ -114,7 +109,8 @@ console.log(updatedUserArray);
 // console.log(typeof member);
 
 output will be:  object,
- in JavaScript, when you create an instance of a class using the new keyword, the instance is an object. Therefore, typeof member will return "object".
+ js- when creating instance of a class using the new keyword, 
+ the instance is an object. that is wy typeof member will return "object".
 
 // 🌟 Exercise 5 : Dog class
 // Instructions
@@ -132,6 +128,10 @@ output will be:  object,
 //     this.size = size;
 //   }
 // };
+This wonn't call super(name) within the constructor, 
+which is required when extending a class that has its own constructor.
+ In JavaScript, if a subclass has a constructor, it must call super() before using this. 
+ This will result in a ReferenceError because this is used before super() is called.
 
 
 //   // 2
@@ -141,7 +141,10 @@ output will be:  object,
 //     this.size = size;
 //   }
 // };
-
+This will work, it calls super(name) to pass the name to the Dog class constructor
+ and then assigns the size to the Labrador instance
+ and  extend the Dog class
+//option3
 
 //   // 3
 // class Labrador extends Dog {
@@ -150,61 +153,25 @@ output will be:  object,
 //     this.size = size;
 //   }
 // };
+won't work bc it calls uper(name) without having a name parameter in the constructor
+ and name is undefined in this will log an error because name is not defined
 
 
-//   // 4
-// class Labrador extends Dog {
-//   constructor(name, size) {
-//     this.name = name;
-//     this.size = size;
-//   }
-// };
-
-class Dog {
-  constructor(name) {
-    this.name = name;
-  }
-}
-//The Dog class has a constructor that takes a name as a parameter and assigns it to the instance's name property.
-
-//option1
-class Labrador extends Dog {
-  constructor(name, size) {
-    this.size = size;
-  }
-}
-//Problem: This option does not call super(name) within the constructor, which is required when extending a class that has its own constructor. In JavaScript, if a subclass has a constructor, it must call super() before using this. This will result in a ReferenceError because this is used before super() is called.
- //option2 
- class Labrador extends Dog {
-  constructor(name, size) {
-    super(name);
-    this.size = size;
-  }
-}
-//Correct: This option correctly calls super(name) to pass the name to the Dog class constructor and then assigns the size to the Labrador instance. This will successfully extend the Dog class.
-//option3
-class Labrador extends Dog {
-  constructor(size) {
-    super(name);
-    this.size = size;
-  }
-}
-//Problem: This option calls super(name) without having a name parameter in the constructor. Since name is undefined in this context, it will result in an error because name is not defined.
-
-//option4
+/
 class Labrador extends Dog {
   constructor(name, size) {
     this.name = name;
     this.size = size;
   }
 }
-//Problem: This option does not call super(name) within the constructor. As mentioned earlier, when extending a class that has a constructor, super() must be called before using this. This will result in a ReferenceError because this is used before super() is called.
+Won't work: doesn't call super(name) within the constructor
+result in a ReferenceError because this is used before super() is called
 
 // 🌟 Exercise 6 : Challenges
 // Evaluate these (ie True or False)
 
-// [2] === [2]  false
-// {} === {}  false
+[2] === [2]  false
+{} === {}  false
 
 // In JavaScript, arrays are objects, and object comparisons are based on reference, not value. Since [2] and [2] are two different array instances in memory, they do not refer to the same object, so they are not equal.
 
@@ -226,20 +193,23 @@ class Labrador extends Dog {
 // console.log(object3.number)
 // console.log(object4.number)
 
-object2 and object3 are references to the same object as object1. Therefore, when you modify object1.number, it also affects object2.number and object3.number.
-object4 is a different object with its own separate number property. Changing object1.number does not affect object4.
-Values:
+object2, object3 are references to the same object as object1
+ when modifying  object1.number, it  affects object2.number and object3.number
+object4 is a different object with its own separate number property
+ Changing object1.number does not affect object4.
 
-console.log(object2.number); will output 4 because object2 is the same as object1.
-console.log(object3.number); will also output 4 for the same reason.
-console.log(object4.number); will output 5 because object4 was not affected by the change to object1.
+ Values:
+
+console.log(object2.number); output 4 bc object2 is the same as object1
+console.log(object3.number);  output 4 for the same reason
+console.log(object4.number); output 5 bc object4 was not affected by change to object1
 
 // 1.  Create a class Animal with the attributes name, type and color. The type is the animal type, for example: dog, cat, dolphin etc …
 // 2.  Create a class Mammal that extends from the Animal class. Inside the class, add a method called sound(). This method takes a parameter: the sound the animal makes, and returns the details of the animal (name, type and color) as well as the sound it makes.
 // 3.  Create a farmerCow object that is an instance of the class Mammal. The object accepts a name, a type and a color and calls the sound method that “moos” her information.
 // For example: Moooo I'm a cow, named Lily and I'm brown and white
 
-// Base class
+
 class Animal {
   constructor(name, type, color) {
     this.name = name;
@@ -248,15 +218,14 @@ class Animal {
   }
 }
 
-// Derived class
+
 class Mammal extends Animal {
   sound(animalSound) {
     return `${animalSound} I'm a ${this.type}, named ${this.name} and I'm ${this.color}`;
   }
 }
 
-// Creating an instance of Mammal
 const farmerCow = new Mammal('Lily', 'cow', 'brown and white');
 
-// Calling the sound method
-console.log(farmerCow.sound('Moooo')); // Output: Moooo I'm a cow, named Lily and I'm brown and white
+
+console.log(farmerCow.sound('Moooo')); 
