@@ -1,0 +1,56 @@
+// What You will learn :
+// HTTP and HTTP methods
+// Form
+// JSON
+
+
+// Instructions
+// Create a form with two fields (name, last name) and a submit button.
+// When you click the Send button, retrieve the data from the inputs, and append it on the DOM as a JSON string.
+// The output should be:
+
+
+// output
+ //html file w/js 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form to JSON</title>
+</head>
+<body>
+
+    <form id="userForm">
+        <label for="name">First Name:</label>
+        <input type="text" id="name" name="name" required>
+        <br><br>
+        
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required>
+        <br><br>
+
+        <button type="button" onclick="handleSubmit()">Send</button>
+    </form>
+
+    <h3>Submitted Data:</h3>
+    <pre id="output"></pre>
+
+    <script>
+        function handleSubmit() {
+            const name = document.getElementById('name').value;
+            const lastName = document.getElementById('lastName').value;
+t
+            const data = {
+                name: name,
+                lastName: lastName
+            };
+            
+            const jsonString = JSON.stringify(data, null, 2);
+
+            document.getElementById('output').textContent = jsonString;
+        }
+    </script>
+</body>
+</html>
