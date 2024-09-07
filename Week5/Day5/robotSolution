@@ -12,7 +12,11 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
+    <nav class="navbar navbar-expand bg-primary flex-row justify-content-evenly">
+        <div>robots</div>
+        <input type="text" placeholder="name of a robot" />
+    
+    </nav>
     <h1>Robo-Friends</h1>
 
     <!-- Search Box -->
@@ -24,7 +28,12 @@
 
         
 
-    <script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-q8i/BcmUadxLhn1GYv7e0bGPH7iRzI6skkod8vW/qVg6OrQGiz8+0e8GRofW19FO"
+        crossorigin="anonymous"
+        ></script>  
+        
         const robots = [
             { id: 1, name: 'Leanne Graham', username: 'Bret', email: 'Sincere@april.biz', image: 'https://robohash.org/1?200x200' },
             { id: 2, name: 'Ervin Howell', username: 'Antonette', email: 'Shanna@melissa.tv', image: 'https://robohash.org/2?200x200' },

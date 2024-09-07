@@ -32,8 +32,8 @@ h1 {
 }
 
 .robot-card {
-    background-color: #c7145b;
-    background-image: url('assets/circuit-pattern.png');
+    background-color: rgb(3, 221, 237);
+    background-image: url('assets/card-pattern.png');
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 200px;
@@ -58,21 +58,22 @@ h1 {
 .robot-card p {
     font-size: 14px;
     color: #435f43;
-    line-height: 1.5; /* Adjust the line spacing for the paragraphs */
-    word-wrap: break-word; /* Ensure long words or emails wrap correctly */
-    overflow-wrap: break-word; /* Prevent overflow for long words */
+    line-height: 1.5; 
+    word-wrap: break-word; 
+    overflow-wrap: break-word; 
 }
 
 #background-container {
-    background-image: url('assets/circuit-pattern.png'); /* Path to your background image */
-    background-size: cover; /* Cover the entire container */
-    background-position: center; /* Center the background image */
-    background-repeat: no-repeat; /* Prevent the image from repeating */
-    padding: 20px; /* Optional: padding around the container */
+    background-color: pink;
+    background-image: url('assets/circuit-pattern.png'); 
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    padding: 20px; 
 }
 
 .robot-card h2 {
     margin: 10px 0;
     font-size: 18px;
-    line-height: 1.5; /* Adjust the line spacing for the title */    
+    line-height: 1.5;  
 }

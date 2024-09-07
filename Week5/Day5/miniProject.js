@@ -120,7 +120,7 @@
 //           }
 //           ];
 
-//html and js 
+//html js
 
 // <!DOCTYPE html>
 // <html lang="en">
@@ -128,6 +128,11 @@
 //     <meta charset="UTF-8">
 //     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 //     <title>Robo-Friends</title>
+//     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+//           rel="stylesheet" 
+//           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
+//           crossorigin="anonymous" />
+//     <link href="https://fonts.cdnfonts.com/css/sega-logo-font" rel="stylesheet">
 //     <link rel="stylesheet" href="styles.css">
 // </head>
 // <body>
@@ -136,9 +141,12 @@
 
 //     <!-- Search Box -->
 //     <input type="text" id="search" placeholder="Search robots..." oninput="filterRobots()">
-
+// <!-- Background Container -->
+// <div id="background-container">
 //     <!-- Container for Robot Cards -->
-//     <div id="robot-container"></div>
+//     <div id="robot-container">
+
+        
 
 //     <script>
 //         const robots = [
@@ -186,20 +194,24 @@
 //             displayRobots(filteredRobots);
 //         }
 //     </script>
+//     </div>
+// </div>
 // </body>
 // </html>
 
 
 
-//css
-
+// css
 
 // * {
+//     margin 0px;
+//     padding 0px;
 //     box-sizing: border-box;
 // }
 
 // body {
-//     font-family: Arial, sans-serif;
+//     /* font-family: Arial, sans-serif; */
+//     font-family: 'SEGA LOGO FONT', sans-serif;
 //     background-color: #f5f5f5;
 //     text-align: center;
 //     padding: 20px;
@@ -225,13 +237,17 @@
 // }
 
 // .robot-card {
-//     background-color: white;
+//     background-color: rgb(3, 221, 237);
+//     background-image: url('assets/card-pattern.png');
 //     border-radius: 10px;
 //     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 //     width: 200px;
 //     text-align: center;
 //     padding: 20px;
+//     overflow: hidden; /* Prevent content overflow */
+//     box-sizing: border-box;
 // }
+
 
 // .robot-card img {
 //     width: 100%;
@@ -239,11 +255,30 @@
 // }
 
 // .robot-card h2 {
+//     color: #157398;
 //     margin: 10px 0;
 //     font-size: 18px;
 // }
 
 // .robot-card p {
 //     font-size: 14px;
-//     color: #555;
+//     color: #435f43;
+//     line-height: 1.5; 
+//     word-wrap: break-word; 
+//     overflow-wrap: break-word; 
+// }
+
+// #background-container {
+//     background-color: pink;
+//     background-image: url('assets/circuit-pattern.png'); 
+//     background-size: cover; 
+//     background-position: center; 
+//     background-repeat: no-repeat; 
+//     padding: 20px; 
+// }
+
+// .robot-card h2 {
+//     margin: 10px 0;
+//     font-size: 18px;
+//     line-height: 1.5;  
 // }
