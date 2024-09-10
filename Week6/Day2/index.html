@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIF Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #gif-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .gif-card {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            display: inline-block;
+            text-align: center;
+        }
+        img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <h1>GIF Search</h1>
+    <form id="gifForm">
+        <input type="text" id="category" placeholder="Enter category">
+        <button type="submit">Search GIF</button>
+    </form>
+
+    <div id="gif-container"></div>
+
+    <button id="deleteAll">Delete All GIFs</button>
+
+    <script src="app.js"></script>
+</body>
+</html>
