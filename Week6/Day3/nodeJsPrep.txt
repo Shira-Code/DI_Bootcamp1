@@ -1,0 +1,21 @@
+omorrow is a mini-project day, and it is also open for reviewing topics you need help with before starting Node.js on Wednesday.
+Some of the topics to review before Node.js :
+Functions: Callback functions, Anonymous functions, Arrow functions, Default parameters
+Asynchronous: Promises, Async/Await
+Fetch: GET / POST
+Forms: GET / POST
+Strings: Template literals
+Ternary operator: Short conditions
+Array methods: map, filter, find, reduce, findIndex, slice, splice, forEach
+Object & Array Destructuring, Function Destructuring, Spread Operator, Rest parameters, Cloning, Shorthand properties, Dynamic keys
+Classes: constructor, this, extends, methods
+
+
+Let’s try to refocus and bring back a positive mindset.
+We're all here to learn and grow together, and the most interesting and complex topics are still ahead of us, 
+like Node.js, React, Redux, and TypeScript.
+Also, I encourage you to come onsite. It’s your decision to take advantage of this
+ opportunity because it will be a much better experience for you.
+Working together in person can help us all bond and stay motivated.
+Let’s push through, support each other, and make the most out of these 
+next exciting weeks!
