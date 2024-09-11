@@ -1,37 +1,37 @@
-Daily Challenge: Currency Converter
-Last Updated: March 7th, 2024
+// Daily Challenge: Currency Converter
+// Last Updated: March 7th, 2024
 
-What You will learn :
-Fetch API
-async await
-
-
-Instructions
-You will create a currencies converter:
+// What You will learn :
+// Fetch API
+// async await
 
 
-
-image
-
-
-In this application we’re going receive data from two asynchronous sources.
-
-You will use :
-
-This documentation https://www.exchangerate-api.com/docs/overview
-Create your own API key by signing up https://app.exchangerate-api.com/sign-up  - you will be able to make more requests :)
+// Instructions
+// You will create a currencies converter:
 
 
-1.  Note
-The program should take the currency which the user currently has and the currency in which they would like to receive, as well as the amount of money. Afterwards, the program will output the correct exchange rate based on the data from the APIs.
 
-2.  First, you need to fetch all the supported currencies, in order to add the currencies options (ie FROM - To) in the currency converter. Check out this page on Supported Codes Endpoint from the ExchangeRate API documentation https://www.exchangerate-api.com/docs/supported-codes-endpoint
+// image
 
-3.  To convert from a currency, to another one, you need to fetch conversion rate from the Pair Conversion API endpoint. Check out this page on Pair conversion requests from the ExchangeRate API documentation https://www.exchangerate-api.com/docs/pair-conversion-requests
-Hint: You could also supply an optional AMOUNT variable in the query of the request.
 
-4.  Bonus: Add this “switch” button on the page, when clicked on it will switch the currencies and display the new amount converted.
-Example : if the conversion was from EUR to GBP, as soon as the button is clicked on, the conversion should be from GBP to EUR.
+// In this application we’re going receive data from two asynchronous sources.
+
+// You will use :
+
+// This documentation https://www.exchangerate-api.com/docs/overview
+// Create your own API key by signing up https://app.exchangerate-api.com/sign-up  - you will be able to make more requests :)
+
+
+// 1.  Note
+// The program should take the currency which the user currently has and the currency in which they would like to receive, as well as the amount of money. Afterwards, the program will output the correct exchange rate based on the data from the APIs.
+
+// 2.  First, you need to fetch all the supported currencies, in order to add the currencies options (ie FROM - To) in the currency converter. Check out this page on Supported Codes Endpoint from the ExchangeRate API documentation https://www.exchangerate-api.com/docs/supported-codes-endpoint
+
+// 3.  To convert from a currency, to another one, you need to fetch conversion rate from the Pair Conversion API endpoint. Check out this page on Pair conversion requests from the ExchangeRate API documentation https://www.exchangerate-api.com/docs/pair-conversion-requests
+// Hint: You could also supply an optional AMOUNT variable in the query of the request.
+
+// 4.  Bonus: Add this “switch” button on the page, when clicked on it will switch the currencies and display the new amount converted.
+// Example : if the conversion was from EUR to GBP, as soon as the button is clicked on, the conversion should be from GBP to EUR.
 
 // <!DOCTYPE html>
 // <html lang="en">
@@ -78,14 +78,12 @@ Example : if the conversion was from EUR to GBP, as soon as the button is clicke
 // const supportedCodesUrl = `https://v6.exchangerate-api.com/v6/${apiKey}/codes`;
 // const conversionUrl = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/`;
 
-// // Fetch supported currencies and populate dropdowns
 // async function fetchCurrencies() {
 //   try {
 //     const response = await fetch(supportedCodesUrl);
 //     if (!response.ok) throw new Error('Failed to fetch currencies');
 //     const data = await response.json();
 
-//     // Log data to check structure
 //     console.log('Currency data:', data);
 
 //     populateDropdowns(data);
@@ -95,7 +93,6 @@ Example : if the conversion was from EUR to GBP, as soon as the button is clicke
 //   }
 // }
 
-// // Populate dropdowns with currency codes and names
 // function populateDropdowns(data) {
 //   const { supported_codes } = data;
 
@@ -120,7 +117,6 @@ Example : if the conversion was from EUR to GBP, as soon as the button is clicke
 //     toCurrencySelect.appendChild(optionTo);
 //   }
 
-//   // Set default values if needed
 //   if (fromCurrencySelect.options.length > 0) {
 //     fromCurrencySelect.selectedIndex = 0;
 //   }
@@ -129,7 +125,6 @@ Example : if the conversion was from EUR to GBP, as soon as the button is clicke
 //   }
 // }
 
-// // Convert currency
 // async function convertCurrency() {
 //   const fromCurrency = fromCurrencySelect.value;
 //   const toCurrency = toCurrencySelect.value;
@@ -158,7 +153,6 @@ Example : if the conversion was from EUR to GBP, as soon as the button is clicke
 //   }
 // }
 
-// // Switch currencies
 // function switchCurrencies() {
 //   const fromValue = fromCurrencySelect.value;
 //   fromCurrencySelect.value = toCurrencySelect.value;
@@ -166,11 +160,10 @@ Example : if the conversion was from EUR to GBP, as soon as the button is clicke
 //   convertCurrency();
 // }
 
-// // Event listeners
 // convertButton.addEventListener('click', convertCurrency);
 // switchButton.addEventListener('click', switchCurrencies);
 
-// // Initial fetch of currencies
+
 // fetchCurrencies();
 
 

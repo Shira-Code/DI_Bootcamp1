@@ -32,96 +32,92 @@
 // You can use your own css to style the website as you see fit
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Star Wars Characters</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 50px;
-        }
-        #character-info {
-            margin-top: 20px;
-        }
-        #loading {
-            display: none;
-            font-size: 24px;
-        }
-        .error {
-            color: red;
-        }
-    </style>
-</head>
-<body>
+// <!DOCTYPE html>
+// <html lang="en">
+// <head>
+//     <meta charset="UTF-8">
+//     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//     <title>Star Wars Characters</title>
+//     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+//     <style>
+//         body {
+//             font-family: Arial, sans-serif;
+//             text-align: center;
+//             margin-top: 50px;
+//         }
+//         #character-info {
+//             margin-top: 20px;
+//         }
+//         #loading {
+//             display: none;
+//             font-size: 24px;
+//         }
+//         .error {
+//             color: red;
+//         }
+//     </style>
+// </head>
+// <body>
 
-    <h1>Random Star Wars Character</h1>
-    <button id="fetch-character">Get Random Character</button>
+//     <h1>Random Star Wars Character</h1>
+//     <button id="fetch-character">Get Random Character</button>
 
-    <div id="loading">
-        <i class="fas fa-spinner fa-spin"></i> Loading...
-    </div>
+//     <div id="loading">
+//         <i class="fas fa-spinner fa-spin"></i> Loading...
+//     </div>
 
-    <div id="character-info">
-        <h2 id="name"></h2>
-        <p id="height"></p>
-        <p id="gender"></p>
-        <p id="birth-year"></p>
-        <p id="home-world"></p>
-    </div>
+//     <div id="character-info">
+//         <h2 id="name"></h2>
+//         <p id="height"></p>
+//         <p id="gender"></p>
+//         <p id="birth-year"></p>
+//         <p id="home-world"></p>
+//     </div>
 
-    <script src="app.js"></script>
-</body>
-</html>
-
-
+//     <script src="app.js"></script>
+// </body>
+// </html>
 
 
-document.getElementById('fetch-character').addEventListener('click', getCharacter);
+// document.getElementById('fetch-character').addEventListener('click', getCharacter);
 
-async function getCharacter() {
-    const characterInfo = document.getElementById('character-info');
-    const loading = document.getElementById('loading');
+// async function getCharacter() {
+//     const characterInfo = document.getElementById('character-info');
+//     const loading = document.getElementById('loading');
 
-    // Clear previous data and show the loading spinner
-    characterInfo.innerHTML = '';
-    loading.style.display = 'block';
+//     characterInfo.innerHTML = '';
+//     loading.style.display = 'block';
 
-    try {
-        const randomId = Math.floor(Math.random() * 83) + 1; // Random character ID (1 to 83)
-        const response = await fetch(`https://www.swapi.tech/api/people/${randomId}`);
+//     try {
+//         const randomId = Math.floor(Math.random() * 83) + 1;
+//         const response = await fetch(`https://www.swapi.tech/api/people/${randomId}`);
         
-        if (!response.ok) {
-            throw new Error('Character not found');
-        }
+//         if (!response.ok) {
+//             throw new Error('Character not found');
+//         }
 
-        const data = await response.json();
-        const character = data.result.properties;
+//         const data = await response.json();
+//         const character = data.result.properties;
 
-        // Fetch the character's homeworld
-        const homeworldResponse = await fetch(character.homeworld);
-        const homeworldData = await homeworldResponse.json();
-        const homeworld = homeworldData.result.properties.name;
+//         const homeworldResponse = await fetch(character.homeworld);
+//         const homeworldData = await homeworldResponse.json();
+//         const homeworld = homeworldData.result.properties.name;
 
-        // Display the character info
-        displayCharacter(character, homeworld);
+      
+//         displayCharacter(character, homeworld);
 
-    } catch (error) {
-        characterInfo.innerHTML = `<p class="error">Oh No! That Person Isn't Available!</p>`;
-    } finally {
-        // Hide the loading spinner
-        loading.style.display = 'none';
-    }
-}
+//     } catch (error) {
+//         characterInfo.innerHTML = `<p class="error">Oh No! That Person Isn't Available!</p>`;
+//     } finally {
+        
+//         loading.style.display = 'none';
+//     }
+// }
 
-function displayCharacter(character, homeworld) {
-    document.getElementById('name').textContent = `Name: ${character.name}`;
-    document.getElementById('height').textContent = `Height: ${character.height}`;
-    document.getElementById('gender').textContent = `Gender: ${character.gender}`;
-    document.getElementById('birth-year').textContent = `Birth Year: ${character.birth_year}`;
-    document.getElementById('home-world').textContent = `Home World: ${homeworld}`;
-}
+// function displayCharacter(character, homeworld) {
+//     document.getElementById('name').textContent = `Name: ${character.name}`;
+//     document.getElementById('height').textContent = `Height: ${character.height}`;
+//     document.getElementById('gender').textContent = `Gender: ${character.gender}`;
+//     document.getElementById('birth-year').textContent = `Birth Year: ${character.birth_year}`;
+//     document.getElementById('home-world').textContent = `Home World: ${homeworld}`;
+// }
