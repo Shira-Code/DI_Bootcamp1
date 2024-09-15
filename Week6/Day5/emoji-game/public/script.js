@@ -4,10 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const feedback = document.getElementById('feedback');
   
     const fetchEmoji = async () => {
-      const response = await fetch('/api/emoji');
-      if (!response.ok) throw new Error('Failed to fetch');
-      const data = await response.json();
-      return data;
+      const response = await fetch('http://localhost:3005/api/emoji'); // Ensure this URL matches the server port
+      if (!response.ok) {
+        throw new Error('Failed to fetch emoji');
+      }
+      return response.json();
     };
   
     const displayEmoji = async () => {
@@ -22,25 +23,27 @@ document.addEventListener('DOMContentLoaded', () => {
           optionsContainer.appendChild(button);
         });
       } catch (error) {
-        feedback.textContent = 'Error loading emoji';
+        feedback.textContent = `Error: ${error.message}`;
       }
     };
   
     const submitGuess = async (guess, answer) => {
       try {
-        const response = await fetch('/api/guess', {
+        const response = await fetch('http://localhost:3005/api/guess', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ guess, answer }),
         });
-        if (!response.ok) throw new Error('Failed to submit guess');
+        if (!response.ok) {
+          throw new Error('Failed to submit guess');
+        }
         const result = await response.json();
         feedback.textContent = result.correct ? `Correct! Your score is ${result.score}` : `Wrong! Your score is ${result.score}`;
         displayEmoji();
       } catch (error) {
-        feedback.textContent = 'Error submitting guess';
+        feedback.textContent = `Error: ${error.message}`;
       }
     };
   
