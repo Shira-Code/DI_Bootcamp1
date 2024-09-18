@@ -1,0 +1,185 @@
+// Mini Project : Task Management API #1
+// Last Updated: September 22nd, 2023
+
+// Create a Task Management API with Express.js and JSON File Storage
+
+
+// Instructions
+// 1. Set up a new Express.js application.
+// 2. Implement the following routes using express.Router:
+
+// GET /tasks: Retrieve a list of all tasks from a JSON file.
+// GET /tasks/:id: Retrieve a specific task by ID from the JSON file.
+// POST /tasks: Create a new task and store it in the JSON file.
+// PUT /tasks/:id: Update a task by ID in the JSON file.
+// DELETE /tasks/:id: Delete a task by ID from the JSON file.
+// 3. Create a JSON file (e.g., tasks.json) to store task data. Initialize it with an empty array [].
+// 4. Use appropriate validation to ensure the user provides necessary data when creating or updating tasks.
+// 5. Implement error handling for file read/write operations and route validation.
+// 6. Test your API using tools like Postman or curl.
+
+
+
+
+
+
+To create your Task Management API using Express.js with JSON file storage, here are the steps to follow:
+
+Step 1: Setup
+Create a new directory for your project and navigate to it:
+
+bash
+Copy code
+mkdir task-manager
+cd task-manager
+Initialize the project:
+
+bash
+Copy code
+npm init -y
+Install Express.js:
+
+bash
+Copy code
+npm install express
+Step 2: Create Your Express Application
+Create a file called app.js and set up a basic Express application:
+javascript
+Copy code
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
+const app = express();
+const tasksRouter = require('./routes/tasks');
+
+app.use(express.json());
+
+// Mount the tasks router
+app.use('/tasks', tasksRouter);
+
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+Step 3: Create the Router Module
+Inside your project directory, create a routes directory.
+Inside the routes directory, create a tasks.js file to define your routes using express.Router().
+Step 4: Define CRUD Operations
+In routes/tasks.js:
+
+javascript
+Copy code
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
+const router = express.Router();
+
+// File path to tasks.json
+const tasksFilePath = path.join(__dirname, '../tasks.json');
+
+// Helper function to read tasks from the JSON file
+const readTasksFromFile = () => {
+  const data = fs.readFileSync(tasksFilePath, 'utf-8');
+  return JSON.parse(data);
+};
+
+// Helper function to write tasks to the JSON file
+const writeTasksToFile = (tasks) => {
+  fs.writeFileSync(tasksFilePath, JSON.stringify(tasks, null, 2));
+};
+
+// GET /tasks: Retrieve all tasks
+router.get('/', (req, res) => {
+  const tasks = readTasksFromFile();
+  res.json(tasks);
+});
+
+// GET /tasks/:id: Retrieve a specific task by ID
+router.get('/:id', (req, res) => {
+  const tasks = readTasksFromFile();
+  const task = tasks.find((t) => t.id === req.params.id);
+
+  if (!task) {
+    return res.status(404).json({ message: 'Task not found' });
+  }
+
+  res.json(task);
+});
+
+// POST /tasks: Create a new task
+router.post('/', (req, res) => {
+  const { title, description } = req.body;
+
+  if (!title || !description) {
+    return res.status(400).json({ message: 'Title and description are required' });
+  }
+
+  const tasks = readTasksFromFile();
+  const newTask = {
+    id: (tasks.length + 1).toString(),
+    title,
+    description,
+  };
+
+  tasks.push(newTask);
+  writeTasksToFile(tasks);
+
+  res.status(201).json(newTask);
+});
+
+// PUT /tasks/:id: Update a task by ID
+router.put('/:id', (req, res) => {
+  const { title, description } = req.body;
+  const tasks = readTasksFromFile();
+  const taskIndex = tasks.findIndex((t) => t.id === req.params.id);
+
+  if (taskIndex === -1) {
+    return res.status(404).json({ message: 'Task not found' });
+  }
+
+  if (!title || !description) {
+    return res.status(400).json({ message: 'Title and description are required' });
+  }
+
+  tasks[taskIndex] = { id: req.params.id, title, description };
+  writeTasksToFile(tasks);
+
+  res.json(tasks[taskIndex]);
+});
+
+// DELETE /tasks/:id: Delete a task by ID
+router.delete('/:id', (req, res) => {
+  const tasks = readTasksFromFile();
+  const updatedTasks = tasks.filter((t) => t.id !== req.params.id);
+
+  if (tasks.length === updatedTasks.length) {
+    return res.status(404).json({ message: 'Task not found' });
+  }
+
+  writeTasksToFile(updatedTasks);
+  res.status(204).send();
+});
+
+module.exports = router;
+Step 5: Create the JSON File
+In the project root, create a tasks.json file and initialize it with an empty array:
+json
+Copy code
+[]
+Step 6: Start Your Server
+Use nodemon for live reloading by installing it globally or locally:
+
+bash
+Copy code
+npm install -g nodemon
+Start the server:
+
+bash
+Copy code
+nodemon app.js
+Step 7: Test Your API Using Postman
+GET http://localhost:3000/tasks: Retrieve all tasks.
+GET http://localhost:3000/tasks/:id: Retrieve a specific task by ID.
+POST http://localhost:3000/tasks: Create a new task (provide a JSON body with title and description).
+PUT http://localhost:3000/tasks/:id: Update a task by ID (provide a JSON body with title and description).
+DELETE http://localhost:3000/tasks/:id: Delete a task by ID.

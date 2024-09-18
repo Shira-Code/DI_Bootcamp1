@@ -9,7 +9,10 @@
   "author": "Shira Blum",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
     "express": "^5.0.0",
+    "pg": "^8.12.0",
     "slugify": "^1.6.6"
   }
 }

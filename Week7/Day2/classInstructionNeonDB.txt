@@ -1,0 +1,50 @@
+CREATE TABLE IF NOT EXISTS products
+(
+    id serial NOT NULL PRIMARY KEY,
+    name character varying(255) NOT NULL,
+    price integer NOT NULL
+)
+
+
+
+
+
+insert into products (name,price)
+values ('Product 100', 100),('Product 200', 200),('Product 300', 300)
+
+
+knexjs.org documentation
+
+delete quotes
+
+will nee to create .env and run "install dotenv" to hide credentials
+
+need to install knex, node, and pg, and json package
+in .env copy all the credentials line by line from neon
+use equal =  without spaces
+
+in db.js write this code:
+
+
+const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD, PGPORT } = process.env;
+
+const db = knex({
+  client: "pg",
+  connection: {
+    host: PGHOST, 
+    port: PGPORT, 
+    user: PGUSER, 
+    database: PGDATABASE,
+    password: PGPASSWORD,
+    ssl: { rejectUnauthorized: false },
+  },
+});
+
+.update ({name: "product 222" to update})
+.where ({need a condition})
+
+//screenshots
+
+db
+
+commit & rollback

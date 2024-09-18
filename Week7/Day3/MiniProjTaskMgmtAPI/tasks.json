@@ -1,0 +1,39 @@
+[
+  {
+    "id": 1,
+    "title": "Complete project documentation",
+    "description": "Finish writing the technical documentation for the project",
+    "completed": false
+  },
+  {
+    "id": 2,
+    "title": "Fix bug in login page",
+    "description": "Resolve the issue with user authentication on the login page",
+    "completed": false
+  },
+  {
+    "id": 3,
+    "title": "Update database schema",
+    "description": "Add new fields to the user table in the database",
+    "completed": false
+  },
+  {
+    "id": 4,
+    "title": "Design new homepage layout",
+    "description": "Create a new layout for the homepage based on the latest design guidelines",
+    "completed": false
+  },
+  {
+    "id": 5,
+    "title": "Title PUT  VIA PostmanSchedule team meeting",
+    "description": "DESCRIPTION PUT Via Postman Organize a meeting with the project team to discuss milestones",
+    "status": "to-do",
+    "completed": false
+  },
+  {
+    "id": 6,
+    "title": "TITLE NEW TASK VIA POSTMAN POST",
+    "description": "DESCRIPTION NEW TASK VIA POSTMAN POSt",
+    "completed": false
+  }
+]

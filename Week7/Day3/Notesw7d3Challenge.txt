@@ -1,0 +1,880 @@
+Daily Challenge : Task API #2
+Last Updated: March 7th, 2024
+
+Create a User Management API with Registration and Login using Express.js, Bcrypt, and JSON File Storage
+
+
+Instructions
+1. Create 2 HTML files: one for the Login form and the other for the Register form (when the inputs are empty the submit button should be disabled).
+
+
+2. Set up a new Express.js application.
+
+
+3. Implement the following routes using express.Router:
+
+POST /register: Allow users to register by providing a username and password. Hash the password using bcrypt before storing it in the JSON file.
+POST /login: Allow users to login by providing their username and password. Compare the hashed password from the JSON file with the provided password.
+GET /users: Retrieve a list of all registered users from a JSON file (only for demonstration purposes; no authentication required).
+GET /users/:id: Retrieve a specific user by ID from the JSON file (only for demonstration purposes; no authentication required).
+PUT /users/:id: Update a user’s information by ID in the JSON file (only for demonstration purposes; no authentication required).
+
+4. Create a JSON file (e.g., users.json) to store user data. Initialize it with an empty array [].
+
+
+5. Use bcrypt to hash user passwords before storing them in the JSON file and for verifying passwords during login.
+
+
+6. Implement error handling for file read/write operations, route validation, and incorrect login credentials.
+
+
+7. Test your API using tools like Postman or curl.
+
+
+EXAMPLES
+
+The Register form should have five inputs: Name, Last Name, Email, Username and Password. And it should register a user with a message as follows:
+
+
+register
+
+When the user registers, if the username or the password already exist, do not write to the file. Instead, send a message back as follows:
+
+
+error1
+
+The Login form should have two inputs: Username and Password. And it should display a login message as follows:
+
+
+login
+
+When the user logs in and if they are not registered, send and error message as follows:
+
+
+error2
+
+
+Duration & Difficulty
+
+Create a User Management API with Registration and Login using Express.js, Bcrypt, and NEON db and postgres storage. use nodemon and postman for testing as well as the html user interface and console.log.
+
+
+Instructions
+1. Create 2 HTML files: one for the Login form and the other for the Register form (when the inputs are empty the submit button should be disabled).
+
+
+2. Set up a new Express.js application.
+
+
+3. Implement the following routes using express.Router:
+
+POST /register: Allow users to register by providing a username and password. Hash the password using bcrypt before storing it in the NEON db
+POST /login: Allow users to login by providing their username and password. Compare the hashed password from the NEON db with the provided password.
+GET /users: Retrieve a list of all registered users from a NEON db (only for demonstration purposes; no authentication required).
+GET /users/:id: Retrieve a specific user by ID from the NEON db (only for demonstration purposes; no authentication required).
+PUT /users/:id: Update a user’s information by ID in the NEON db (only for demonstration purposes; no authentication required).
+
+4. Create a JSON file (e.g., users.json) to store user data. Initialize it with an empty array [].
+
+
+5. Use bcrypt to hash user passwords before storing them in the NEON dband for verifying passwords during login.
+
+
+6. Implement error handling for file read/write operations, route validation, and incorrect login credentials.
+
+
+7. Test your API using tools like Postman or curl.
+
+
+EXAMPLES
+
+The Register form should have five inputs: Name, Last Name, Email, Username and Password. And it should register a user with a message as follows:
+
+"Hello, Your account is now created!"
+
+When the user registers, if the username or the password already exist, do not write to the file. Instead, send a message back as follows:
+
+"Username already exists"
+
+The Login form should have two inputs: Username and Password. And it should display a login message as follows:
+
+"Hi Johnny, welcome back!"
+
+When the user logs in and if they are not registered, send and error message as follows:
+
+"Username is not registered"
+
+To create a User Management API with Express.js, Bcrypt, and NEON DB (PostgreSQL) for registration and login, we’ll follow your instructions. Here's the step-by-step process:
+
+1. HTML Files for Registration and Login
+First, create two HTML files: one for registration and one for login. These files will interact with the Express.js API you’ll build.
+
+Register Form (register.html):
+html
+Copy code
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <script>
+        function toggleSubmitButton() {
+            const name = document.getElementById('name').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const submitButton = document.getElementById('submit');
+
+            submitButton.disabled = !(name && lastName && email && username && password);
+        }
+    </script>
+</head>
+<body>
+    <h1>Register</h1>
+    <form id="registerForm" action="/register" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" oninput="toggleSubmitButton()">
+        <br>
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" oninput="toggleSubmitButton()">
+        <br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" oninput="toggleSubmitButton()">
+        <br>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" oninput="toggleSubmitButton()">
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" oninput="toggleSubmitButton()">
+        <br>
+        <button type="submit" id="submit" disabled>Register</button>
+    </form>
+</body>
+</html>
+Login Form (login.html):
+html
+Copy code
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script>
+        function toggleSubmitButton() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const submitButton = document.getElementById('submit');
+
+            submitButton.disabled = !(username && password);
+        }
+    </script>
+</head>
+<body>
+    <h1>Login</h1>
+    <form id="loginForm" action="/login" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" oninput="toggleSubmitButton()">
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" oninput="toggleSubmitButton()">
+        <br>
+        <button type="submit" id="submit" disabled>Login</button>
+    </form>
+</body>
+</html>
+2. Setting Up the Express.js Application
+Next, create an app.js file where you will set up your Express server and the routes.
+
+app.js
+javascript
+Copy code
+const express = require('express');
+const bcrypt = require('bcrypt');
+const { Pool } = require('pg'); // For connecting to NEON DB (PostgreSQL)
+const path = require('path');
+const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Static files for HTML forms
+app.use(express.static(path.join(__dirname, 'public')));
+
+// PostgreSQL connection setup (replace with your Neon DB connection details)
+const pool = new Pool({
+  user: 'your_user',
+  host: 'your_host',
+  database: 'your_database',
+  password: 'your_password',
+  port: 5432
+});
+
+// Register user route
+app.post('/register', async (req, res) => {
+    const { name, lastName, email, username, password } = req.body;
+    
+    // Check if username exists
+    const userExists = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+    if (userExists.rows.length > 0) {
+        return res.status(400).json({ message: 'Username already exists' });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Store user in the database
+    await pool.query(
+        'INSERT INTO users (name, last_name, email, username, password) VALUES ($1, $2, $3, $4, $5)',
+        [name, lastName, email, username, hashedPassword]
+    );
+
+    res.status(201).json({ message: 'Hello, Your account is now created!' });
+});
+
+// Login user route
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+
+    // Find user in the database
+    const user = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+
+    if (user.rows.length === 0) {
+        return res.status(404).json({ message: 'Username is not registered' });
+    }
+
+    const validPassword = await bcrypt.compare(password, user.rows[0].password);
+    
+    if (!validPassword) {
+        return res.status(400).json({ message: 'Invalid password' });
+    }
+
+    res.status(200).json({ message: `Hi ${user.rows[0].name}, welcome back!` });
+});
+
+// Retrieve all users (for testing/demo purposes)
+app.get('/users', async (req, res) => {
+    const users = await pool.query('SELECT id, name, last_name, email, username FROM users');
+    res.json(users.rows);
+});
+
+// Retrieve a specific user by ID
+app.get('/users/:id', async (req, res) => {
+    const user = await pool.query('SELECT id, name, last_name, email, username FROM users WHERE id = $1', [req.params.id]);
+
+    if (user.rows.length === 0) {
+        return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json(user.rows[0]);
+});
+
+// Update user by ID
+app.put('/users/:id', async (req, res) => {
+    const { name, lastName, email } = req.body;
+
+    await pool.query(
+        'UPDATE users SET name = $1, last_name = $2, email = $3 WHERE id = $4',
+        [name, lastName, email, req.params.id]
+    );
+
+    res.json({ message: 'User updated successfully' });
+});
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+});
+3. Creating the users Table in NEON DB
+Before testing, ensure you create the users table in your Neon PostgreSQL database:
+
+sql
+Copy code
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    last_name VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    username VARCHAR(50) UNIQUE,
+    password VARCHAR(255)
+);
+4. Test the API Using Postman
+You can use Postman to test the following routes:
+
+POST /register: Registers a new user.
+
+Body (JSON): { "name": "John", "lastName": "Doe", "email": "john@example.com", "username": "john", "password": "mypassword" }
+POST /login: Logs in a user.
+
+Body (JSON): { "username": "john", "password": "mypassword" }
+GET /users: Fetches all registered users.
+
+GET /users/:id: Fetches a specific user by their ID.
+
+PUT /users/:id: Updates a specific user's details.
+
+5. Run the Server
+To run your Express server with nodemon, run the following command in your terminal:
+
+bash
+Copy code
+nodemon app.js
+You can now interact with the API via Postman and also view the registration/login pages in your browser by navigating to:
+
+Register: http://localhost:3000/register.html
+Login: http://localhost:3000/login.html
+
+
+To create a User Management API with Express.js, Bcrypt, and NEON DB (PostgreSQL) for registration and login, we’ll follow your instructions. Here's the step-by-step process:
+
+### 1. **HTML Files for Registration and Login**
+First, create two HTML files: one for registration and one for login. These files will interact with the Express.js API you’ll build.
+
+#### **Register Form (`register.html`)**:
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <script>
+        function toggleSubmitButton() {
+            const name = document.getElementById('name').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const submitButton = document.getElementById('submit');
+
+            submitButton.disabled = !(name && lastName && email && username && password);
+        }
+    </script>
+</head>
+<body>
+    <h1>Register</h1>
+    <form id="registerForm" action="/register" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" oninput="toggleSubmitButton()">
+        <br>
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" oninput="toggleSubmitButton()">
+        <br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" oninput="toggleSubmitButton()">
+        <br>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" oninput="toggleSubmitButton()">
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" oninput="toggleSubmitButton()">
+        <br>
+        <button type="submit" id="submit" disabled>Register</button>
+    </form>
+</body>
+</html>
+```
+
+#### **Login Form (`login.html`)**:
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script>
+        function toggleSubmitButton() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const submitButton = document.getElementById('submit');
+
+            submitButton.disabled = !(username && password);
+        }
+    </script>
+</head>
+<body>
+    <h1>Login</h1>
+    <form id="loginForm" action="/login" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" oninput="toggleSubmitButton()">
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" oninput="toggleSubmitButton()">
+        <br>
+        <button type="submit" id="submit" disabled>Login</button>
+    </form>
+</body>
+</html>
+```
+
+### 2. **Setting Up the Express.js Application**
+Next, create an `app.js` file where you will set up your Express server and the routes.
+
+#### **app.js**
+```javascript
+const express = require('express');
+const bcrypt = require('bcrypt');
+const { Pool } = require('pg'); // For connecting to NEON DB (PostgreSQL)
+const path = require('path');
+const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Static files for HTML forms
+app.use(express.static(path.join(__dirname, 'public')));
+
+// PostgreSQL connection setup (replace with your Neon DB connection details)
+const pool = new Pool({
+  user: 'your_user',
+  host: 'your_host',
+  database: 'your_database',
+  password: 'your_password',
+  port: 5432
+});
+
+// Register user route
+app.post('/register', async (req, res) => {
+    const { name, lastName, email, username, password } = req.body;
+    
+    // Check if username exists
+    const userExists = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+    if (userExists.rows.length > 0) {
+        return res.status(400).json({ message: 'Username already exists' });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Store user in the database
+    await pool.query(
+        'INSERT INTO users (name, last_name, email, username, password) VALUES ($1, $2, $3, $4, $5)',
+        [name, lastName, email, username, hashedPassword]
+    );
+
+    res.status(201).json({ message: 'Hello, Your account is now created!' });
+});
+
+// Login user route
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+
+    // Find user in the database
+    const user = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+
+    if (user.rows.length === 0) {
+        return res.status(404).json({ message: 'Username is not registered' });
+    }
+
+    const validPassword = await bcrypt.compare(password, user.rows[0].password);
+    
+    if (!validPassword) {
+        return res.status(400).json({ message: 'Invalid password' });
+    }
+
+    res.status(200).json({ message: `Hi ${user.rows[0].name}, welcome back!` });
+});
+
+// Retrieve all users (for testing/demo purposes)
+app.get('/users', async (req, res) => {
+    const users = await pool.query('SELECT id, name, last_name, email, username FROM users');
+    res.json(users.rows);
+});
+
+// Retrieve a specific user by ID
+app.get('/users/:id', async (req, res) => {
+    const user = await pool.query('SELECT id, name, last_name, email, username FROM users WHERE id = $1', [req.params.id]);
+
+    if (user.rows.length === 0) {
+        return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json(user.rows[0]);
+});
+
+// Update user by ID
+app.put('/users/:id', async (req, res) => {
+    const { name, lastName, email } = req.body;
+
+    await pool.query(
+        'UPDATE users SET name = $1, last_name = $2, email = $3 WHERE id = $4',
+        [name, lastName, email, req.params.id]
+    );
+
+    res.json({ message: 'User updated successfully' });
+});
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+});
+```
+
+### 3. **Creating the `users` Table in NEON DB**
+Before testing, ensure you create the `users` table in your Neon PostgreSQL database:
+
+```sql
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    last_name VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    username VARCHAR(50) UNIQUE,
+    password VARCHAR(255)
+);
+```
+
+### 4. **Test the API Using Postman**
+You can use Postman to test the following routes:
+
+- **POST `/register`**: Registers a new user.
+  - Body (JSON): `{ "name": "John", "lastName": "Doe", "email": "john@example.com", "username": "john", "password": "mypassword" }`
+  
+- **POST `/login`**: Logs in a user.
+  - Body (JSON): `{ "username": "john", "password": "mypassword" }`
+
+- **GET `/users`**: Fetches all registered users.
+
+- **GET `/users/:id`**: Fetches a specific user by their ID.
+
+- **PUT `/users/:id`**: Updates a specific user's details.
+
+### 5. **Run the Server**
+To run your Express server with `nodemon`, run the following command in your terminal:
+
+```bash
+nodemon app.js
+```
+
+You can now interact with the API via Postman and also view the registration/login pages in your browser by navigating to:
+
+- **Register**: `http://localhost:3000/register.html`
+- **Login**: `http://localhost:3000/login.html`
+
+
+
+
+
+
+
+
+Here’s how you can structure the project using the given file structure for a **User Management API with Registration and Login** using Express.js, Bcrypt, and Neon DB:
+
+### Folder Structure
+```
+server/
+  |_ config/
+       |_ db.js               # Database connection using Neon DB (PostgreSQL)
+  |_ models/
+       |_ userModel.js        # Queries related to user operations
+  |_ controllers/
+       |_ userController.js   # Functions to handle request/response logic
+  |_ routes/
+       |_ userRoutes.js       # API route definitions for registration, login, etc.
+  |_ middlewares/
+       |_ authMiddleware.js   # Auth middleware to check if user is authenticated
+       |_ loggerMiddleware.js # Logging middleware
+  |_ tasks.json               # JSON file (temporary placeholder)
+  |_ app.js                   # Entry point to the server
+  |_ package.json             # Node dependencies
+  |_ public/
+       |_ register.html       # Registration form UI
+       |_ login.html          # Login form UI
+```
+
+### 1. **config/db.js** - Setting up the connection to the Neon DB:
+
+```js
+const { Pool } = require('pg');
+
+// Replace with your Neon DB credentials
+const pool = new Pool({
+    user: 'your_username',
+    host: 'your_neon_db_host',
+    database: 'your_database',
+    password: 'your_password',
+    port: 5432,
+});
+
+module.exports = pool;
+```
+
+### 2. **models/userModel.js** - Database queries for user management:
+
+```js
+const pool = require('../config/db');
+
+// Function to find a user by username
+const findUserByUsername = async (username) => {
+    const result = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+    return result.rows[0];
+};
+
+// Function to create a new user
+const createUser = async (user) => {
+    const { firstName, lastName, email, username, passwordHash } = user;
+    await pool.query(
+        'INSERT INTO users (first_name, last_name, email, username, password) VALUES ($1, $2, $3, $4, $5)',
+        [firstName, lastName, email, username, passwordHash]
+    );
+};
+
+// Function to retrieve all users
+const getAllUsers = async () => {
+    const result = await pool.query('SELECT * FROM users');
+    return result.rows;
+};
+
+// Function to find a user by ID
+const findUserById = async (id) => {
+    const result = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
+    return result.rows[0];
+};
+
+// Function to update user details
+const updateUser = async (id, user) => {
+    const { firstName, lastName, email } = user;
+    await pool.query(
+        'UPDATE users SET first_name = $1, last_name = $2, email = $3 WHERE id = $4',
+        [firstName, lastName, email, id]
+    );
+};
+
+module.exports = { findUserByUsername, createUser, getAllUsers, findUserById, updateUser };
+```
+
+### 3. **controllers/userController.js** - Handling requests and responses:
+
+```js
+const bcrypt = require('bcrypt');
+const userModel = require('../models/userModel');
+
+// POST /register
+const registerUser = async (req, res) => {
+    const { firstName, lastName, email, username, password } = req.body;
+    
+    // Check if username exists
+    const existingUser = await userModel.findUserByUsername(username);
+    if (existingUser) {
+        return res.status(400).json({ message: 'Username already exists' });
+    }
+
+    // Hash the password
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    // Create user
+    await userModel.createUser({ firstName, lastName, email, username, passwordHash });
+    res.status(201).json({ message: 'Hello, Your account is now created!' });
+};
+
+// POST /login
+const loginUser = async (req, res) => {
+    const { username, password } = req.body;
+
+    // Check if user exists
+    const user = await userModel.findUserByUsername(username);
+    if (!user) {
+        return res.status(400).json({ message: 'Username is not registered' });
+    }
+
+    // Verify password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+        return res.status(400).json({ message: 'Invalid credentials' });
+    }
+
+    res.status(200).json({ message: `Hi ${user.first_name}, welcome back!` });
+};
+
+// GET /users
+const getUsers = async (req, res) => {
+    const users = await userModel.getAllUsers();
+    res.json(users);
+};
+
+// GET /users/:id
+const getUserById = async (req, res) => {
+    const user = await userModel.findUserById(req.params.id);
+    if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+    }
+    res.json(user);
+};
+
+// PUT /users/:id
+const updateUser = async (req, res) => {
+    const { firstName, lastName, email } = req.body;
+    await userModel.updateUser(req.params.id, { firstName, lastName, email });
+    res.json({ message: 'User updated successfully' });
+};
+
+module.exports = { registerUser, loginUser, getUsers, getUserById, updateUser };
+```
+
+### 4. **routes/userRoutes.js** - Defining the API routes:
+
+```js
+const express = require('express');
+const { registerUser, loginUser, getUsers, getUserById, updateUser } = require('../controllers/userController');
+
+const router = express.Router();
+
+// Register route
+router.post('/register', registerUser);
+
+// Login route
+router.post('/login', loginUser);
+
+// Get all users
+router.get('/users', getUsers);
+
+// Get user by ID
+router.get('/users/:id', getUserById);
+
+// Update user by ID
+router.put('/users/:id', updateUser);
+
+module.exports = router;
+```
+
+### 5. **middlewares/loggerMiddleware.js** - Simple logging middleware:
+
+```js
+const loggerMiddleware = (req, res, next) => {
+    console.log(`${req.method} ${req.url} - ${new Date().toISOString()}`);
+    next();
+};
+
+module.exports = loggerMiddleware;
+```
+
+### 6. **app.js** - Main entry point to the Express.js app:
+
+```js
+const express = require('express');
+const userRoutes = require('./routes/userRoutes');
+const loggerMiddleware = require('./middlewares/loggerMiddleware');
+
+const app = express();
+app.use(express.json());
+app.use(loggerMiddleware);
+
+// Routes
+app.use('/api', userRoutes);
+
+// Serve static files for frontend
+app.use(express.static('public'));
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+```
+
+### 7. **public/register.html** - Registration form:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    <h1>Register</h1>
+    <form id="registerForm">
+        <input type="text" id="firstName" placeholder="First Name" required>
+        <input type="text" id="lastName" placeholder="Last Name" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit" id="submitBtn">Register</button>
+    </form>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value,
+            };
+            const response = await fetch('/api/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+            const result = await response.json();
+            alert(result.message);
+        });
+    </script>
+</body>
+</html>
+```
+
+### 8. **public/login.html** - Login form:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <form id="loginForm">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit" id="loginBtn">Login</button>
+    </form>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                username: document.getElementById('username').value,
+                password:
+
+ document.getElementById('password').value,
+            };
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+            const result = await response.json();
+            alert(result.message);
+        });
+    </script>
+</body>
+</html>
+```
+
+### Steps to run the app:
+1. Install dependencies:
+   ```bash
+   npm install express bcrypt pg
+   ```
+
+2. Run the server using `nodemon`:
+   ```bash
+   nodemon app.js
+   ```
+
+3. Test the API using Postman or the provided HTML UI.
+
+Let me know if you need further assistance with any part of the implementation!
