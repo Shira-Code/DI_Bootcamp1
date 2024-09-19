@@ -9,10 +9,14 @@
   "author": "Shira Blum",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
     "express": "^5.0.0",
-    "pg": "^8.12.0",
+    "fs": "^0.0.1-security",
+    "nodemon": "^3.1.5",
+    "pg": "^8.13.0",
     "slugify": "^1.6.6"
   }
 }

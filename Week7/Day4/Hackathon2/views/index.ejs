@@ -1,0 +1,904 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Parking Lot</title>
+</head>
+<body>
+  <h1>Select a Parking Lot from Achuazat Hachof Parking</h1>
+  <h2>**Tel Aviv Residents Cars Registered with a Handicap Tag Park for Free**</h2>
+  <form action="/" method="POST">
+    <label for="parking_spot">Choose a spot:</label>
+    <select name="parking_spot" id="parking_spot">
+      <% parkingSpots.forEach(spot => { %>
+        <option value="<%= spot.id %>"><%= spot.name %> - <%= spot.address %></option>
+      <% }) %>
+    </select>
+    <button type="submit">Save Lots</button>
+  </form>
+
+  <h2>Selected Parking Lots with Date and Time</h2>
+  <ul>
+    <% selectedSpots.forEach(spot => { %>
+      <li>
+        <%= spot.name %> - <%= spot.address %> - Selected at <%= new Date(spot.timestamp).toLocaleString() %>
+      </li>
+    <% }) %>
+  </ul>
+</body>
+</html> -->
+
+
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Parking Lot</title>
+  <style>
+    /* Style to center content */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    /* Container for all content */
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 24px;
+      color: #333;
+    }
+
+    h2 {
+      font-size: 18px;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    form {
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-size: 16px;
+      color: #333;
+    }
+
+    select {
+      margin: 10px 0;
+      padding: 8px;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      background-color: #e7e7e7;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Select a Parking Lot from Achuazat Hachof Parking</h1>
+    <h2>**Tel Aviv Residents Cars Registered with a Handicap Tag Park for Free**</h2>
+
+    <form action="/" method="POST">
+      <label for="parking_spot">Choose a spot:</label>
+      <select name="parking_spot" id="parking_spot">
+        <% parkingSpots.forEach(spot => { %>
+          <option value="<%= spot.id %>"><%= spot.name %> - <%= spot.address %></option>
+        <% }) %>
+      </select>
+      <button type="submit">Save Lots</button>
+    </form>
+
+    <h2>Selected Parking Lots with Date and Time</h2>
+    <ul>
+      <% selectedSpots.forEach(spot => { %>
+        <li>
+          <%= spot.name %> - <%= spot.address %> - Selected at <%= new Date(spot.timestamp).toLocaleString() %>
+        </li>
+      <% }) %>
+    </ul>
+  </div>
+</body>
+</html> -->
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Parking Lot</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+      overflow: auto;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    form {
+      margin-bottom: 20px;
+    }
+    label, select, button {
+      margin: 10px 0;
+      font-size: 16px;
+      display: block;
+      width: 100%;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      background-color: #e7e7e7;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .timer {
+      font-size: 16px;
+      color: #f00;
+      margin-left: 10px;
+    }
+    .stop-button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      background-color: #f44336;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+    .stop-button:hover {
+      background-color: #d32f2f;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Select a Parking Lot from Achuazat Hachof Parking</h1>
+    <h2>**Tel Aviv Residents Cars Registered with a Handicap Tag Park for Free**</h2>
+
+    <form id="parkingForm">
+      <label for="parking_spot">Choose a spot:</label>
+      <select name="parking_spot" id="parking_spot">
+        <% parkingSpots.forEach(spot => { %>
+          <option value="<%= spot.id %>"><%= spot.name %> - <%= spot.address %></option>
+        <% }) %>
+      </select>
+      <button type="submit">Save Lots</button>
+    </form>
+
+    <h2>Selected Parking Lots</h2>
+    <ul id="selected-spots"></ul>
+  </div>
+
+  <script>
+    let timers = {};
+
+    function formatTime(seconds) {
+      const days = Math.floor(seconds / (3600 * 24));
+      seconds %= (3600 * 24);
+      const hours = Math.floor(seconds / 3600);
+      seconds %= 3600;
+      const minutes = Math.floor(seconds / 60);
+      seconds %= 60;
+
+      return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    function startTimer(spotId) {
+      let elapsedSeconds = 0;
+      const timerElement = document.createElement('span');
+      timerElement.className = 'timer';
+      timerElement.textContent = formatTime(elapsedSeconds);
+
+      // Clear any existing timer for this spot
+      if (timers[spotId]) {
+        clearInterval(timers[spotId].interval);
+      }
+
+      // Start the timer
+      timers[spotId] = {
+        interval: setInterval(() => {
+          elapsedSeconds++;
+          timerElement.textContent = formatTime(elapsedSeconds);
+        }, 1000),
+        element: timerElement
+      };
+
+      return timerElement;
+    }
+
+    function stopTimer(spotId) {
+      if (timers[spotId]) {
+        clearInterval(timers[spotId].interval);
+        delete timers[spotId]; // Remove the timer entry
+      }
+    }
+
+    document.getElementById('parkingForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent default form submission
+
+      const selectedSpotId = document.getElementById('parking_spot').value;
+      const selectedSpotText = document.querySelector(`option[value='${selectedSpotId}']`).text;
+
+      // Create a new list item for the selected spot
+      const selectedList = document.getElementById('selected-spots');
+      const newListItem = document.createElement('li');
+      newListItem.innerHTML = `
+        <span>${selectedSpotText} - Selected at ${new Date().toLocaleString()}</span>
+      `;
+      
+      // Start the timer and append it to the list item
+      const timerElement = startTimer(selectedSpotId);
+      newListItem.appendChild(timerElement);
+
+      // Create a stop button and add functionality
+      const stopButton = document.createElement('button');
+      stopButton.className = 'stop-button';
+      stopButton.textContent = 'Stop Timer';
+      stopButton.onclick = function() {
+        stopTimer(selectedSpotId);
+        newListItem.removeChild(timerElement); // Remove the timer display
+        newListItem.removeChild(stopButton); // Remove the stop button
+      };
+      newListItem.appendChild(stopButton);
+
+      // Prepend the new list item to the top of the list
+      selectedList.prepend(newListItem);
+    });
+  </script>
+</body>
+</html> -->
+
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Parking Lot</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+      overflow: auto;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    form {
+      margin-bottom: 20px;
+    }
+    label, select, button {
+      margin: 10px 0;
+      font-size: 16px;
+      display: block;
+      width: 100%;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      background-color: #e7e7e7;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .timer, .total-time {
+      font-size: 16px;
+      color: #f00;
+      margin-left: 10px;
+    }
+    .stop-button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      background-color: #f44336;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+    .stop-button:hover {
+      background-color: #d32f2f;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Select a Parking Lot from Achuazat Hachof Parking</h1>
+    <h2>**Tel Aviv Residents Cars Registered with a Handicap Tag Park for Free**</h2>
+
+    <form id="parkingForm">
+      <label for="parking_spot">Choose a spot:</label>
+      <select name="parking_spot" id="parking_spot">
+        <% parkingSpots.forEach(spot => { %>
+          <option value="<%= spot.id %>"><%= spot.name %> - <%= spot.address %></option>
+        <% }) %>
+      </select>
+      <button type="submit">Save Lots</button>
+    </form>
+
+    <h2>Selected Parking Lots</h2>
+    <ul id="selected-spots"></ul>
+  </div>
+
+  <script>
+    let timers = {};
+
+    function formatTime(seconds) {
+      const days = Math.floor(seconds / (3600 * 24));
+      seconds %= (3600 * 24);
+      const hours = Math.floor(seconds / 3600);
+      seconds %= 3600;
+      const minutes = Math.floor(seconds / 60);
+      seconds %= 60;
+
+      return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    function startTimer(spotId) {
+      let elapsedSeconds = 0;
+      const timerElement = document.createElement('span');
+      timerElement.className = 'timer';
+      timerElement.textContent = formatTime(elapsedSeconds);
+
+      // Clear any existing timer for this spot
+      if (timers[spotId]) {
+        clearInterval(timers[spotId].interval);
+      }
+
+      // Start the timer
+      timers[spotId] = {
+        interval: setInterval(() => {
+          elapsedSeconds++;
+          timerElement.textContent = formatTime(elapsedSeconds);
+        }, 1000),
+        element: timerElement,
+        elapsedSeconds: elapsedSeconds // Store the elapsed time
+      };
+
+      return { timerElement, elapsedSeconds }; // Return both the timer element and elapsed time
+    }
+
+    function stopTimer(spotId) {
+      if (timers[spotId]) {
+        clearInterval(timers[spotId].interval);
+        const totalTime = timers[spotId].elapsedSeconds; // Get the total time
+        delete timers[spotId]; // Remove the timer entry
+        return totalTime; // Return the total time
+      }
+      return 0;
+    }
+
+    document.getElementById('parkingForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent default form submission
+
+      const selectedSpotId = document.getElementById('parking_spot').value;
+      const selectedSpotText = document.querySelector(`option[value='${selectedSpotId}']`).text;
+
+      // Create a new list item for the selected spot
+      const selectedList = document.getElementById('selected-spots');
+      const newListItem = document.createElement('li');
+      newListItem.innerHTML = `
+        <span>${selectedSpotText} - Selected at ${new Date().toLocaleString()}</span>
+      `;
+      
+      // Start the timer and append it to the list item
+      const { timerElement } = startTimer(selectedSpotId);
+      newListItem.appendChild(timerElement);
+
+      // Create a stop button and add functionality
+      const stopButton = document.createElement('button');
+      stopButton.className = 'stop-button';
+      stopButton.textContent = 'Stop Timer';
+      stopButton.onclick = function() {
+        const totalTime = stopTimer(selectedSpotId);
+        const totalTimeElement = document.createElement('span');
+        totalTimeElement.className = 'total-time';
+        totalTimeElement.textContent = `Total Time: ${formatTime(totalTime)}`;
+        newListItem.appendChild(totalTimeElement); // Append the total time to the list item
+        newListItem.removeChild(timerElement); // Remove the timer display
+        newListItem.removeChild(stopButton); // Remove the stop button
+      };
+      newListItem.appendChild(stopButton);
+
+      // Prepend the new list item to the top of the list
+      selectedList.prepend(newListItem);
+    });
+  </script>
+</body>
+</html> -->
+
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Parking Lot</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+      overflow: auto;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    form {
+      margin-bottom: 20px;
+    }
+    label, select, button {
+      margin: 10px 0;
+      font-size: 16px;
+      display: block;
+      width: 100%;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      background-color: #e7e7e7;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .timer, .total-time {
+      font-size: 16px;
+      color: #f00;
+      margin-left: 10px;
+    }
+    .stop-button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      background-color: #f44336;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+    .stop-button:hover {
+      background-color: #d32f2f;
+    }
+    .map-container {
+      margin-top: 20px;
+      text-align: center;
+    }
+    iframe {
+      width: 100%;
+      height: 400px; /* Adjust height as needed */
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Select a Parking Lot from Achuazat Hachof Parking</h1>
+    <h2>**Tel Aviv Residents Cars Registered with a Handicap Tag Park for Free**</h2>
+
+    <form id="parkingForm">
+      <label for="parking_spot">Choose a spot:</label>
+      <select name="parking_spot" id="parking_spot">
+        <% parkingSpots.forEach(spot => { %>
+          <option value="<%= spot.id %>"><%= spot.name %> - <%= spot.address %></option>
+        <% }) %>
+      </select>
+      <button type="submit">Save Lots</button>
+    </form>
+
+    <h2>Parking Lot Map</h2>
+    <div class="map-container">
+      <iframe src="https://www.ahuzot.co.il/Map/Parking/" allowfullscreen loading="lazy"></iframe>
+    </div>
+
+    <h2>Selected Parking Lots</h2>
+    <ul id="selected-spots"></ul>
+  </div>
+
+  <script>
+    let timers = {};
+
+    function formatTime(seconds) {
+      const days = Math.floor(seconds / (3600 * 24));
+      seconds %= (3600 * 24);
+      const hours = Math.floor(seconds / 3600);
+      seconds %= 3600;
+      const minutes = Math.floor(seconds / 60);
+      seconds %= 60;
+
+      return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    function startTimer(spotId) {
+      let elapsedSeconds = 0;
+      const timerElement = document.createElement('span');
+      timerElement.className = 'timer';
+      timerElement.textContent = formatTime(elapsedSeconds);
+
+      // Clear any existing timer for this spot
+      if (timers[spotId]) {
+        clearInterval(timers[spotId].interval);
+      }
+
+      // Start the timer
+      timers[spotId] = {
+        interval: setInterval(() => {
+          elapsedSeconds++;
+          timerElement.textContent = formatTime(elapsedSeconds);
+        }, 1000),
+        element: timerElement,
+        elapsedSeconds: elapsedSeconds // Store the elapsed time
+      };
+
+      return { timerElement, elapsedSeconds }; // Return both the timer element and elapsed time
+    }
+
+    function stopTimer(spotId) {
+      if (timers[spotId]) {
+        clearInterval(timers[spotId].interval);
+        const totalTime = timers[spotId].elapsedSeconds; // Get the total time
+        delete timers[spotId]; // Remove the timer entry
+        return totalTime; // Return the total time
+      }
+      return 0;
+    }
+
+    document.getElementById('parkingForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent default form submission
+
+      const selectedSpotId = document.getElementById('parking_spot').value;
+      const selectedSpotText = document.querySelector(`option[value='${selectedSpotId}']`).text;
+
+      // Create a new list item for the selected spot
+      const selectedList = document.getElementById('selected-spots');
+      const newListItem = document.createElement('li');
+      newListItem.innerHTML = `
+        <span>${selectedSpotText} - Selected at ${new Date().toLocaleString()}</span>
+      `;
+      
+      // Start the timer and append it to the list item
+      const { timerElement } = startTimer(selectedSpotId);
+      newListItem.appendChild(timerElement);
+
+      // Create a stop button and add functionality
+      const stopButton = document.createElement('button');
+      stopButton.className = 'stop-button';
+      stopButton.textContent = 'Stop Timer';
+      stopButton.onclick = function() {
+        const totalTime = stopTimer(selectedSpotId);
+        const totalTimeElement = document.createElement('span');
+        totalTimeElement.className = 'total-time';
+        totalTimeElement.textContent = `Total Time: ${formatTime(totalTime)}`;
+        newListItem.appendChild(totalTimeElement); // Append the total time to the list item
+        newListItem.removeChild(timerElement); // Remove the timer display
+        newListItem.removeChild(stopButton); // Remove the stop button
+      };
+      newListItem.appendChild(stopButton);
+
+      // Prepend the new list item to the top of the list
+      selectedList.prepend(newListItem);
+    });
+  </script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Parking Lot</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+      overflow: auto;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    form {
+      margin-bottom: 20px;
+    }
+    label, select, button {
+      margin: 10px 0;
+      font-size: 16px;
+      display: block;
+      width: 100%;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      background-color: #e7e7e7;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .timer, .total-time {
+      font-size: 16px;
+      color: #f00;
+      margin-left: 10px;
+    }
+    .stop-button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      background-color: #f44336;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+    .stop-button:hover {
+      background-color: #d32f2f;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Select a Parking Lot from Achuazat Hachof Parking</h1>
+    <h2>**Tel Aviv Residents Cars Registered with a Handicap Tag Park for Free**</h2>
+
+    <form id="parkingForm">
+      <label for="parking_spot">Choose a spot:</label>
+      <select name="parking_spot" id="parking_spot">
+        <% parkingSpots.forEach(spot => { %>
+          <option value="<%= spot.id %>"><%= spot.name %> - <%= spot.address %></option>
+        <% }) %>
+      </select>
+      <button type="submit">Save Lots</button>
+    </form>
+
+    <h2>Selected Parking Lots</h2>
+    <ul id="selected-spots"></ul>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let timers = {};
+
+      function formatTime(seconds) {
+        const days = Math.floor(seconds / (3600 * 24));
+        seconds %= (3600 * 24);
+        const hours = Math.floor(seconds / 3600);
+        seconds %= 3600;
+        const minutes = Math.floor(seconds / 60);
+        seconds %= 60;
+
+        return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }
+
+      function startTimer(spotId) {
+        let elapsedSeconds = 0;
+        const timerElement = document.createElement('span');
+        timerElement.className = 'timer';
+        timerElement.textContent = formatTime(elapsedSeconds);
+
+        // Clear any existing timer for this spot
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+        }
+
+        // Start the timer
+        timers[spotId] = {
+          elapsedSeconds: 0, // Initialize elapsed seconds
+          interval: setInterval(() => {
+            timers[spotId].elapsedSeconds++; // Increment the stored elapsed seconds
+            timerElement.textContent = formatTime(timers[spotId].elapsedSeconds);
+          }, 1000),
+          element: timerElement
+        };
+
+        return { timerElement };
+      }
+
+      function stopTimer(spotId) {
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+          const totalTime = timers[spotId].elapsedSeconds; // Get the total time
+          delete timers[spotId]; // Remove the timer entry
+          return totalTime; // Return the total time
+        }
+        return 0;
+      }
+
+      document.getElementById('parkingForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const selectedSpotId = document.getElementById('parking_spot').value;
+        const selectedSpotText = document.querySelector(`option[value='${selectedSpotId}']`).text;
+
+        // Create a new list item for the selected spot
+        const selectedList = document.getElementById('selected-spots');
+        const newListItem = document.createElement('li');
+        newListItem.innerHTML = `
+          <span>${selectedSpotText} - Selected at ${new Date().toLocaleString()}</span>
+        `;
+        
+        // Start the timer and append it to the list item
+        const { timerElement } = startTimer(selectedSpotId);
+        newListItem.appendChild(timerElement);
+
+        // Create a stop button and add functionality
+        const stopButton = document.createElement('button');
+        stopButton.className = 'stop-button';
+        stopButton.textContent = 'Stop Timer';
+        stopButton.onclick = function() {
+          const totalTime = stopTimer(selectedSpotId);
+          const totalTimeElement = document.createElement('span');
+          totalTimeElement.className = 'total-time';
+          totalTimeElement.textContent = `Total Time: ${formatTime(totalTime)}`;
+          newListItem.appendChild(totalTimeElement); // Append the total time to the list item
+          newListItem.removeChild(timerElement); // Remove the timer display
+          newListItem.removeChild(stopButton); // Remove the stop button
+        };
+        newListItem.appendChild(stopButton);
+
+        // Prepend the new list item to the top of the list
+        selectedList.prepend(newListItem);
+      });
+    });
+  </script>
+</body>
+</html>

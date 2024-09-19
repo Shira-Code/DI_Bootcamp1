@@ -4,14 +4,13 @@ const { registerUser, loginUser, getUsers, getUserById, updateUser } = require('
 const router = express.Router();
 
 // // Register route
-// router.post('/register', registerUser);
+router.post('/register', registerUser);
 
-router.post('/register', (req, res) => {
-    // Your registration logic here
-});
 
-// Login route
-router.post('/login', loginUser);
+// // Login route
+// router.post('/login', loginUser);
+
+router.post('/login', userController.loginUser);
 
 // Get all users
 router.get('/users', getUsers);

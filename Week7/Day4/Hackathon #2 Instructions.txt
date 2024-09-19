@@ -116,3 +116,9 @@ Remember!
 The competition is just a part of the hackathon. To make the most out of the event, try something new and teach other people!
 
 Happy Hacking from the DI team!
+
+https://www.ahuzot.co.il/Map/Parking/
+https://www.ahuzot.co.il/Parking/All/
+sample coord 28	17	חניון גולדה	ברקוביץ 7 תל-אביב יפו	32.076985	34.784670
+32.076985 longitude
+34.784670 latitude
