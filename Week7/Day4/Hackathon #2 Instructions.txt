@@ -119,6 +119,51 @@ Happy Hacking from the DI team!
 
 https://www.ahuzot.co.il/Map/Parking/
 https://www.ahuzot.co.il/Parking/All/
-sample coord 28	17	חניון גולדה	ברקוביץ 7 תל-אביב יפו	32.076985	34.784670
+https://www.ahuzot.co.il/Parking/All/ - copy page & generate updated json file
+** possibleilty that long and lat are swaped, need to verify.   sample coord 28	17	חניון גולדה	ברקוביץ 7 תל-אביב יפו	32.076985	34.784670
 32.076985 longitude
 34.784670 latitude
+
+sample 
+חניון חברה חדשה
+כתובת החניון : חברה חדשה 9 תל-אביב יפו
+שעות פעילות החניון : 24 שעות 7 ימים בשבוע
+מתחם, איזור אותו משמש החניון : כיכר המדינה
+תעריף החניון : 
+שעתי תקף בימים א` - ו` (ערבי חג)
+בין השעות 07:00 בבוקר עד 18:00 אחר הצהריים
+לשעה ראשונה או חלק ממנה 20 ₪
+כל ¼ שעה נוספת או חלק ממנה 5 ₪
+רכב הנכנס לפי תעריף שעתי החל מ-07:00 ישלם לפי תעריף שעתי ביציאה
+
+תעריף לכניסה חד פעמית 30 ₪
+תקף בימים א` - ו` (ערבי חג) בין השעות 18:00 עד 07:00 בבוקר שלמחרת
+ובימי שבת וחגים בין השעות 07:00 עד 07:00 בבוקר שלמחרת
+75% הנחה לתושבי תל-אביב יפו
+השהייה בחניון עד 15 דקות ללא תשלום
+
+בחניון זה התשלום הינו רק בכרטיס אשראי ו/או ישומון סלולארי.
+לא ניתן לשלם במזומן.
+
+מפעיל החניון : אחוזות החוף (הפעלה עצמית) 03-7610300
+
+89	41	חניון חברה חדשה	חברה חדשה 9 תל-אביב יפו	32.085064	34.790688	{"area": "כיכר המדינה", "name": "חניון חברה חדשה", "address": "חברה חדשה 9 תל-אביב יפו", "pricing": {"hourly": {"discount": "75% הנחה לתושבי תל-אביב יפו", "weekdays": {"end": "18:00", "start": "07:00", "first_hour": "20 ₪", "additional_quarter_hour": "5 ₪"}, "single_entry": "30 ₪", "free_duration": "15 דקות"}}, "operator": "אחוזות החוף (הפעלה עצמית) 03-7610300", "payment_method": "כרטיס אשראי ו/או ישומון סלולארי", "operating_hours": "24 שעות 7 ימים בשבוע"}	
+google earth link https://earth.app.goo.gl/?apn=com.google.earth&isi=293622097&ius=googleearth&link=https%3a%2f%2fearth.google.com%2fweb%2fsearch%2f32.085064,%250934.790688%2f%4032.0850035,34.79084916,27.10746765a,0d,60y,203.63297648h,71.7010753t,0r%2fdata%3dClwaLhIoGZEIjWDjCkBAIXmrrkM1ZUFAKhQzMi4wODUwNjQsCTM0Ljc5MDY4OBgBIAEiJgokCdg-i4V4qDZAEUh71UHXATjAGdUbFXRwFEtAIQAE352rTErAQgIIASIaChZuN1l3dHhvYVBEVlI3Vmw1eXdpUFVnEAI6AwoBMEoNCP___________wEQAA
+
+
+additional features and functionality
+1.  calculate practice
+2.  add images
+3.  upload to my domain
+4.  upload to aws 
+5.  add gps and / or map 
+6.  add search
+7.   save data to database
+8.  create user acct to store items per user
+9.  place to store parking spot photo or car location
+10.  clean up code to break down ejs into multiple appropriate files
+
+
+
+
+idea, turn app into billing app, time tracker on project / task. include start and stop button that continues to bill to spefific chart.

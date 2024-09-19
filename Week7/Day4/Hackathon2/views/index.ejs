@@ -712,7 +712,7 @@
   </script>
 </body>
 </html> -->
-
+<!-- 
 
 <!DOCTYPE html>
 <html lang="en">
@@ -898,6 +898,3888 @@
         // Prepend the new list item to the top of the list
         selectedList.prepend(newListItem);
       });
+    });
+  </script>
+</body>
+</html>
+
+
+ -->
+
+
+ <!-- <!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Select Parking Lot</title>
+   <style>
+     body {
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       height: 100vh;
+       margin: 0;
+       font-family: Arial, sans-serif;
+       background-color: #f4f4f4;
+     }
+     .container {
+       background-color: #fff;
+       padding: 20px;
+       border-radius: 10px;
+       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+       text-align: center;
+       max-width: 500px;
+       width: 100%;
+       overflow: auto;
+     }
+     h1, h2 {
+       color: #333;
+     }
+     form {
+       margin-bottom: 20px;
+     }
+     label, select, button {
+       margin: 10px 0;
+       font-size: 16px;
+       display: block;
+       width: 100%;
+     }
+     button {
+       padding: 10px 20px;
+       background-color: #4CAF50;
+       color: white;
+       border: none;
+       border-radius: 5px;
+       cursor: pointer;
+     }
+     button:hover {
+       background-color: #45a049;
+     }
+     ul {
+       list-style-type: none;
+       padding: 0;
+     }
+     li {
+       background-color: #e7e7e7;
+       padding: 10px;
+       margin: 5px 0;
+       border-radius: 5px;
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+     }
+     .timer, .total-time {
+       font-size: 16px;
+       color: #f00;
+       margin-left: 10px;
+     }
+     .stop-button {
+       margin-left: 10px;
+       padding: 5px 10px;
+       background-color: #f44336;
+       border: none;
+       border-radius: 5px;
+       color: white;
+       cursor: pointer;
+     }
+     .stop-button:hover {
+       background-color: #d32f2f;
+     }
+   </style>
+ </head>
+ <body>
+   <div class="container">
+     <h1>Select a Parking Lot from Achuazat Hachof Parking</h1>
+     <h2>**Tel Aviv Residents Cars Registered with a Handicap Tag Park for Free**</h2>
+ 
+     <form id="parkingForm">
+       <label for="parking_spot">Choose a spot:</label>
+       <select name="parking_spot" id="parking_spot">
+         <% parkingSpots.forEach(spot => { %>
+           <option value="<%= spot.id %>"><%= spot.name %> - <%= spot.address %></option>
+         <% }) %>
+       </select>
+       <button type="submit">Save Lots</button>
+     </form>
+ 
+     <h2>Selected Parking Lots</h2>
+     <ul id="selected-spots"></ul>
+   </div>
+ 
+   <script>
+     document.addEventListener('DOMContentLoaded', function() {
+       let timers = {};
+ 
+       // Format the time for display
+       function formatTime(seconds) {
+         const days = Math.floor(seconds / (3600 * 24));
+         seconds %= (3600 * 24);
+         const hours = Math.floor(seconds / 3600);
+         seconds %= 3600;
+         const minutes = Math.floor(seconds / 60);
+         seconds %= 60;
+ 
+         return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+       }
+ 
+       // Start a timer for a specific parking lot
+       function startTimer(spotId) {
+         const startTime = Date.now(); // Store the start time
+         const timerElement = document.createElement('span');
+         timerElement.className = 'timer';
+ 
+         // Clear any existing timer for this spot
+         if (timers[spotId]) {
+           clearInterval(timers[spotId].interval);
+         }
+ 
+         // Start the timer and use real time to calculate elapsed time
+         timers[spotId] = {
+           startTime: startTime,
+           interval: setInterval(() => {
+             const elapsedTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+             timerElement.textContent = formatTime(elapsedTime);
+           }, 1000),
+           element: timerElement
+         };
+ 
+         return { timerElement };
+       }
+ 
+       // Stop the timer for a specific parking lot
+       function stopTimer(spotId) {
+         if (timers[spotId]) {
+           clearInterval(timers[spotId].interval);
+           const totalTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000); // Calculate total time
+           delete timers[spotId];
+           return totalTime;
+         }
+         return 0;
+       }
+ 
+       // Handle form submission for parking lot selection
+       document.getElementById('parkingForm').addEventListener('submit', function(event) {
+         event.preventDefault(); // Prevent default form submission
+ 
+         const selectedSpotId = document.getElementById('parking_spot').value;
+         const selectedSpotText = document.querySelector(`option[value='${selectedSpotId}']`).text;
+ 
+         // Create a new list item for the selected spot
+         const selectedList = document.getElementById('selected-spots');
+         const newListItem = document.createElement('li');
+         newListItem.innerHTML = `
+           <span>${selectedSpotText} - Selected at ${new Date().toLocaleString()}</span>
+         `;
+ 
+         // Start the timer and append it to the list item
+         const { timerElement } = startTimer(selectedSpotId);
+         newListItem.appendChild(timerElement);
+ 
+         // Create a stop button and add functionality
+         const stopButton = document.createElement('button');
+         stopButton.className = 'stop-button';
+         stopButton.textContent = 'Stop Timer';
+         stopButton.onclick = function() {
+           const totalTime = stopTimer(selectedSpotId);
+           const totalTimeElement = document.createElement('span');
+           totalTimeElement.className = 'total-time';
+           totalTimeElement.textContent = `Total Time: ${formatTime(totalTime)}`;
+           newListItem.appendChild(totalTimeElement); // Append the total time to the list item
+           newListItem.removeChild(timerElement); // Remove the timer display
+           newListItem.removeChild(stopButton); // Remove the stop button
+         };
+         newListItem.appendChild(stopButton);
+ 
+         // Prepend the new list item to the top of the list
+         selectedList.prepend(newListItem);
+       });
+     });
+   </script>
+ </body>
+ </html> -->
+<!--  
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Parking Lot</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+      overflow: auto;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    form {
+      margin-bottom: 20px;
+    }
+    label, select, button {
+      margin: 10px 0;
+      font-size: 16px;
+      display: block;
+      width: 100%;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      background-color: #e7e7e7;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .timer, .total-time {
+      font-size: 16px;
+      color: #f00;
+      margin-left: 10px;
+    }
+    .stop-button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      background-color: #f44336;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+    .stop-button:hover {
+      background-color: #d32f2f;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Select a Parking Lot from Achuazat Hachof Parking</h1>
+    <h2>**Tel Aviv Residents Cars Registered with a Handicap Tag Park for Free**</h2>
+
+    <form id="parkingForm">
+      <label for="parking_spot">Choose a spot:</label>
+      <select name="parking_spot" id="parking_spot">
+        <% parkingSpots.forEach(spot => { %>
+          <option value="<%= spot.id %>"><%= spot.name %> - <%= spot.address %></option>
+        <% }) %>
+      </select>
+      <button type="submit">Save Lots</button>
+    </form>
+
+    <h2>Selected Parking Lots</h2>
+    <ul id="selected-spots"></ul>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let timers = {};
+
+      function formatTime(seconds) {
+        const days = Math.floor(seconds / (3600 * 24));
+        seconds %= (3600 * 24);
+        const hours = Math.floor(seconds / 3600);
+        seconds %= 3600;
+        const minutes = Math.floor(seconds / 60);
+        seconds %= 60;
+
+        return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }
+
+      function startTimer(spotId) {
+        const startTime = new Date(); // Store the start time
+        const timerElement = document.createElement('span');
+        timerElement.className = 'timer';
+
+        // Clear any existing timer for this spot
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+        }
+
+        timers[spotId] = {
+          startTime,
+          interval: setInterval(() => {
+            const elapsedTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+            timerElement.textContent = formatTime(elapsedTime);
+          }, 1000),
+          element: timerElement
+        };
+
+        return { timerElement, startTime };
+      }
+
+      function stopTimer(spotId) {
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+          const totalTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000); // Calculate total time
+          const stopTime = new Date(); // Store stop time
+          delete timers[spotId];
+          return { totalTime, stopTime };
+        }
+        return { totalTime: 0, stopTime: new Date() };
+      }
+
+      document.getElementById('parkingForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const selectedSpotId = document.getElementById('parking_spot').value;
+        const selectedSpotText = document.querySelector(`option[value='${selectedSpotId}']`).text;
+
+        const selectedList = document.getElementById('selected-spots');
+        const newListItem = document.createElement('li');
+        const { timerElement, startTime } = startTimer(selectedSpotId);
+
+        newListItem.innerHTML = `
+          <span>${selectedSpotText} - Start time: ${startTime.toLocaleString()}</span>
+        `;
+        newListItem.appendChild(timerElement);
+
+        const stopButton = document.createElement('button');
+        stopButton.className = 'stop-button';
+        stopButton.textContent = 'Stop Timer';
+        stopButton.onclick = function() {
+          const { totalTime, stopTime } = stopTimer(selectedSpotId);
+          const totalTimeElement = document.createElement('span');
+          totalTimeElement.className = 'total-time';
+          totalTimeElement.textContent = ` | Stop time: ${stopTime.toLocaleString()} | Total Time: ${formatTime(totalTime)}`;
+          newListItem.appendChild(totalTimeElement);
+          newListItem.removeChild(timerElement);
+          newListItem.removeChild(stopButton);
+        };
+        newListItem.appendChild(stopButton);
+
+        selectedList.prepend(newListItem);
+      });
+    });
+  </script>
+</body>
+</html> -->
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Parking Lot</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+      overflow: auto;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    form {
+      margin-bottom: 20px;
+    }
+    label, select, button {
+      margin: 10px 0;
+      font-size: 16px;
+      display: block;
+      width: 100%;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      background-color: #e7e7e7;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .timer, .total-time {
+      font-size: 16px;
+      color: #f00;
+      margin-left: 10px;
+    }
+    .stop-button, .remove-button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      background-color: #f44336;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+    .stop-button:hover, .remove-button:hover {
+      background-color: #d32f2f;
+    }
+    .remove-button {
+      background-color: #555;
+    }
+    .remove-button:hover {
+      background-color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Select a Parking Lot from Achuazat Hachof Parking</h1>
+    <h2>**Tel Aviv Residents Cars Registered with a Handicap Tag Park for Free**</h2>
+
+    <form id="parkingForm">
+      <label for="parking_spot">Choose a spot:</label>
+      <select name="parking_spot" id="parking_spot">
+        <% parkingSpots.forEach(spot => { %>
+          <option value="<%= spot.id %>"><%= spot.name %> - <%= spot.address %></option>
+        <% }) %>
+      </select>
+      <button type="submit">Save Lots</button>
+    </form>
+
+    <h2>Selected Parking Lots</h2>
+    <ul id="selected-spots"></ul>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let timers = {};
+
+      function formatTime(seconds) {
+        const days = Math.floor(seconds / (3600 * 24));
+        seconds %= (3600 * 24);
+        const hours = Math.floor(seconds / 3600);
+        seconds %= 3600;
+        const minutes = Math.floor(seconds / 60);
+        seconds %= 60;
+
+        return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }
+
+      function startTimer(spotId) {
+        const startTime = new Date(); // Store the start time
+        const timerElement = document.createElement('span');
+        timerElement.className = 'timer';
+
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+        }
+
+        timers[spotId] = {
+          startTime,
+          interval: setInterval(() => {
+            const elapsedTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+            timerElement.textContent = formatTime(elapsedTime);
+          }, 1000),
+          element: timerElement
+        };
+
+        return { timerElement, startTime };
+      }
+
+      function stopTimer(spotId) {
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+          const totalTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+          const stopTime = new Date();
+          delete timers[spotId];
+          return { totalTime, stopTime };
+        }
+        return { totalTime: 0, stopTime: new Date() };
+      }
+
+      document.getElementById('parkingForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const selectedSpotId = document.getElementById('parking_spot').value;
+        const selectedSpotText = document.querySelector(`option[value='${selectedSpotId}']`).text;
+
+        const selectedList = document.getElementById('selected-spots');
+        const newListItem = document.createElement('li');
+        const { timerElement, startTime } = startTimer(selectedSpotId);
+
+        newListItem.innerHTML = `
+          <span>${selectedSpotText} - Start time: ${startTime.toLocaleString()}</span>
+        `;
+        newListItem.appendChild(timerElement);
+
+        const stopButton = document.createElement('button');
+        stopButton.className = 'stop-button';
+        stopButton.textContent = 'Stop Timer';
+        stopButton.onclick = function() {
+          const { totalTime, stopTime } = stopTimer(selectedSpotId);
+          const totalTimeElement = document.createElement('span');
+          totalTimeElement.className = 'total-time';
+          totalTimeElement.textContent = ` | Stop time: ${stopTime.toLocaleString()} | Total Time: ${formatTime(totalTime)}`;
+          newListItem.appendChild(totalTimeElement);
+          newListItem.removeChild(timerElement);
+          newListItem.removeChild(stopButton);
+        };
+        newListItem.appendChild(stopButton);
+
+        // Add the remove button
+        const removeButton = document.createElement('button');
+        removeButton.className = 'remove-button';
+        removeButton.textContent = 'Remove';
+        removeButton.onclick = function() {
+          selectedList.removeChild(newListItem); // Remove the list item from the DOM
+        };
+        newListItem.appendChild(removeButton);
+
+        selectedList.prepend(newListItem);
+      });
+    });
+  </script>
+</body>
+</html> -->
+
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Parking Lot</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+      overflow: auto;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    form {
+      margin-bottom: 20px;
+    }
+    label, select, button {
+      margin: 10px 0;
+      font-size: 16px;
+      display: block;
+      width: 100%;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      background-color: #e7e7e7;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .timer, .total-time {
+      font-size: 16px;
+      color: #f00;
+      margin-left: 10px;
+    }
+    .stop-button, .remove-button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      background-color: #f44336;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+    .stop-button:hover, .remove-button:hover {
+      background-color: #d32f2f;
+    }
+    .remove-button {
+      background-color: #555;
+    }
+    .remove-button:hover {
+      background-color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Select a Parking Lot from Achuazat Hachof Parking</h1>
+    <h2>**Tel Aviv Residents Cars Registered with a Handicap Tag Park for Free**</h2>
+
+    <form id="parkingForm">
+      <label for="parking_spot">Choose a spot:</label>
+      <select name="parking_spot" id="parking_spot">
+        <% parkingSpots.forEach(spot => { %>
+          <option value="<%= spot.id %>"><%= spot.name %> - <%= spot.address %></option>
+        <% }) %>
+      </select>
+      <button type="submit">Select Lots</button>
+    </form>
+
+    <h2>Selected Parking Lots</h2>
+    <ul id="selected-spots"></ul>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let timers = {};
+
+      function formatTime(seconds) {
+        const days = Math.floor(seconds / (3600 * 24));
+        seconds %= (3600 * 24);
+        const hours = Math.floor(seconds / 3600);
+        seconds %= 3600;
+        const minutes = Math.floor(seconds / 60);
+        seconds %= 60;
+
+        return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }
+
+      function startTimer(spotId) {
+        const startTime = new Date(); // Store the start time
+        const timerElement = document.createElement('span');
+        timerElement.className = 'timer';
+
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+        }
+
+        timers[spotId] = {
+          startTime,
+          interval: setInterval(() => {
+            const elapsedTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+            timerElement.textContent = formatTime(elapsedTime);
+          }, 1000),
+          element: timerElement
+        };
+
+        return { timerElement, startTime };
+      }
+
+      function stopTimer(spotId) {
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+          const totalTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+          const stopTime = new Date();
+          delete timers[spotId];
+          return { totalTime, stopTime };
+        }
+        return { totalTime: 0, stopTime: new Date() };
+      }
+
+      document.getElementById('parkingForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const selectedSpotId = document.getElementById('parking_spot').value;
+        const selectedSpotText = document.querySelector(`option[value='${selectedSpotId}']`).text;
+
+        const selectedList = document.getElementById('selected-spots');
+        const newListItem = document.createElement('li');
+        const { timerElement, startTime } = startTimer(selectedSpotId);
+
+        newListItem.innerHTML = `
+          <span>${selectedSpotText} - Start time: ${startTime.toLocaleString()}</span>
+        `;
+        newListItem.appendChild(timerElement);
+
+        const stopButton = document.createElement('button');
+        stopButton.className = 'stop-button';
+        stopButton.textContent = 'Stop Timer';
+        stopButton.onclick = function() {
+          const { totalTime, stopTime } = stopTimer(selectedSpotId);
+          const totalTimeElement = document.createElement('span');
+          totalTimeElement.className = 'total-time';
+          totalTimeElement.textContent = ` | Stop time: ${stopTime.toLocaleString()} | Total Time: ${formatTime(totalTime)}`;
+          newListItem.appendChild(totalTimeElement);
+          newListItem.removeChild(timerElement);
+          newListItem.removeChild(stopButton);
+        };
+        newListItem.appendChild(stopButton);
+
+        // Add the remove button with confirmation
+        const removeButton = document.createElement('button');
+        removeButton.className = 'remove-button';
+        removeButton.textContent = 'Remove';
+        removeButton.onclick = function() {
+          const confirmRemove = confirm("Are you sure you want to remove this parking lot?");
+          if (confirmRemove) {
+            selectedList.removeChild(newListItem); // Remove the list item from the DOM
+          }
+        };
+        newListItem.appendChild(removeButton);
+
+        selectedList.prepend(newListItem);
+      });
+    });
+  </script>
+</body>
+</html> -->
+
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Parking Lot</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+      overflow: auto;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    form {
+      margin-bottom: 20px;
+    }
+    label, select, button {
+      margin: 10px 0;
+      font-size: 16px;
+      display: block;
+      width: 100%;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      background-color: #e7e7e7;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .timer, .total-time, .price {
+      font-size: 16px;
+      color: #f00;
+      margin-left: 10px;
+    }
+    .stop-button, .remove-button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      background-color: #f44336;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+    .stop-button:hover, .remove-button:hover {
+      background-color: #d32f2f;
+    }
+    .remove-button {
+      background-color: #555;
+    }
+    .remove-button:hover {
+      background-color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Select a Parking Lot from Achuazat Hachof Parking</h1>
+    <h2>**Tel Aviv Residents Cars Registered with a Handicap Wheelchair Tag Park for Free**<br>
+    Tel Aviv Residents Cars 75% Discount</h2>
+
+    <form id="parkingForm">
+      <label for="parking_spot">Choose a spot:</label>
+      <select name="parking_spot" id="parking_spot">
+        <% parkingSpots.forEach(spot => { %>
+          <option value="<%= spot.id %>"><%= spot.name %> - <%= spot.address %></option>
+        <% }) %>
+      </select>
+      <button type="submit">Select Lots</button>
+    </form>
+
+    <h2>Selected Parking Lots</h2>
+    <ul id="selected-spots"></ul>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let timers = {};
+
+      function formatTime(seconds) {
+        const days = Math.floor(seconds / (3600 * 24));
+        seconds %= (3600 * 24);
+        const hours = Math.floor(seconds / 3600);
+        seconds %= 3600;
+        const minutes = Math.floor(seconds / 60);
+        seconds %= 60;
+
+        return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }
+
+      function calculatePrice(minutes) {
+        const pricePerMinute = 5; // 5 shekels per minute
+        return (minutes * pricePerMinute).toFixed(2);
+      }
+
+      function startTimer(spotId) {
+        const startTime = new Date(); // Store the start time
+        const timerElement = document.createElement('span');
+        timerElement.className = 'timer';
+
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+        }
+
+        timers[spotId] = {
+          startTime,
+          interval: setInterval(() => {
+            const elapsedTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+            timerElement.textContent = formatTime(elapsedTime);
+          }, 1000),
+          element: timerElement
+        };
+
+        return { timerElement, startTime };
+      }
+
+      function stopTimer(spotId) {
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+          const totalTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+          const stopTime = new Date();
+          const totalMinutes = Math.floor(totalTime / 60);
+          const price = calculatePrice(totalMinutes);
+          delete timers[spotId];
+          return { totalTime, stopTime, price };
+        }
+        return { totalTime: 0, stopTime: new Date(), price: 0 };
+      }
+
+      document.getElementById('parkingForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const selectedSpotId = document.getElementById('parking_spot').value;
+        const selectedSpotText = document.querySelector(`option[value='${selectedSpotId}']`).text;
+
+        const selectedList = document.getElementById('selected-spots');
+        const newListItem = document.createElement('li');
+        const { timerElement, startTime } = startTimer(selectedSpotId);
+
+        newListItem.innerHTML = `
+          <span>${selectedSpotText} - Start time: ${startTime.toLocaleString()}</span>
+        `;
+        newListItem.appendChild(timerElement);
+
+        const stopButton = document.createElement('button');
+        stopButton.className = 'stop-button';
+        stopButton.textContent = 'Stop Timer';
+        stopButton.onclick = function() {
+          const { totalTime, stopTime, price } = stopTimer(selectedSpotId);
+          const totalTimeElement = document.createElement('span');
+          totalTimeElement.className = 'total-time';
+          totalTimeElement.textContent = ` | Stop time: ${stopTime.toLocaleString()} | Total Time: ${formatTime(totalTime)}`;
+          newListItem.appendChild(totalTimeElement);
+          const priceElement = document.createElement('span');
+          priceElement.className = 'price';
+          priceElement.textContent = ` | Estimated Price: ₪${price}`;
+          newListItem.appendChild(priceElement);
+          newListItem.removeChild(timerElement);
+          newListItem.removeChild(stopButton);
+        };
+        newListItem.appendChild(stopButton);
+
+        const removeButton = document.createElement('button');
+        removeButton.className = 'remove-button';
+        removeButton.textContent = 'Remove';
+        removeButton.onclick = function() {
+          const confirmRemove = confirm("Are you sure you want to remove this parking lot?");
+          if (confirmRemove) {
+            selectedList.removeChild(newListItem);
+          }
+        };
+        newListItem.appendChild(removeButton);
+
+        selectedList.prepend(newListItem);
+      });
+    });
+  </script>
+</body>
+</html> -->
+
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Parking Lot</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    .container {
+      background-color: #fff;
+      padding: 40px 20px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+      overflow: auto;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    form {
+      margin-bottom: 20px;
+    }
+    label, select, button {
+      margin: 10px 0;
+      font-size: 16px;
+      display: block;
+      width: 100%;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      background-color: #e7e7e7;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .timer, .total-time, .price {
+      font-size: 16px;
+      color: #f00;
+      margin-left: 10px;
+    }
+    .stop-button, .remove-button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      background-color: #f44336;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+    .stop-button:hover, .remove-button:hover {
+      background-color: #d32f2f;
+    }
+    .remove-button {
+      background-color: #555;
+    }
+    .remove-button:hover {
+      background-color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Select a Parking Lot from Achuazat Hachof Parking</h1>
+    <h2>**Tel Aviv Residents Cars Registered with a Handicap Tag Park for Free**</h2>
+
+    <form id="parkingForm">
+      <label for="parking_spot">Choose a spot:</label>
+      <select name="parking_spot" id="parking_spot">
+        <% parkingSpots.forEach(spot => { %>
+          <option value="<%= spot.id %>"><%= spot.name %> - <%= spot.address %></option>
+        <% }) %>
+      </select>
+      <button type="submit">Save Lots</button>
+    </form>
+
+    <h2>Selected Parking Lots</h2>
+    <ul id="selected-spots"></ul>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let timers = {};
+
+      function formatTime(seconds) {
+        const days = Math.floor(seconds / (3600 * 24));
+        seconds %= (3600 * 24);
+        const hours = Math.floor(seconds / 3600);
+        seconds %= 3600;
+        const minutes = Math.floor(seconds / 60);
+        seconds %= 60;
+
+        return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }
+
+      function calculatePrice(minutes) {
+        const pricePerMinute = 5; // 5 shekels per minute
+        return (minutes * pricePerMinute).toFixed(2);
+      }
+
+      function startTimer(spotId) {
+        const startTime = Date.now(); // Store the start time
+        const timerElement = document.createElement('span');
+        const priceElement = document.createElement('span');
+        timerElement.className = 'timer';
+        priceElement.className = 'price';
+
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+        }
+
+        timers[spotId] = {
+          startTime,
+          interval: setInterval(() => {
+            const elapsedTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+            const elapsedMinutes = Math.floor(elapsedTime / 60);
+            timerElement.textContent = formatTime(elapsedTime);
+            priceElement.textContent = `Estimated Price: ₪${calculatePrice(elapsedMinutes)}`;
+          }, 1000),
+          element: timerElement,
+          priceElement: priceElement
+        };
+
+        return { timerElement, priceElement };
+      }
+
+      function stopTimer(spotId) {
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+          const totalTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+          const stopTime = new Date();
+          const totalMinutes = Math.floor(totalTime / 60);
+          const price = calculatePrice(totalMinutes);
+          delete timers[spotId];
+          return { totalTime, stopTime, price };
+        }
+        return { totalTime: 0, stopTime: new Date(), price: 0 };
+      }
+
+      document.getElementById('parkingForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const selectedSpotId = document.getElementById('parking_spot').value;
+        const selectedSpotText = document.querySelector(`option[value='${selectedSpotId}']`).text;
+
+        const selectedList = document.getElementById('selected-spots');
+        const newListItem = document.createElement('li');
+        const { timerElement, priceElement } = startTimer(selectedSpotId);
+
+        newListItem.innerHTML = `
+          <span>${selectedSpotText} - Start time: ${new Date().toLocaleString()}</span>
+        `;
+        newListItem.appendChild(timerElement);
+        newListItem.appendChild(priceElement);
+
+        const stopButton = document.createElement('button');
+        stopButton.className = 'stop-button';
+        stopButton.textContent = 'Stop Timer';
+        stopButton.onclick = function() {
+          const { totalTime, stopTime, price } = stopTimer(selectedSpotId);
+          const totalTimeElement = document.createElement('span');
+          totalTimeElement.className = 'total-time';
+          totalTimeElement.textContent = ` | Stop time: ${stopTime.toLocaleString()} | Total Time: ${formatTime(totalTime)}`;
+          newListItem.appendChild(totalTimeElement);
+          const priceElement = document.createElement('span');
+          priceElement.className = 'price';
+          priceElement.textContent = ` | Estimated Price: ₪${price}`;
+          newListItem.appendChild(priceElement);
+          newListItem.removeChild(timerElement);
+          newListItem.removeChild(priceElement);
+          newListItem.removeChild(stopButton);
+        };
+        newListItem.appendChild(stopButton);
+
+        const removeButton = document.createElement('button');
+        removeButton.className = 'remove-button';
+        removeButton.textContent = 'Remove';
+        removeButton.onclick = function() {
+          const confirmRemove = confirm("Are you sure you want to remove this parking lot?");
+          if (confirmRemove) {
+            selectedList.removeChild(newListItem);
+          }
+        };
+        newListItem.appendChild(removeButton);
+
+        selectedList.prepend(newListItem);
+      });
+    });
+  </script>
+</body>
+</html> -->
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Parking Lot</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    .container {
+      background-color: #fff;
+      padding: 40px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+      max-height: 80vh; /* Limit the height of the container */
+      overflow: auto;  /* Add scrollbar if needed */
+    }
+    h1, h2 {
+      color: #333;
+    }
+    form {
+      margin-bottom: 20px;
+    }
+    label, select, button {
+      margin: 10px 0;
+      font-size: 16px;
+      display: block;
+      width: 100%;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    li {
+      background-color: #e7e7e7;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .timer, .total-time, .price {
+      font-size: 16px;
+      color: #f00;
+      margin-left: 10px;
+    }
+    .stop-button, .remove-button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      background-color: #f44336;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+    .stop-button:hover {
+      background-color: #d32f2f;
+    }
+    .remove-button {
+      background-color: #555;
+    }
+    .remove-button:hover {
+      background-color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Select a Parking Lot from Achuazat Hachof Parking</h1>
+    <h2>**Tel Aviv Residents Cars Registered with a Handicap Tag Park for Free**</h2>
+
+    <form id="parkingForm">
+      <label for="parking_spot">Choose a spot:</label>
+      <select name="parking_spot" id="parking_spot">
+        <% parkingSpots.forEach(spot => { %>
+          <option value="<%= spot.id %>"><%= spot.name %> - <%= spot.address %></option>
+        <% }) %>
+      </select>
+      <button type="submit">Select Lots</button>
+    </form>
+
+    <h2>Selected Parking Lots</h2>
+    <ul id="selected-spots"></ul>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let timers = {};
+
+      function formatTime(seconds) {
+        const days = Math.floor(seconds / (3600 * 24));
+        seconds %= (3600 * 24);
+        const hours = Math.floor(seconds / 3600);
+        seconds %= 3600;
+        const minutes = Math.floor(seconds / 60);
+        seconds %= 60;
+
+        return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }
+
+      function calculatePrice(minutes) {
+        const pricePerMinute = 5; // 5 shekels per minute
+        return (minutes * pricePerMinute).toFixed(2);
+      }
+
+      function startTimer(spotId) {
+        const startTime = Date.now(); // Store the start time
+        const timerElement = document.createElement('span');
+        const priceElement = document.createElement('span');
+        timerElement.className = 'timer';
+        priceElement.className = 'price';
+
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+        }
+
+        timers[spotId] = {
+          startTime,
+          interval: setInterval(() => {
+            const elapsedTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+            const elapsedMinutes = Math.floor(elapsedTime / 60);
+            timerElement.textContent = formatTime(elapsedTime);
+            priceElement.textContent = `Estimated Price: ₪${calculatePrice(elapsedMinutes)}`;
+          }, 1000),
+          element: timerElement,
+          priceElement: priceElement
+        };
+
+        return { timerElement, priceElement };
+      }
+
+      function stopTimer(spotId) {
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+          const totalTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+          const stopTime = new Date();
+          const totalMinutes = Math.floor(totalTime / 60);
+          const price = calculatePrice(totalMinutes);
+          delete timers[spotId];
+          return { totalTime, stopTime, price };
+        }
+        return { totalTime: 0, stopTime: new Date(), price: 0 };
+      }
+
+      document.getElementById('parkingForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const selectedSpotId = document.getElementById('parking_spot').value;
+        const selectedSpotText = document.querySelector(`option[value='${selectedSpotId}']`).text;
+
+        const selectedList = document.getElementById('selected-spots');
+        const newListItem = document.createElement('li');
+        const { timerElement, priceElement } = startTimer(selectedSpotId);
+
+        newListItem.innerHTML = `
+          <span>${selectedSpotText} - Start time: ${new Date().toLocaleString()}</span>
+        `;
+        newListItem.appendChild(timerElement);
+        newListItem.appendChild(priceElement);
+
+        const stopButton = document.createElement('button');
+        stopButton.className = 'stop-button';
+        stopButton.textContent = 'Stop Timer';
+        stopButton.onclick = function() {
+          const { totalTime, stopTime, price } = stopTimer(selectedSpotId);
+          const totalTimeElement = document.createElement('span');
+          totalTimeElement.className = 'total-time';
+          totalTimeElement.textContent = ` | Stop time: ${stopTime.toLocaleString()} | Total Time: ${formatTime(totalTime)}`;
+          newListItem.appendChild(totalTimeElement);
+          const priceElement = document.createElement('span');
+          priceElement.className = 'price';
+          priceElement.textContent = ` | Estimated Price: ₪${price}`;
+          newListItem.appendChild(priceElement);
+          newListItem.removeChild(timerElement);
+          newListItem.removeChild(priceElement);
+          newListItem.removeChild(stopButton);
+        };
+        newListItem.appendChild(stopButton);
+
+        const removeButton = document.createElement('button');
+        removeButton.className = 'remove-button';
+        removeButton.textContent = 'Remove';
+        removeButton.onclick = function() {
+          const confirmRemove = confirm("Are you sure you want to remove this parking lot?");
+          if (confirmRemove) {
+            selectedList.removeChild(newListItem);
+          }
+        };
+        newListItem.appendChild(removeButton);
+
+        selectedList.prepend(newListItem);
+      });
+    });
+  </script>
+</body>
+</html> -->
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Parking Lot</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    .container {
+      background-color: #fff;
+      padding: 40px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+      max-height: 80vh; /* Limit the height of the container */
+      overflow: auto;  /* Add scrollbar if needed */
+    }
+    h1, h2 {
+      color: #333;
+    }
+    form {
+      margin-bottom: 20px;
+    }
+    label, select, button {
+      margin: 10px 0;
+      font-size: 16px;
+      display: block;
+      width: 100%;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      background-color: #e7e7e7;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .timer, .total-time, .price {
+      font-size: 16px;
+      color: #f00;
+      margin-left: 10px;
+    }
+    .stop-button, .remove-button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      background-color: #f44336;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+    .stop-button:hover, .remove-button:hover {
+      background-color: #d32f2f;
+    }
+    .remove-button {
+      background-color: #555;
+    }
+    .remove-button:hover {
+      background-color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Select a Parking Lot from Achuazat Hachof Parking</h1>
+    <h2>**Tel Aviv Residents Cars Registered with a Handicap Tag Park for Free**</h2>
+
+    <form id="parkingForm">
+      <label for="parking_spot">Choose a spot:</label>
+      <select name="parking_spot" id="parking_spot">
+        <% parkingSpots.forEach(spot => { %>
+          <option value="<%= spot.id %>"><%= spot.name %> - <%= spot.address %></option>
+        <% }) %>
+      </select>
+      <button type="submit">Select Lots</button>
+    </form>
+
+    <h2>Selected Parking Lots</h2>
+    <ul id="selected-spots"></ul>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let timers = {};
+
+      function formatTime(seconds) {
+        const days = Math.floor(seconds / (3600 * 24));
+        seconds %= (3600 * 24);
+        const hours = Math.floor(seconds / 3600);
+        seconds %= 3600;
+        const minutes = Math.floor(seconds / 60);
+        seconds %= 60;
+
+        return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }
+
+      function calculatePrice(seconds) {
+        const freeSeconds = 15; // Free for the first 15 seconds
+        const pricePer15Seconds = 20; // 20 shekels per 15 seconds
+
+        if (seconds <= freeSeconds) {
+          return '₪0.00';
+        } else {
+          const payableSeconds = seconds - freeSeconds;
+          const price = Math.ceil(payableSeconds / 15) * pricePer15Seconds;
+          return `₪${price.toFixed(2)}`;
+        }
+      }
+
+      function startTimer(spotId) {
+        const startTime = Date.now(); // Store the start time
+        const timerElement = document.createElement('span');
+        const priceElement = document.createElement('span');
+        timerElement.className = 'timer';
+        priceElement.className = 'price';
+
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+        }
+
+        timers[spotId] = {
+          startTime,
+          interval: setInterval(() => {
+            const elapsedTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+            timerElement.textContent = formatTime(elapsedTime);
+            priceElement.textContent = `Estimated Price: ${calculatePrice(elapsedTime)}`;
+          }, 1000),
+          element: timerElement,
+          priceElement: priceElement
+        };
+
+        return { timerElement, priceElement };
+      }
+
+      function stopTimer(spotId) {
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+          const totalTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+          const stopTime = new Date();
+          const price = calculatePrice(totalTime);
+          delete timers[spotId];
+          return { totalTime, stopTime, price };
+        }
+        return { totalTime: 0, stopTime: new Date(), price: 0 };
+      }
+
+      document.getElementById('parkingForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const selectedSpotId = document.getElementById('parking_spot').value;
+        const selectedSpotText = document.querySelector(`option[value='${selectedSpotId}']`).text;
+
+        const selectedList = document.getElementById('selected-spots');
+        const newListItem = document.createElement('li');
+        const { timerElement, priceElement } = startTimer(selectedSpotId);
+
+        newListItem.innerHTML = `
+          <span>${selectedSpotText} - Start time: ${new Date().toLocaleString()}</span>
+        `;
+        newListItem.appendChild(timerElement);
+        newListItem.appendChild(priceElement);
+
+        const stopButton = document.createElement('button');
+        stopButton.className = 'stop-button';
+        stopButton.textContent = 'Stop Timer';
+        stopButton.onclick = function() {
+          const { totalTime, stopTime, price } = stopTimer(selectedSpotId);
+          const totalTimeElement = document.createElement('span');
+          totalTimeElement.className = 'total-time';
+          totalTimeElement.textContent = ` | Stop time: ${stopTime.toLocaleString()} | Total Time: ${formatTime(totalTime)}`;
+          newListItem.appendChild(totalTimeElement);
+          const priceElement = document.createElement('span');
+          priceElement.className = 'price';
+          priceElement.textContent = ` | Estimated Price: ${price}`;
+          newListItem.appendChild(priceElement);
+          newListItem.removeChild(timerElement);
+          newListItem.removeChild(priceElement);
+          newListItem.removeChild(stopButton);
+        };
+        newListItem.appendChild(stopButton);
+
+        const removeButton = document.createElement('button');
+        removeButton.className = 'remove-button';
+        removeButton.textContent = 'Remove';
+        removeButton.onclick = function() {
+          const confirmRemove = confirm("Are you sure you want to remove this parking lot?");
+          if (confirmRemove) {
+            selectedList.removeChild(newListItem);
+          }
+        };
+        newListItem.appendChild(removeButton);
+
+        selectedList.prepend(newListItem);
+      });
+    });
+  </script>
+</body>
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Parking Lot</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    .container {
+      background-color: #fff;
+      padding: 40px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+      max-height: 80vh; /* Limit the height of the container */
+      overflow: auto;  /* Add scrollbar if needed */
+    }
+    h1, h2 {
+      color: #333;
+    }
+    form {
+      margin-bottom: 20px;
+    }
+    label, select, button {
+      margin: 10px 0;
+      font-size: 16px;
+      display: block;
+      width: 100%;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      background-color: #e7e7e7;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .timer, .total-time, .price {
+      font-size: 16px;
+      color: #f00;
+      margin-left: 10px;
+    }
+    .stop-button, .remove-button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      background-color: #f44336;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+    .stop-button:hover, .remove-button:hover {
+      background-color: #d32f2f;
+    }
+    .remove-button {
+      background-color: #555;
+    }
+    .remove-button:hover {
+      background-color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Select a Parking Lot from Achuazat Hachof Parking</h1>
+    <h2>**Tel Aviv Residents Cars Registered with a Handicap Tag Park for Free**</h2>
+
+    <form id="parkingForm">
+      <label for="parking_spot">Choose a spot:</label>
+      <select name="parking_spot" id="parking_spot">
+        <% parkingSpots.forEach(spot => { %>
+          <option value="<%= spot.id %>"><%= spot.name %> - <%= spot.address %></option>
+        <% }) %>
+      </select>
+      <button type="submit">Select Lot</button>
+    </form>
+
+    <h2>Selected Parking Lots</h2>
+    <ul id="selected-spots"></ul>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let timers = {};
+
+      function formatTime(seconds) {
+        const days = Math.floor(seconds / (3600 * 24));
+        seconds %= (3600 * 24);
+        const hours = Math.floor(seconds / 3600);
+        seconds %= 3600;
+        const minutes = Math.floor(seconds / 60);
+        seconds %= 60;
+
+        return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }
+
+      function calculatePrice(seconds) {
+        const freeSeconds = 15; // Free for the first 15 seconds
+        const pricePer15Seconds = 20; // 20 shekels per 15 seconds
+
+        if (seconds <= freeSeconds) {
+          return '₪0.00';
+        } else {
+          const payableSeconds = seconds - freeSeconds;
+          const price = Math.ceil(payableSeconds / 15) * pricePer15Seconds;
+          return `₪${price.toFixed(2)}`;
+        }
+      }
+
+      function startTimer(spotId) {
+        const startTime = Date.now(); // Store the start time
+        const timerElement = document.createElement('span');
+        const priceElement = document.createElement('span');
+        timerElement.className = 'timer';
+        priceElement.className = 'price';
+
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+        }
+
+        timers[spotId] = {
+          startTime,
+          interval: setInterval(() => {
+            const elapsedTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+            timerElement.textContent = formatTime(elapsedTime);
+            priceElement.textContent = `Estimated Price: ${calculatePrice(elapsedTime)}`;
+          }, 1000),
+          element: timerElement,
+          priceElement: priceElement
+        };
+
+        return { timerElement, priceElement };
+      }
+
+      function stopTimer(spotId) {
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+          const totalTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+          const stopTime = new Date();
+          const price = calculatePrice(totalTime);
+          delete timers[spotId];
+          return { totalTime, stopTime, price };
+        }
+        return { totalTime: 0, stopTime: new Date(), price: '₪0.00' };
+      }
+
+      document.getElementById('parkingForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const selectedSpotId = document.getElementById('parking_spot').value;
+        const selectedSpotText = document.querySelector(`option[value='${selectedSpotId}']`).text;
+
+        const selectedList = document.getElementById('selected-spots');
+        const newListItem = document.createElement('li');
+        const { timerElement, priceElement } = startTimer(selectedSpotId);
+
+        newListItem.innerHTML = `
+          <span>${selectedSpotText} - Start time: ${new Date().toLocaleString()}</span>
+        `;
+        newListItem.appendChild(timerElement);
+        newListItem.appendChild(priceElement);
+
+        const stopButton = document.createElement('button');
+        stopButton.className = 'stop-button';
+        stopButton.textContent = 'Stop Timer';
+        stopButton.onclick = function() {
+          const { totalTime, stopTime, price } = stopTimer(selectedSpotId);
+          const totalTimeElement = document.createElement('span');
+          totalTimeElement.className = 'total-time';
+          totalTimeElement.textContent = ` | Stop time: ${stopTime.toLocaleString()} | Total Time: ${formatTime(totalTime)}`;
+          newListItem.appendChild(totalTimeElement);
+          const priceElement = document.createElement('span');
+          priceElement.className = 'price';
+          priceElement.textContent = ` | Estimated Price: ${price}`;
+          newListItem.appendChild(priceElement);
+          newListItem.removeChild(timerElement);
+          newListItem.removeChild(priceElement);
+          newListItem.removeChild(stopButton);
+        };
+        newListItem.appendChild(stopButton);
+
+        const removeButton = document.createElement('button');
+        removeButton.className = 'remove-button';
+        removeButton.textContent = 'Remove';
+        removeButton.onclick = function() {
+          const confirmRemove = confirm("Are you sure you want to remove this parking lot?");
+          if (confirmRemove) {
+            selectedList.removeChild(newListItem);
+          }
+        };
+        newListItem.appendChild(removeButton);
+
+        selectedList.prepend(newListItem);
+      });
+    });
+  </script>
+</body>
+</html> -->
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Parking Lot</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    .container {
+      background-color: #fff;
+      padding: 40px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+      max-height: 80vh; /* Limit the height of the container */
+      overflow: auto;  /* Add scrollbar if needed */
+    }
+    h1, h2 {
+      color: #333;
+    }
+    form {
+      margin-bottom: 20px;
+    }
+    label, select, button {
+      margin: 10px 0;
+      font-size: 16px;
+      display: block;
+      width: 100%;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      background-color: #e7e7e7;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .timer, .total-time, .price {
+      font-size: 16px;
+      color: #f00;
+      margin-left: 10px;
+    }
+    .stop-button, .remove-button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      background-color: #f44336;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+    .stop-button:hover, .remove-button:hover {
+      background-color: #d32f2f;
+    }
+    .remove-button {
+      background-color: #555;
+    }
+    .remove-button:hover {
+      background-color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Select a Parking Lot from Achuazat Hachof Parking</h1>
+    <h2>**Tel Aviv Residents Cars Registered with a Handicap Tag Park for Free**</h2>
+
+    <form id="parkingForm">
+      <label for="parking_spot">Choose a spot:</label>
+      <select name="parking_spot" id="parking_spot">
+        <% parkingSpots.forEach(spot => { %>
+          <option value="<%= spot.id %>"><%= spot.name %> - <%= spot.address %></option>
+        <% }) %>
+      </select>
+      <label>
+        <input type="checkbox" id="telAvivResident">
+        Tel Aviv Resident
+      </label>
+      <button type="submit">Select Lot</button>
+    </form>
+
+    <h2>Selected Parking Lots</h2>
+    <ul id="selected-spots"></ul>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let timers = {};
+
+      function formatTime(seconds) {
+        const days = Math.floor(seconds / (3600 * 24));
+        seconds %= (3600 * 24);
+        const hours = Math.floor(seconds / 3600);
+        seconds %= 3600;
+        const minutes = Math.floor(seconds / 60);
+        seconds %= 60;
+
+        return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }
+
+      function calculatePrice(seconds, isTelAvivResident) {
+        const freeSeconds = 15; // Free for the first 15 seconds
+        const pricePer15Seconds = 20; // 20 shekels per 15 seconds
+        const discount = 0.75; // 75% discount for Tel Aviv residents
+
+        let price = 0;
+        if (seconds > freeSeconds) {
+          const payableSeconds = seconds - freeSeconds;
+          price = Math.ceil(payableSeconds / 15) * pricePer15Seconds;
+        }
+
+        if (isTelAvivResident) {
+          price *= (1 - discount); // Apply 75% discount
+        }
+
+        return `₪${price.toFixed(2)}`;
+      }
+
+      function startTimer(spotId) {
+        const startTime = Date.now(); // Store the start time
+        const timerElement = document.createElement('span');
+        const priceElement = document.createElement('span');
+        timerElement.className = 'timer';
+        priceElement.className = 'price';
+
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+        }
+
+        timers[spotId] = {
+          startTime,
+          interval: setInterval(() => {
+            const elapsedTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+            const isTelAvivResident = document.getElementById('telAvivResident').checked;
+            timerElement.textContent = formatTime(elapsedTime);
+            priceElement.textContent = `Estimated Price: ${calculatePrice(elapsedTime, isTelAvivResident)}`;
+          }, 1000),
+          element: timerElement,
+          priceElement: priceElement
+        };
+
+        return { timerElement, priceElement };
+      }
+
+      function stopTimer(spotId) {
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+          const totalTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+          const stopTime = new Date();
+          const isTelAvivResident = document.getElementById('telAvivResident').checked;
+          const price = calculatePrice(totalTime, isTelAvivResident);
+          delete timers[spotId];
+          return { totalTime, stopTime, price };
+        }
+        return { totalTime: 0, stopTime: new Date(), price: '₪0.00' };
+      }
+
+      document.getElementById('parkingForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const selectedSpotId = document.getElementById('parking_spot').value;
+        const selectedSpotText = document.querySelector(`option[value='${selectedSpotId}']`).text;
+        const isTelAvivResident = document.getElementById('telAvivResident').checked;
+
+        const selectedList = document.getElementById('selected-spots');
+        const newListItem = document.createElement('li');
+        const { timerElement, priceElement } = startTimer(selectedSpotId);
+
+        newListItem.innerHTML = `
+          <span>${selectedSpotText} - Start time: ${new Date().toLocaleString()}</span>
+        `;
+        newListItem.appendChild(timerElement);
+        newListItem.appendChild(priceElement);
+
+        const stopButton = document.createElement('button');
+        stopButton.className = 'stop-button';
+        stopButton.textContent = 'Stop Timer';
+        stopButton.onclick = function() {
+          const { totalTime, stopTime, price } = stopTimer(selectedSpotId);
+          const totalTimeElement = document.createElement('span');
+          totalTimeElement.className = 'total-time';
+          totalTimeElement.textContent = ` | Stop time: ${stopTime.toLocaleString()} | Total Time: ${formatTime(totalTime)}`;
+          newListItem.appendChild(totalTimeElement);
+          const priceElement = document.createElement('span');
+          priceElement.className = 'price';
+          priceElement.textContent = ` | Estimated Price: ${price}`;
+          newListItem.appendChild(priceElement);
+          newListItem.removeChild(timerElement);
+          newListItem.removeChild(priceElement);
+          newListItem.removeChild(stopButton);
+        };
+        newListItem.appendChild(stopButton);
+
+        const removeButton = document.createElement('button');
+        removeButton.className = 'remove-button';
+        removeButton.textContent = 'Remove';
+        removeButton.onclick = function() {
+          const confirmRemove = confirm("Are you sure you want to remove this parking lot?");
+          if (confirmRemove) {
+            selectedList.removeChild(newListItem);
+          }
+        };
+        newListItem.appendChild(removeButton);
+
+        selectedList.prepend(newListItem);
+      });
+    });
+  </script>
+</body>
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Parking Lot</title>
+  <style>
+    body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* Ensure it stays on top of other content */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.container {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 500px;
+  margin: 0 auto;
+  max-height: 80vh;
+  overflow: auto;
+}
+
+h1, h2 {
+  color: #333;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+label, select, button {
+  margin: 10px 0;
+  font-size: 16px;
+  display: block;
+  width: 100%;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  background-color: #e7e7e7;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.timer, .total-time, .price {
+  font-size: 16px;
+  color: #f00;
+  margin-left: 10px;
+}
+
+.stop-button, .remove-button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  background-color: #f44336;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.stop-button:hover, .remove-button:hover {
+  background-color: #d32f2f;
+}
+
+.remove-button {
+  background-color: #555;
+}
+
+.remove-button:hover {
+  background-color: #333;
+}
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Select a Parking Lot from Achuazat Hachof Parking</h1>
+    <h2>**Tel Aviv Residents Cars Registered with a Handicap Tag Park for Free**<br>Tel Aviv Residents Cars 75% Discount</h2>
+    <form id="parkingForm">
+      <label for="parking_spot">Choose a spot:</label>
+      <select name="parking_spot" id="parking_spot">
+        <% parkingSpots.forEach(spot => { %>
+          <option value="<%= spot.id %>"><%= spot.name %> - <%= spot.address %></option>
+        <% }) %>
+      </select>
+      <label>
+        <input type="checkbox" id="telAvivResident">
+        Tel Aviv Resident
+      </label>
+      <button type="submit">Select Lot</button>
+    </form>
+  </div>
+
+  <div class="container">
+    <h2>Selected Parking Lots</h2>
+    <ul id="selected-spots"></ul>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let timers = {};
+
+      function formatTime(seconds) {
+        const days = Math.floor(seconds / (3600 * 24));
+        seconds %= (3600 * 24);
+        const hours = Math.floor(seconds / 3600);
+        seconds %= 3600;
+        const minutes = Math.floor(seconds / 60);
+        seconds %= 60;
+
+        return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }
+
+      function calculatePrice(seconds, isTelAvivResident) {
+        const freeSeconds = 15; // Free for the first 15 seconds
+        const pricePer15Seconds = 20; // 20 shekels per 15 seconds
+        const discount = 0.75; // 75% discount for Tel Aviv residents
+
+        let price = 0;
+        if (seconds > freeSeconds) {
+          const payableSeconds = seconds - freeSeconds;
+          price = Math.ceil(payableSeconds / 15) * pricePer15Seconds;
+        }
+
+        if (isTelAvivResident) {
+          price *= (1 - discount); // Apply 75% discount
+        }
+
+        return `₪${price.toFixed(2)}`;
+      }
+
+      function startTimer(spotId) {
+        const startTime = Date.now(); // Store the start time
+        const timerElement = document.createElement('span');
+        const priceElement = document.createElement('span');
+        timerElement.className = 'timer';
+        priceElement.className = 'price';
+
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+        }
+
+        timers[spotId] = {
+          startTime,
+          interval: setInterval(() => {
+            const elapsedTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+            const isTelAvivResident = document.getElementById('telAvivResident').checked;
+            timerElement.textContent = formatTime(elapsedTime);
+            priceElement.textContent = `Estimated Price: ${calculatePrice(elapsedTime, isTelAvivResident)}`;
+          }, 1000),
+          element: timerElement,
+          priceElement: priceElement
+        };
+
+        return { timerElement, priceElement };
+      }
+
+      function stopTimer(spotId) {
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+          const totalTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+          const stopTime = new Date();
+          const isTelAvivResident = document.getElementById('telAvivResident').checked;
+          const price = calculatePrice(totalTime, isTelAvivResident);
+          delete timers[spotId];
+          return { totalTime, stopTime, price };
+        }
+        return { totalTime: 0, stopTime: new Date(), price: '₪0.00' };
+      }
+
+      document.getElementById('parkingForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const selectedSpotId = document.getElementById('parking_spot').value;
+        const selectedSpotText = document.querySelector(`option[value='${selectedSpotId}']`).text;
+        const isTelAvivResident = document.getElementById('telAvivResident').checked;
+
+        const selectedList = document.getElementById('selected-spots');
+        const newListItem = document.createElement('li');
+        const { timerElement, priceElement } = startTimer(selectedSpotId);
+
+        newListItem.innerHTML = `
+          <span>${selectedSpotText} - Start time: ${new Date().toLocaleString()}</span>
+        `;
+        newListItem.appendChild(timerElement);
+        newListItem.appendChild(priceElement);
+
+        const stopButton = document.createElement('button');
+        stopButton.className = 'stop-button';
+        stopButton.textContent = 'Stop Timer';
+        stopButton.onclick = function() {
+          const { totalTime, stopTime, price } = stopTimer(selectedSpotId);
+          const totalTimeElement = document.createElement('span');
+          totalTimeElement.className = 'total-time';
+          totalTimeElement.textContent = ` | Stop time: ${stopTime.toLocaleString()} | Total Time: ${formatTime(totalTime)}`;
+          newListItem.appendChild(totalTimeElement);
+          const priceElement = document.createElement('span');
+          priceElement.className = 'price';
+          priceElement.textContent = ` | Estimated Price: ${price}`;
+          newListItem.appendChild(priceElement);
+          newListItem.removeChild(timerElement);
+          newListItem.removeChild(priceElement);
+          newListItem.removeChild(stopButton);
+        };
+        newListItem.appendChild(stopButton);
+
+        const removeButton = document.createElement('button');
+        removeButton.className = 'remove-button';
+        removeButton.textContent = 'Remove';
+        removeButton.onclick = function() {
+          const confirmRemove = confirm("Are you sure you want to remove this parking lot?");
+          if (confirmRemove) {
+            selectedList.removeChild(newListItem);
+          }
+        };
+        newListItem.appendChild(removeButton);
+
+        selectedList.prepend(newListItem);
+      });
+    });
+  </script>
+</body>
+</html> -->
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Parking Lot</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      background-color: #fff;
+      padding: 20px;
+      border-bottom: 1px solid #ddd;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      z-index: 1000; /* Ensure it stays on top of other content */
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center items horizontally */
+      text-align: center; /* Center text */
+    }
+
+    .container {
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 500px;
+      margin: 0 auto;
+      max-height: 80vh;
+      overflow: auto;
+    }
+
+    h1, h2 {
+      color: #333;
+    }
+
+    form {
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center form elements */
+    }
+
+    label, select, button {
+      margin: 10px 0;
+      font-size: 16px;
+      display: block;
+      width: 100%;
+      max-width: 300px; /* Optional: limit max width for form elements */
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      background-color: #e7e7e7;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .timer, .total-time, .price {
+      font-size: 16px;
+      color: #f00;
+      margin-left: 10px;
+    }
+
+    .stop-button, .remove-button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      background-color: #f44336;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .stop-button:hover, .remove-button:hover {
+      background-color: #d32f2f;
+    }
+
+    .remove-button {
+      background-color: #555;
+    }
+
+    .remove-button:hover {
+      background-color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Select a Parking Lot from Achuazat Hachof Parking</h1>
+    <h2>**Tel Aviv Residents Cars Registered with a Handicap Tag Park for Free**<br>Tel Aviv Residents Cars 75% Discount</h2>
+    <form id="parkingForm">
+      <label for="parking_spot">Choose a spot:</label>
+      <select name="parking_spot" id="parking_spot">
+        <% parkingSpots.forEach(spot => { %>
+          <option value="<%= spot.id %>"><%= spot.name %> - <%= spot.address %></option>
+        <% }) %>
+      </select>
+      <label>
+        <input type="checkbox" id="telAvivResident">
+        Tel Aviv Resident
+      </label>
+      <button type="submit">Select Lot</button>
+    </form>
+  </div>
+
+  <div class="container">
+    <h2>Selected Parking Lots</h2>
+    <ul id="selected-spots"></ul>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let timers = {};
+
+      function formatTime(seconds) {
+        const days = Math.floor(seconds / (3600 * 24));
+        seconds %= (3600 * 24);
+        const hours = Math.floor(seconds / 3600);
+        seconds %= 3600;
+        const minutes = Math.floor(seconds / 60);
+        seconds %= 60;
+
+        return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }
+
+      function calculatePrice(seconds, isTelAvivResident) {
+        const freeSeconds = 15; // Free for the first 15 seconds
+        const pricePer15Seconds = 20; // 20 shekels per 15 seconds
+        const discount = 0.75; // 75% discount for Tel Aviv residents
+
+        let price = 0;
+        if (seconds > freeSeconds) {
+          const payableSeconds = seconds - freeSeconds;
+          price = Math.ceil(payableSeconds / 15) * pricePer15Seconds;
+        }
+
+        if (isTelAvivResident) {
+          price *= (1 - discount); // Apply 75% discount
+        }
+
+        return `₪${price.toFixed(2)}`;
+      }
+
+      function startTimer(spotId) {
+        const startTime = Date.now(); // Store the start time
+        const timerElement = document.createElement('span');
+        const priceElement = document.createElement('span');
+        timerElement.className = 'timer';
+        priceElement.className = 'price';
+
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+        }
+
+        timers[spotId] = {
+          startTime,
+          interval: setInterval(() => {
+            const elapsedTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+            const isTelAvivResident = document.getElementById('telAvivResident').checked;
+            timerElement.textContent = formatTime(elapsedTime);
+            priceElement.textContent = `Estimated Price: ${calculatePrice(elapsedTime, isTelAvivResident)}`;
+          }, 1000),
+          element: timerElement,
+          priceElement: priceElement
+        };
+
+        return { timerElement, priceElement };
+      }
+
+      function stopTimer(spotId) {
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+          const totalTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+          const stopTime = new Date();
+          const isTelAvivResident = document.getElementById('telAvivResident').checked;
+          const price = calculatePrice(totalTime, isTelAvivResident);
+          delete timers[spotId];
+          return { totalTime, stopTime, price };
+        }
+        return { totalTime: 0, stopTime: new Date(), price: '₪0.00' };
+      }
+
+      document.getElementById('parkingForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const selectedSpotId = document.getElementById('parking_spot').value;
+        const selectedSpotText = document.querySelector(`option[value='${selectedSpotId}']`).text;
+        const isTelAvivResident = document.getElementById('telAvivResident').checked;
+
+        const selectedList = document.getElementById('selected-spots');
+        const newListItem = document.createElement('li');
+        const { timerElement, priceElement } = startTimer(selectedSpotId);
+
+        newListItem.innerHTML = `
+          <span>${selectedSpotText} - Start time: ${new Date().toLocaleString()}</span>
+        `;
+        newListItem.appendChild(timerElement);
+        newListItem.appendChild(priceElement);
+
+        const stopButton = document.createElement('button');
+        stopButton.className = 'stop-button';
+        stopButton.textContent = 'Stop Timer';
+        stopButton.onclick = function() {
+          const { totalTime, stopTime, price } = stopTimer(selectedSpotId);
+          const totalTimeElement = document.createElement('span');
+          totalTimeElement.className = 'total-time';
+          totalTimeElement.textContent = ` | Stop time: ${stopTime.toLocaleString()} | Total Time: ${formatTime(totalTime)}`;
+          newListItem.appendChild(totalTimeElement);
+          const priceElement = document.createElement('span');
+          priceElement.className = 'price';
+          priceElement.textContent = ` | Estimated Price: ${price}`;
+          newListItem.appendChild(priceElement);
+          newListItem.removeChild(timerElement);
+          newListItem.removeChild(priceElement);
+          newListItem.removeChild(stopButton);
+        };
+        newListItem.appendChild(stopButton);
+
+        const removeButton = document.createElement('button');
+        removeButton.className = 'remove-button';
+        removeButton.textContent = 'Remove';
+        removeButton.onclick = function() {
+          const confirmRemove = confirm("Are you sure you want to remove this parking lot?");
+          if (confirmRemove) {
+            selectedList.removeChild(newListItem);
+          }
+        };
+        newListItem.appendChild(removeButton);
+
+        selectedList.prepend(newListItem);
+      });
+    });
+  </script>
+</body>
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Parking Lot</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      background-color: #fff;
+      padding: 20px;
+      border-bottom: 1px solid #ddd;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      z-index: 1000; /* Ensure it stays on top of other content */
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center items horizontally */
+      text-align: center; /* Center text */
+    }
+
+    .container {
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 500px;
+      margin: 20px auto; /* Add margin for spacing */
+      max-height: 80vh;
+      overflow: auto;
+    }
+
+    h1, h2 {
+      color: #333;
+    }
+
+    form {
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center form elements */
+    }
+
+    label, select, button {
+      margin: 10px 0;
+      font-size: 16px;
+      display: block;
+      width: 100%;
+      max-width: 300px; /* Optional: limit max width for form elements */
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      background-color: #e7e7e7;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .timer, .total-time, .price {
+      font-size: 16px;
+      color: #f00;
+      margin-left: 10px;
+    }
+
+    .stop-button, .remove-button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .stop-button {
+      background-color: #f44336;
+    }
+
+    .stop-button:hover {
+      background-color: #d32f2f;
+    }
+
+    .remove-button {
+      background-color: #555;
+    }
+
+    .remove-button:hover {
+      background-color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Select a Parking Lot from Achuazat Hachof Parking</h1>
+    <h2>**Tel Aviv Residents Cars Registered with a Handicap Tag Park for Free**<br>Tel Aviv Residents Cars 75% Discount</h2>
+    <form id="parkingForm">
+      <label for="parking_spot">Choose a spot:</label>
+      <select name="parking_spot" id="parking_spot" required>
+        <% parkingSpots.forEach(spot => { %>
+          <option value="<%= spot.id %>"><%= spot.name %> - <%= spot.address %></option>
+        <% }) %>
+      </select>
+      <label>
+        <input type="checkbox" id="telAvivResident">
+        Tel Aviv Resident
+      </label>
+      <button type="submit">Select Lot</button>
+    </form>
+  </div>
+
+  <div class="container">
+    <h2>Selected Parking Lots</h2>
+    <ul id="selected-spots"></ul>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let timers = {};
+
+      function formatTime(seconds) {
+        const days = Math.floor(seconds / (3600 * 24));
+        seconds %= (3600 * 24);
+        const hours = Math.floor(seconds / 3600);
+        seconds %= 3600;
+        const minutes = Math.floor(seconds / 60);
+        seconds %= 60;
+
+        return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }
+
+      function calculatePrice(seconds, isTelAvivResident) {
+        const freeSeconds = 15; // Free for the first 15 seconds
+        const pricePer15Seconds = 20; // 20 shekels per 15 seconds
+        const discount = 0.75; // 75% discount for Tel Aviv residents
+
+        let price = 0;
+        if (seconds > freeSeconds) {
+          const payableSeconds = seconds - freeSeconds;
+          price = Math.ceil(payableSeconds / 15) * pricePer15Seconds;
+        }
+
+        if (isTelAvivResident) {
+          price *= (1 - discount); // Apply 75% discount
+        }
+
+        return `₪${price.toFixed(2)}`;
+      }
+
+      function startTimer(spotId) {
+        const startTime = Date.now(); // Store the start time
+        const timerElement = document.createElement('span');
+        const priceElement = document.createElement('span');
+        timerElement.className = 'timer';
+        priceElement.className = 'price';
+
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+        }
+
+        timers[spotId] = {
+          startTime,
+          interval: setInterval(() => {
+            const elapsedTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+            const isTelAvivResident = document.getElementById('telAvivResident').checked;
+            timerElement.textContent = formatTime(elapsedTime);
+            priceElement.textContent = `Estimated Price: ${calculatePrice(elapsedTime, isTelAvivResident)}`;
+          }, 1000),
+          element: timerElement,
+          priceElement: priceElement
+        };
+
+        return { timerElement, priceElement };
+      }
+
+      function stopTimer(spotId) {
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+          const totalTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+          const stopTime = new Date();
+          const isTelAvivResident = document.getElementById('telAvivResident').checked;
+          const price = calculatePrice(totalTime, isTelAvivResident);
+          delete timers[spotId];
+          return { totalTime, stopTime, price };
+        }
+        return { totalTime: 0, stopTime: new Date(), price: '₪0.00' };
+      }
+
+      document.getElementById('parkingForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const selectedSpotId = document.getElementById('parking_spot').value;
+        const selectedSpotText = document.querySelector(`option[value='${selectedSpotId}']`).text;
+        const isTelAvivResident = document.getElementById('telAvivResident').checked;
+
+        const selectedList = document.getElementById('selected-spots');
+        const newListItem = document.createElement('li');
+        const { timerElement, priceElement } = startTimer(selectedSpotId);
+
+        newListItem.innerHTML = `
+          <span>${selectedSpotText} - Start time: ${new Date().toLocaleString()}</span>
+        `;
+        newListItem.appendChild(timerElement);
+        newListItem.appendChild(priceElement);
+
+        const stopButton = document.createElement('button');
+        stopButton.className = 'stop-button';
+        stopButton.textContent = 'Stop Timer';
+        stopButton.onclick = function() {
+          const { totalTime, stopTime, price } = stopTimer(selectedSpotId);
+          const totalTimeElement = document.createElement('span');
+          totalTimeElement.className = 'total-time';
+          totalTimeElement.textContent = ` | Stop time: ${stopTime.toLocaleString()} | Total Time: ${formatTime(totalTime)}`;
+          newListItem.appendChild(totalTimeElement);
+          const priceElement = document.createElement('span');
+          priceElement.className = 'price';
+          priceElement.textContent = ` | Estimated Price: ${price}`;
+          newListItem.appendChild(priceElement);
+          newListItem.removeChild(timerElement);
+          newListItem.removeChild(priceElement);
+          newListItem.removeChild(stopButton);
+        };
+        newListItem.appendChild(stopButton);
+
+        const removeButton = document.createElement('button');
+        removeButton.className = 'remove-button';
+        removeButton.textContent = 'Remove';
+        removeButton.onclick = function() {
+          const confirmRemove = confirm("Are you sure you want to remove this parking lot?");
+          if (confirmRemove) {
+            selectedList.removeChild(newListItem);
+          }
+        };
+        newListItem.appendChild(removeButton);
+
+        selectedList.prepend(newListItem);
+      });
+    });
+  </script>
+</body>
+</html> -->
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Parking Lot</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      background-color: #fff;
+      padding: 20px;
+      border-bottom: 1px solid #ddd;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .container {
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 500px;
+      margin: 20px auto;
+      max-height: 80vh;
+      overflow: auto;
+    }
+
+    h1, h2 {
+      color: #333;
+    }
+
+    form {
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    label, select, button {
+      margin: 10px 0;
+      font-size: 16px;
+      display: block;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      background-color: #e7e7e7;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .timer, .total-time, .price {
+      font-size: 16px;
+      color: #f00;
+      margin-left: 10px;
+    }
+
+    .stop-button, .remove-button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .stop-button {
+      background-color: #f44336;
+    }
+
+    .stop-button:hover {
+      background-color: #d32f2f;
+    }
+
+    .remove-button {
+      background-color: #555;
+    }
+
+    .remove-button:hover {
+      background-color: #333;
+    }
+
+    .notification {
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      background-color: #dff0d8;
+      color: #3c763d;
+      text-align: center;
+      display: none; /* Initially hidden */
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Select a Parking Lot from Achuazat Hachof Parking</h1>
+    <h2>**Tel Aviv Residents Cars Registered with a Handicap Tag Park for Free**<br>Tel Aviv Residents Cars 75% Discount</h2>
+    <form id="parkingForm">
+      <label for="parking_spot">Choose a spot:</label>
+      <select name="parking_spot" id="parking_spot" required>
+        <% parkingSpots.forEach(spot => { %>
+          <option value="<%= spot.id %>"><%= spot.name %> - <%= spot.address %></option>
+        <% }) %>
+      </select>
+      <label>
+        <input type="checkbox" id="telAvivResident">
+        Tel Aviv Resident
+      </label>
+      <button type="submit">Select Lot</button>
+    </form>
+    <div id="notification" class="notification"></div>
+  </div>
+
+  <div class="container">
+    <h2>Selected Parking Lots</h2>
+    <ul id="selected-spots"></ul>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let timers = {};
+
+      function formatTime(seconds) {
+        const days = Math.floor(seconds / (3600 * 24));
+        seconds %= (3600 * 24);
+        const hours = Math.floor(seconds / 3600);
+        seconds %= 3600;
+        const minutes = Math.floor(seconds / 60);
+        seconds %= 60;
+
+        return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }
+
+      function calculatePrice(seconds, isTelAvivResident) {
+        const freeSeconds = 15;
+        const pricePer15Seconds = 20;
+        const discount = 0.75;
+
+        let price = 0;
+        if (seconds > freeSeconds) {
+          const payableSeconds = seconds - freeSeconds;
+          price = Math.ceil(payableSeconds / 15) * pricePer15Seconds;
+        }
+
+        if (isTelAvivResident) {
+          price *= (1 - discount);
+        }
+
+        return `₪${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      }
+
+      function startTimer(spotId) {
+        const startTime = Date.now();
+        const timerElement = document.createElement('span');
+        const priceElement = document.createElement('span');
+        timerElement.className = 'timer';
+        priceElement.className = 'price';
+
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+        }
+
+        timers[spotId] = {
+          startTime,
+          interval: setInterval(() => {
+            const elapsedTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+            const isTelAvivResident = document.getElementById('telAvivResident').checked;
+            timerElement.textContent = formatTime(elapsedTime);
+            priceElement.textContent = `Estimated Price: ${calculatePrice(elapsedTime, isTelAvivResident)}`;
+          }, 1000),
+          element: timerElement,
+          priceElement: priceElement
+        };
+
+        return { timerElement, priceElement };
+      }
+
+      function stopTimer(spotId) {
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+          const totalTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+          const stopTime = new Date();
+          const isTelAvivResident = document.getElementById('telAvivResident').checked;
+          const price = calculatePrice(totalTime, isTelAvivResident);
+          delete timers[spotId];
+          return { totalTime, stopTime, price };
+        }
+        return { totalTime: 0, stopTime: new Date(), price: '₪0.00' };
+      }
+
+      document.getElementById('parkingForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const selectedSpotId = document.getElementById('parking_spot').value;
+        const selectedSpotText = document.querySelector(`option[value='${selectedSpotId}']`).text;
+        const isTelAvivResident = document.getElementById('telAvivResident').checked;
+
+        const selectedList = document.getElementById('selected-spots');
+        const newListItem = document.createElement('li');
+        const { timerElement, priceElement } = startTimer(selectedSpotId);
+
+        newListItem.innerHTML = `
+          <span>${selectedSpotText} - Start time: ${new Date().toLocaleString()}</span>
+        `;
+        newListItem.appendChild(timerElement);
+        newListItem.appendChild(priceElement);
+
+        const stopButton = document.createElement('button');
+        stopButton.className = 'stop-button';
+        stopButton.textContent = 'Stop Timer';
+        stopButton.setAttribute('aria-label', 'Stop Timer');
+        stopButton.onclick = function() {
+          const { totalTime, stopTime, price } = stopTimer(selectedSpotId);
+          const totalTimeElement = document.createElement('span');
+          totalTimeElement.className = 'total-time';
+          totalTimeElement.textContent = ` | Stop time: ${stopTime.toLocaleString()} | Total Time: ${formatTime(totalTime)}`;
+          newListItem.appendChild(totalTimeElement);
+          const priceElement = document.createElement('span');
+          priceElement.className = 'price';
+          priceElement.textContent = ` | Estimated Price: ${price}`;
+          newListItem.appendChild(priceElement);
+          newListItem.removeChild(timerElement);
+          newListItem.removeChild(priceElement);
+          newListItem.removeChild(stopButton);
+        };
+        newListItem.appendChild(stopButton);
+
+        const removeButton = document.createElement('button');
+        removeButton.className = 'remove-button';
+        removeButton.textContent = 'Remove';
+        removeButton.setAttribute('aria-label', 'Remove Parking Lot');
+        removeButton.onclick = function() {
+          const confirmRemove = confirm("Are you sure you want to remove this parking lot?");
+          if (confirmRemove) {
+            selectedList.removeChild(newListItem);
+            showNotification('Parking lot removed successfully!');
+          }
+        };
+        newListItem.appendChild(removeButton);
+
+        selectedList.prepend(newListItem);
+        showNotification('Parking lot selected successfully!');
+      });
+
+      function showNotification(message) {
+        const notification = document.getElementById('notification');
+        notification.textContent = message;
+        notification.style.display = 'block';
+        setTimeout(() => {
+          notification.style.display = 'none';
+        }, 3000);
+      }
+    });
+  </script>
+</body>
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Parking Lot</title>
+  <style>
+    body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  padding: 10px 20px;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  text-align: center;
+  height: auto;
+  box-sizing: border-box;
+}
+
+.container {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 600px; /* Adjust as needed */
+  margin: 80px auto 20px auto;
+  max-height: calc(100vh - 140px);
+  overflow: auto;
+}
+
+h1, h2 {
+  color: #333;
+}
+
+form {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+label, select, button {
+  margin: 10px 0;
+  font-size: 16px;
+  display: block;
+  width: 100%;
+}
+
+select {
+  width: 100%;
+  min-width: 300px; /* Ensure dropdown is wide enough */
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: auto;
+  white-space: nowrap; /* Prevent text from wrapping */
+}
+
+option {
+  text-align: center; /* Center the text inside options */
+}
+
+/* Mobile-specific styles */
+@media (max-width: 600px) {
+  select {
+    font-size: 14px; /* Adjust font size for mobile */
+  }
+}
+
+/* Styles for larger screens */
+@media (min-width: 768px) {
+  select {
+    min-width: 400px; /* Adjust as needed for larger screens */
+  }
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  background-color: #e7e7e7;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.timer, .total-time, .price {
+  font-size: 16px;
+  color: #f00;
+  margin-left: 10px;
+}
+
+.stop-button, .remove-button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.stop-button {
+  background-color: #f44336;
+}
+
+.stop-button:hover {
+  background-color: #d32f2f;
+}
+
+.remove-button {
+  background-color: #555;
+}
+
+.remove-button:hover {
+  background-color: #333;
+}
+
+.notification {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  background-color: #dff0d8;
+  color: #3c763d;
+  text-align: center;
+  display: none;
+}
+
+   
+  </style>
+</head>
+<body>
+  <div class="header" role="banner">
+    <h1>Select a Parking Lot from Achuazat Hachof Parking</h1>
+    <h2>**Tel Aviv Residents Cars Registered with a Handicap Tag Park for Free**<br>Tel Aviv Residents Cars 75% Discount</h2>
+    <form id="parkingForm" role="form">
+      <label for="parking_spot">Choose a spot:</label>
+      <select name="parking_spot" id="parking_spot" required>
+        <% parkingSpots.forEach(spot => { %>
+          <option value="<%= spot.id %>"><%= spot.name %> - <%= spot.address %></option>
+        <% }) %>
+      </select>
+      <label>
+        <input type="checkbox" id="telAvivResident" aria-required="false">
+        Tel Aviv Resident
+      </label>
+      <button type="submit" aria-label="Select Lot">Select Lot</button>
+    </form>
+    <div id="notification" class="notification" role="alert"></div>
+  </div>
+
+  <div class="container">
+    <h2>Selected Parking Lots</h2>
+    <ul id="selected-spots" role="list">
+    </ul>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let timers = {};
+
+      function formatTime(seconds) {
+        const days = Math.floor(seconds / (3600 * 24));
+        seconds %= (3600 * 24);
+        const hours = Math.floor(seconds / 3600);
+        seconds %= 3600;
+        const minutes = Math.floor(seconds / 60);
+        seconds %= 60;
+
+        return ${days}d ${hours}h ${minutes}m ${seconds}s;
+      }
+
+      function calculatePrice(seconds, isTelAvivResident) {
+        const freeSeconds = 15;
+        const pricePer15Seconds = 20;
+        const discount = 0.75;
+
+        let price = 0;
+        if (seconds > freeSeconds) {
+          const payableSeconds = seconds - freeSeconds;
+          price = Math.ceil(payableSeconds / 15) * pricePer15Seconds;
+        }
+
+        if (isTelAvivResident) {
+          price *= (1 - discount);
+        }
+
+        return ₪${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })};
+      }
+
+      function startTimer(spotId) {
+        const startTime = Date.now();
+        const timerElement = document.createElement('span');
+        const priceElement = document.createElement('span');
+        timerElement.className = 'timer';
+        priceElement.className = 'price';
+        timerElement.setAttribute('aria-live', 'polite'); // Added aria-live
+
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+        }
+
+        timers[spotId] = {
+          startTime,
+          interval: setInterval(() => {
+            const elapsedTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+            const isTelAvivResident = document.getElementById('telAvivResident').checked;
+            timerElement.textContent = formatTime(elapsedTime);
+            priceElement.textContent = Estimated Price: ${calculatePrice(elapsedTime, isTelAvivResident)};
+          }, 1000),
+          element: timerElement,
+          priceElement: priceElement
+        };
+
+        return { timerElement, priceElement };
+      }
+
+      function stopTimer(spotId) {
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+          const totalTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+          const stopTime = new Date();
+          const isTelAvivResident = document.getElementById('telAvivResident').checked;
+          const price = calculatePrice(totalTime, isTelAvivResident);
+          delete timers[spotId];
+          return { totalTime, stopTime, price };
+        }
+        return { totalTime: 0, stopTime: new Date(), price: '₪0.00' };
+      }
+
+      document.getElementById('parkingForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const selectedSpotId = document.getElementById('parking_spot').value;
+        const selectedSpotText = document.querySelector(option[value='${selectedSpotId}']).text;
+        const isTelAvivResident = document.getElementById('telAvivResident').checked;
+
+        const selectedList = document.getElementById('selected-spots');
+        const newListItem = document.createElement('li');
+        const { timerElement, priceElement } = startTimer(selectedSpotId);
+
+        newListItem.innerHTML = 
+          <span>${selectedSpotText} - Start time: ${new Date().toLocaleString()}</span>
+        ;
+        newListItem.appendChild(timerElement);
+        newListItem.appendChild(priceElement);
+
+        const stopButton = document.createElement('button');
+        stopButton.className = 'stop-button';
+        stopButton.textContent = 'Stop Timer';
+        stopButton.setAttribute('aria-label', 'Stop Timer');
+        stopButton.onclick = function() {
+          const { totalTime, stopTime, price } = stopTimer(selectedSpotId);
+          const totalTimeElement = document.createElement('span');
+          totalTimeElement.className = 'total-time';
+          totalTimeElement.textContent =  | Stop time: ${stopTime.toLocaleString()} | Total Time: ${formatTime(totalTime)};
+          newListItem.appendChild(totalTimeElement);
+          const priceElement = document.createElement('span');
+          priceElement.className = 'price';
+          priceElement.textContent =  | Estimated Price: ${price};
+          newListItem.appendChild(priceElement);
+          newListItem.removeChild(timerElement);
+          newListItem.removeChild(priceElement);
+          newListItem.removeChild(stopButton);
+        };
+        newListItem.appendChild(stopButton);
+
+        const removeButton = document.createElement('button');
+        removeButton.className = 'remove-button';
+        removeButton.textContent = 'Remove';
+        removeButton.setAttribute('aria-label', 'Remove Parking Lot');
+        removeButton.onclick = function() {
+          const confirmRemove = confirm("Are you sure you want to remove this parking lot?");
+          if (confirmRemove) {
+            selectedList.removeChild(newListItem);
+            showNotification('Parking lot removed successfully!');
+          }
+        };
+        newListItem.appendChild(removeButton);
+
+        selectedList.prepend(newListItem);
+        showNotification('Parking lot selected successfully!');
+      });
+
+      function showNotification(message) {
+        const notification = document.getElementById('notification');
+        notification.textContent = message;
+        notification.style.display = 'block';
+        setTimeout(() => {
+          notification.style.display = 'none';
+        }, 3000);
+      }
+    });
+  </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Parking Lot</title>
+  <style>
+    body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  padding: 10px 20px;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  text-align: center;
+  height: auto;
+  box-sizing: border-box;
+}
+
+.container {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 600px; /* Adjust as needed */
+  margin: 80px auto 20px auto;
+  max-height: calc(100vh - 140px);
+  overflow: auto;
+}
+
+h1, h2 {
+  color: #333;
+}
+
+form {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+label, select, button {
+  margin: 10px 0;
+  font-size: 16px;
+  display: block;
+  width: 100%;
+}
+
+select {
+  width: 100%;
+  min-width: 300px; /* Ensure dropdown is wide enough */
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: auto;
+  white-space: nowrap; /* Prevent text from wrapping */
+}
+
+option {
+  text-align: center; /* Center the text inside options */
+}
+
+/* Mobile-specific styles */
+@media (max-width: 600px) {
+  select {
+    font-size: 14px; /* Adjust font size for mobile */
+  }
+}
+
+/* Styles for larger screens */
+@media (min-width: 768px) {
+  select {
+    min-width: 400px; /* Adjust as needed for larger screens */
+  }
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  background-color: #e7e7e7;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.timer, .total-time, .price {
+  font-size: 16px;
+  color: #f00;
+  margin-left: 10px;
+}
+
+.stop-button, .remove-button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.stop-button {
+  background-color: #f44336;
+}
+
+.stop-button:hover {
+  background-color: #d32f2f;
+}
+
+.remove-button {
+  background-color: #555;
+}
+
+.remove-button:hover {
+  background-color: #333;
+}
+
+.notification {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  background-color: #dff0d8;
+  color: #3c763d;
+  text-align: center;
+  display: none;
+}
+
+   
+  </style>
+</head>
+<body>
+  <div class="header" role="banner">
+    <h1>Select a Parking Lot from Achuazat Hachof Parking</h1>
+    <h2>**Tel Aviv Residents Cars Registered with a Handicap Tag Park for Free**<br>Tel Aviv Residents Cars 75% Discount</h2>
+    <form id="parkingForm" role="form">
+      <label for="parking_spot">Choose a spot:</label>
+      <select name="parking_spot" id="parking_spot" required>
+        <% parkingSpots.forEach(spot => { %>
+          <option value="<%= spot.id %>" data-info="<%= spot.info %>"><%= spot.name %> - <%= spot.address %></option>
+        <% }) %>
+      </select>
+      <label>
+        <input type="checkbox" id="telAvivResident" aria-required="false">
+        Tel Aviv Resident
+      </label>
+      <label>
+        <input type="checkbox" id="showInfo" aria-required="false">
+        Show Additional Info
+      </label>
+      <button type="submit" aria-label="Select Lot">Select Lot</button>
+    </form>
+    <div id="notification" class="notification" role="alert"></div>
+  </div>
+
+  <div class="container">
+    <h2>Selected Parking Lots</h2>
+    <ul id="selected-spots" role="list">
+    </ul>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let timers = {};
+
+      function formatTime(seconds) {
+        const days = Math.floor(seconds / (3600 * 24));
+        seconds %= (3600 * 24);
+        const hours = Math.floor(seconds / 3600);
+        seconds %= 3600;
+        const minutes = Math.floor(seconds / 60);
+        seconds %= 60;
+
+        return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }
+
+      function calculatePrice(seconds, isTelAvivResident) {
+        const freeSeconds = 15;
+        const pricePer15Seconds = 20;
+        const discount = 0.75;
+
+        let price = 0;
+        if (seconds > freeSeconds) {
+          const payableSeconds = seconds - freeSeconds;
+          price = Math.ceil(payableSeconds / 15) * pricePer15Seconds;
+        }
+
+        if (isTelAvivResident) {
+          price *= (1 - discount);
+        }
+
+        return `₪${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      }
+
+      function startTimer(spotId) {
+        const startTime = Date.now();
+        const timerElement = document.createElement('span');
+        const priceElement = document.createElement('span');
+        timerElement.className = 'timer';
+        priceElement.className = 'price';
+        timerElement.setAttribute('aria-live', 'polite');
+
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+        }
+
+        timers[spotId] = {
+          startTime,
+          interval: setInterval(() => {
+            const elapsedTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+            const isTelAvivResident = document.getElementById('telAvivResident').checked;
+            timerElement.textContent = formatTime(elapsedTime);
+            priceElement.textContent = `Estimated Price: ${calculatePrice(elapsedTime, isTelAvivResident)}`;
+          }, 1000),
+          element: timerElement,
+          priceElement: priceElement
+        };
+
+        return { timerElement, priceElement };
+      }
+
+      function stopTimer(spotId) {
+        if (timers[spotId]) {
+          clearInterval(timers[spotId].interval);
+          const totalTime = Math.floor((Date.now() - timers[spotId].startTime) / 1000);
+          const stopTime = new Date();
+          const isTelAvivResident = document.getElementById('telAvivResident').checked;
+          const price = calculatePrice(totalTime, isTelAvivResident);
+          delete timers[spotId];
+          return { totalTime, stopTime, price };
+        }
+        return { totalTime: 0, stopTime: new Date(), price: '₪0.00' };
+      }
+
+      document.getElementById('parkingForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const selectedSpotId = document.getElementById('parking_spot').value;
+        const selectedSpotText = document.querySelector(`option[value='${selectedSpotId}']`).text;
+        const selectedSpotInfo = document.querySelector(`option[value='${selectedSpotId}']`).getAttribute('data-info');
+        const isTelAvivResident = document.getElementById('telAvivResident').checked;
+        const showInfo = document.getElementById('showInfo').checked;
+
+        const selectedList = document.getElementById('selected-spots');
+        const newListItem = document.createElement('li');
+        const { timerElement, priceElement } = startTimer(selectedSpotId);
+
+        newListItem.innerHTML = `
+          <span>${selectedSpotText} - Start time: ${new Date().toLocaleString()}</span>
+        `;
+        newListItem.appendChild(timerElement);
+        newListItem.appendChild(priceElement);
+
+        const stopButton = document.createElement('button');
+        stopButton.className = 'stop-button';
+        stopButton.textContent = 'Stop Timer';
+        stopButton.setAttribute('aria-label', 'Stop Timer');
+        stopButton.onclick = function() {
+          const { totalTime, stopTime, price } = stopTimer(selectedSpotId);
+          const totalTimeElement = document.createElement('span');
+          totalTimeElement.className = 'total-time';
+          totalTimeElement.textContent = ` | Stop time: ${stopTime.toLocaleString()} | Total Time: ${formatTime(totalTime)}`;
+          newListItem.appendChild(totalTimeElement);
+          const priceElement = document.createElement('span');
+          priceElement.className = 'price';
+          priceElement.textContent = ` | Estimated Price: ${price}`;
+          newListItem.appendChild(priceElement);
+          newListItem.removeChild(timerElement);
+          newListItem.removeChild(priceElement);
+          newListItem.removeChild(stopButton);
+        };
+        newListItem.appendChild(stopButton);
+
+        const removeButton = document.createElement('button');
+        removeButton.className = 'remove-button';
+        removeButton.textContent = 'Remove';
+        removeButton.setAttribute('aria-label', 'Remove Parking Lot');
+        removeButton.onclick = function() {
+          const confirmRemove = confirm("Are you sure you want to remove this parking lot?");
+          if (confirmRemove) {
+            selectedList.removeChild(newListItem);
+            showNotification('Parking lot removed successfully!');
+          }
+        };
+        newListItem.appendChild(removeButton);
+
+        if (showInfo && selectedSpotInfo) {
+          const infoElement = document.createElement('div');
+          infoElement.className = 'info';
+          infoElement.textContent = `Additional Info: ${selectedSpotInfo}`;
+          newListItem.appendChild(infoElement);
+        }
+
+        selectedList.prepend(newListItem);
+        showNotification('Parking lot selected successfully!');
+      });
+
+      function showNotification(message) {
+        const notification = document.getElementById('notification');
+        notification.textContent = message;
+        notification.style.display = 'block';
+        setTimeout(() => {
+          notification.style.display = 'none';
+        }, 3000);
+      }
     });
   </script>
 </body>
