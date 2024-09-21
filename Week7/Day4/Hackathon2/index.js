@@ -1,17 +1,13 @@
-// index.js
 const express = require('express');
 const pool = require('./db');
 const path = require('path');
 const app = express();
 
-// Middleware to handle form data
 app.use(express.urlencoded({ extended: true }));
 
-// Set view engine for serving HTML files
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Helper function to get parking spots
 const getParkingSpots = async () => {
   try {
     const result = await pool.query('SELECT id, name, address FROM parking_lots');
@@ -22,7 +18,6 @@ const getParkingSpots = async () => {
   }
 };
 
-// Helper function to save selected spot
 const saveSelectedSpot = async (spot_id) => {
   try {
     await pool.query(
@@ -34,7 +29,6 @@ const saveSelectedSpot = async (spot_id) => {
   }
 };
 
-// Helper function to get selected spots
 const getSelectedSpots = async () => {
   try {
     const result = await pool.query(`
@@ -50,14 +44,12 @@ const getSelectedSpots = async () => {
   }
 };
 
-// Route to render the form and display selected spots
 app.get('/', async (req, res) => {
   const parkingSpots = await getParkingSpots();
   const selectedSpots = await getSelectedSpots();
   res.render('index', { parkingSpots, selectedSpots });
 });
 
-// Route to handle form submission
 app.post('/', async (req, res) => {
   const selectedSpotId = req.body.parking_spot;
   if (selectedSpotId) {
@@ -66,7 +58,6 @@ app.post('/', async (req, res) => {
   res.redirect('/');
 });
 
-// Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
