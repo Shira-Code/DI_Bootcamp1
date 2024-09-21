@@ -1,0 +1,169 @@
+Hackathon #2 Instructions
+
+Dear students, you will start the Hackathon on tomorrow, Wed 18/09/24.
+TOPIC OF THE HACKATHON
+you can find it in the platform (Please pay attention that there are different ideas for Full-Stack and Data Analysis): https://octopus.developers.institute/courses/collection/111/course/260/section/1583
+ABOUT THE HACKATHON
+1. Duration: The hackathon starts tomorrow, Wed 18/09, until Sunday 22/09 at 9:00.
+2. You should work in a group of maximum 2 people. You can also do the project alone if you want, but we STRONGLY recommend you to work in pairs.
+3. You need to use the technical skills you've learn so far.
+BEFORE THE START OF THE HACKATHON
+1. Read the steps of the hackathon - https://octopus.developers.institute/courses/collection/111/course/260/section/1583/chapter/1154
+2. MANDATORY - create a Github repository and use Github branches.
+You need to create a new branch for each new feature.  Add 
+@Raquel Boujnah
+ as collaborator.
+3. Write down the name of the group, the name of the participants and the details of your project on the Google Document here (scroll down to find the table for the #2nd Hackathon:
+https://docs.google.com/spreadsheets/d/1HN_X0xCwTOnrTzLaXC1ffpa5_WCUqWTUsQo0ET4zZ8E/edit?gid=0#gid=0
+4. Your projects needs to be validated before you start working on it:
+Until tomorrow morning:
+Send a message by Slack to 
+@Ziv Chen
+ that explains the details of the features you want to implement and how you want to implement them.
+You can only start working in the project after it is validated (tomorrow morning).
+On Sunday until 9:00AM you need to have in the google sheet the following links:
+GitHub repository
+2min video showing your screen and explaining how your project works (you can use loom.com)
+5. You will present your project to the class, on Sunday 22/09 from 15:00 to 16:30 to 
+@Raquel Boujnah
+ then she will evaluate your projects and choose a winner. The winner will be announced until the next week.
+Enjoy your learning journey through this project!:dart:
+Please fell free to contact me if you have any concern or questions:nerd_face: (edited)
+octopus.developers.institute
+Developers Institute
+Developers Institute - Global Software Development Bootcamp
+octopus.developers.institute
+Developers Institute
+Developers Institute - Global Software Development Bootcamp
+
+
+Hackathon #2
+Welcome to your Second Hackathon !
+
+
+Hackathon
+
+
+
+Instructions
+For the Hackathon this week, the aim is to practice the technologies you have learned in JavaScript over the past couple of weeks.
+Try use SOME of the following:
+Node.js
+JSON
+Database
+API (Requests)
+
+
+
+Step of Innovation
+DISCOVERY :Identify the strategic focus area, translate into themes of innovation & problem statement
+IDEATION : idea collection & idea gratuation, bottoms-up ideation os trategic goals
+PC CREATION : conceptualize idea, check for novelty, functionality, feasbility, alignment to strategic goals
+EXECUTION : test the POC for feasability, market viability & scale
+
+
+
+https://octopus.developers.institute/courses/collection/111/course/260/section/1583#
+
+Hackathon
+Welcome to your Hackathon !
+
+
+Hackathon
+
+
+
+Instructions
+For the Hackathon this week, the aim is to practice the technologies you have learned in Python over the past weeks.
+Try to use the following:
+
+Python
+JSON
+Database
+Files
+Api (Requests)
+Faker
+
+
+Ideas of general topics for the hackathon
+So for now, try and be creative. Here are a few ideas:
+
+A game that runs in the terminal and saves to a database or file
+A todo list that runs in the terminal and saves to a database or file
+A connection to an API to get some interesting data and then 1. or 2.
+For those who want to, you can explore building window style apps with a module called: Tkinter
+All the best, work hard, have fun!
+
+
+
+Ideas of Data Analysis topics for the hackathon .
+Weather Data Analysis Tool: Build a Python application that fetches weather data from an API, stores it in a database, and allows users to analyze weather trends such as temperature changes or humidity levels over time.
+
+Sales Data Analyzer: Develop a tool that reads sales data from a CSV file, performs analysis on key metrics like total and average sales, and stores the results in a database or generates reports in JSON format.
+
+Health Tracker: Develop a health tracker that allows users to log their daily activities, such as steps and calories, analyze trends over time, and store the data in a database or JSON file.
+
+
+
+Step of Innovation
+DISCOVERY :Identify the strategic focus area, translate into themes of innovation & problem statement
+IDEATION : idea collection & idea gratuation, bottoms-up ideation os trategic goals
+PC CREATION : conceptualize idea, check for novelty, functionality, feasbility, alignment to strategic goals
+EXECUTION : test the POC for feasability, market viability & scale
+
+
+Remember!
+The competition is just a part of the hackathon. To make the most out of the event, try something new and teach other people!
+
+Happy Hacking from the DI team!
+
+https://www.ahuzot.co.il/Map/Parking/
+https://www.ahuzot.co.il/Parking/All/
+https://www.ahuzot.co.il/Parking/All/ - copy page & generate updated json file
+** possibleilty that long and lat are swaped, need to verify.   sample coord 28	17	חניון גולדה	ברקוביץ 7 תל-אביב יפו	32.076985	34.784670
+32.076985 longitude
+34.784670 latitude
+
+sample 
+חניון חברה חדשה
+כתובת החניון : חברה חדשה 9 תל-אביב יפו
+שעות פעילות החניון : 24 שעות 7 ימים בשבוע
+מתחם, איזור אותו משמש החניון : כיכר המדינה
+תעריף החניון : 
+שעתי תקף בימים א` - ו` (ערבי חג)
+בין השעות 07:00 בבוקר עד 18:00 אחר הצהריים
+לשעה ראשונה או חלק ממנה 20 ₪
+כל ¼ שעה נוספת או חלק ממנה 5 ₪
+רכב הנכנס לפי תעריף שעתי החל מ-07:00 ישלם לפי תעריף שעתי ביציאה
+
+תעריף לכניסה חד פעמית 30 ₪
+תקף בימים א` - ו` (ערבי חג) בין השעות 18:00 עד 07:00 בבוקר שלמחרת
+ובימי שבת וחגים בין השעות 07:00 עד 07:00 בבוקר שלמחרת
+75% הנחה לתושבי תל-אביב יפו
+השהייה בחניון עד 15 דקות ללא תשלום
+
+בחניון זה התשלום הינו רק בכרטיס אשראי ו/או ישומון סלולארי.
+לא ניתן לשלם במזומן.
+
+מפעיל החניון : אחוזות החוף (הפעלה עצמית) 03-7610300
+
+89	41	חניון חברה חדשה	חברה חדשה 9 תל-אביב יפו	32.085064	34.790688	{"area": "כיכר המדינה", "name": "חניון חברה חדשה", "address": "חברה חדשה 9 תל-אביב יפו", "pricing": {"hourly": {"discount": "75% הנחה לתושבי תל-אביב יפו", "weekdays": {"end": "18:00", "start": "07:00", "first_hour": "20 ₪", "additional_quarter_hour": "5 ₪"}, "single_entry": "30 ₪", "free_duration": "15 דקות"}}, "operator": "אחוזות החוף (הפעלה עצמית) 03-7610300", "payment_method": "כרטיס אשראי ו/או ישומון סלולארי", "operating_hours": "24 שעות 7 ימים בשבוע"}	
+google earth link https://earth.app.goo.gl/?apn=com.google.earth&isi=293622097&ius=googleearth&link=https%3a%2f%2fearth.google.com%2fweb%2fsearch%2f32.085064,%250934.790688%2f%4032.0850035,34.79084916,27.10746765a,0d,60y,203.63297648h,71.7010753t,0r%2fdata%3dClwaLhIoGZEIjWDjCkBAIXmrrkM1ZUFAKhQzMi4wODUwNjQsCTM0Ljc5MDY4OBgBIAEiJgokCdg-i4V4qDZAEUh71UHXATjAGdUbFXRwFEtAIQAE352rTErAQgIIASIaChZuN1l3dHhvYVBEVlI3Vmw1eXdpUFVnEAI6AwoBMEoNCP___________wEQAA
+
+
+additional features and functionality
+1.  calculate practice
+2.  add images
+3.  upload to my domain
+4.  upload to aws 
+5.  add gps and / or map 
+6.  add search
+7.   save data to database
+8.  create user acct to store items per user
+9.  place to store parking spot photo or car location
+10.  clean up code to break down ejs into multiple appropriate files
+
+
+
+
+idea, turn app into billing app, time tracker on project / task. include start and stop button that continues to bill to spefific chart.
