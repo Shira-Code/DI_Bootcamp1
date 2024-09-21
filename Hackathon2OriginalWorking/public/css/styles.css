@@ -1,0 +1,147 @@
+    body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  padding: 10px 20px;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  text-align: center;
+  height: auto;
+  box-sizing: border-box;
+}
+
+.container {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 600px; /* Adjust as needed */
+  margin: 80px auto 20px auto;
+  max-height: calc(100vh - 140px);
+  overflow: auto;
+}
+
+h1, h2 {
+  color: #333;
+}
+
+form {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+label, select, button {
+  margin: 10px 0;
+  font-size: 16px;
+  display: block;
+  width: 100%;
+}
+
+select {
+  width: 100%;
+  min-width: 300px; /* Ensure dropdown is wide enough */
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: auto;
+  white-space: nowrap; /* Prevent text from wrapping */
+}
+
+option {
+  text-align: center; /* Center the text inside options */
+}
+
+/* Mobile-specific styles */
+@media (max-width: 600px) {
+  select {
+    font-size: 14px; /* Adjust font size for mobile */
+  }
+}
+
+/* Styles for larger screens */
+@media (min-width: 768px) {
+  select {
+    min-width: 400px; /* Adjust as needed for larger screens */
+  }
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  background-color: #e7e7e7;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.timer, .total-time, .price {
+  font-size: 16px;
+  color: #f00;
+  margin-left: 10px;
+}
+
+.stop-button, .remove-button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.stop-button {
+  background-color: #f44336;
+}
+
+.stop-button:hover {
+  background-color: #d32f2f;
+}
+
+.remove-button {
+  background-color: #555;
+}
+
+.remove-button:hover {
+  background-color: #333;
+}
+
+.notification {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  background-color: #dff0d8;
+  color: #3c763d;
+  text-align: center;
+  display: none;
+}
+

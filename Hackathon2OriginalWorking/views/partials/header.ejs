@@ -1,0 +1,22 @@
+<div class="header" role="banner">
+    <h1>Select a Parking Lot from Achuazat Hachof Parking</h1>
+    <h2>**Tel Aviv Residents Cars Registered with a Handicap Tag Park for Free**<br>Tel Aviv Residents Cars 75% Discount</h2>
+    <form id="parkingForm" role="form">
+      <label for="parking_spot">Choose a spot:</label>
+      <select name="parking_spot" id="parking_spot" required>
+        <% parkingSpots.forEach(spot => { %>
+          <option value="<%= spot.id %>" data-info="<%= spot.info %>"><%= spot.name %> - <%= spot.address %></option>
+        <% }) %>
+      </select>
+      <label>
+        <input type="checkbox" id="telAvivResident" aria-required="false">
+        Tel Aviv Resident
+      </label>
+      <label>
+        <input type="checkbox" id="showInfo" aria-required="false">
+        Show Additional Info
+      </label>
+      <button type="submit" aria-label="Select Lot">Select Lot</button>
+    </form>
+    <div id="notification" class="notification" role="alert"></div>
+  </div>
