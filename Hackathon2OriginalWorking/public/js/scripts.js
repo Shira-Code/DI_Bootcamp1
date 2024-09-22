@@ -93,20 +93,55 @@ document.addEventListener('DOMContentLoaded', function() {
       stopButton.className = 'stop-button';
       stopButton.textContent = 'Stop Timer';
       stopButton.setAttribute('aria-label', 'Stop Timer');
-      stopButton.onclick = function() {
+      // stopButton.onclick = function() {
+      //   const { totalTime, stopTime, price } = stopTimer(selectedSpotId);
+      //   const totalTimeElement = document.createElement('span');
+      //   totalTimeElement.className = 'total-time';
+      //   totalTimeElement.textContent = ` | Stop time: ${stopTime.toLocaleString()} | Total Time: ${formatTime(totalTime)}`;
+      //   newListItem.appendChild(totalTimeElement);
+      //   const priceElement = document.createElement('span');
+      //   priceElement.className = 'price';
+      //   priceElement.textContent = ` | Estimated Price: ${price}`;
+      //   newListItem.appendChild(priceElement);
+      //   newListItem.removeChild(timerElement);
+      //   newListItem.removeChild(priceElement);
+      //   newListItem.removeChild(stopButton);
+      // };
+      stopButton.onclick = async function() {
         const { totalTime, stopTime, price } = stopTimer(selectedSpotId);
-        const totalTimeElement = document.createElement('span');
-        totalTimeElement.className = 'total-time';
-        totalTimeElement.textContent = ` | Stop time: ${stopTime.toLocaleString()} | Total Time: ${formatTime(totalTime)}`;
-        newListItem.appendChild(totalTimeElement);
-        const priceElement = document.createElement('span');
-        priceElement.className = 'price';
-        priceElement.textContent = ` | Estimated Price: ${price}`;
-        newListItem.appendChild(priceElement);
-        newListItem.removeChild(timerElement);
-        newListItem.removeChild(priceElement);
-        newListItem.removeChild(stopButton);
-      };
+        
+        // Send data to the server
+        const response = await fetch('/save-parking-session', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                spotId: selectedSpotId,
+                totalTime,
+                totalPrice: parseFloat(price.replace('₪', '').replace(',', '')), // Convert price to float
+                startTime: timers[selectedSpotId].startTime,
+                stopTime: stopTime.toISOString()
+            })
+        });
+    
+        if (response.ok) {
+            const totalTimeElement = document.createElement('span');
+            totalTimeElement.className = 'total-time';
+            totalTimeElement.textContent = ` | Stop time: ${stopTime.toLocaleString()} | Total Time: ${formatTime(totalTime)}`;
+            newListItem.appendChild(totalTimeElement);
+            const priceElement = document.createElement('span');
+            priceElement.className = 'price';
+            priceElement.textContent = ` | Estimated Price: ${price}`;
+            newListItem.appendChild(priceElement);
+            newListItem.removeChild(timerElement);
+            newListItem.removeChild(priceElement);
+            newListItem.removeChild(stopButton);
+        } else {
+            console.error('Failed to save parking session');
+        }
+    };
+    
       newListItem.appendChild(stopButton);
 
       const removeButton = document.createElement('button');

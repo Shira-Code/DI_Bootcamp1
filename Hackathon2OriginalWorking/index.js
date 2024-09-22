@@ -4,6 +4,9 @@ const pool = require('./db');
 const path = require('path');
 const app = express();
 
+// index.js
+app.use(express.json()); // Add this line
+
 // Middleware to handle form data
 app.use(express.urlencoded({ extended: true }));
 
@@ -65,6 +68,41 @@ app.post('/', async (req, res) => {
   }
   res.redirect('/');
 });
+
+const saveParkingSession = async (spotId, totalTime, totalPrice, startTime, stopTime) => {
+  try {
+    await pool.query(
+      'INSERT INTO parking_sessions (spot_id, total_time, total_price, start_time, stop_time) VALUES ($1, $2, $3, $4, $5)',
+      [spotId, totalTime, totalPrice, startTime, stopTime]
+    );
+  } catch (err) {
+    console.error('Error saving parking session:', err);
+    throw err; // Propagate error for handling in route
+  }
+};
+
+
+// Route to save parking session data
+app.post('/save-parking-session', async (req, res) => {
+  console.log('Received request body:', req.body); // Log the request body
+  
+  const { spotId, totalTime, totalPrice, startTime, stopTime } = req.body;
+
+  if (!spotId || !totalTime || !totalPrice || !startTime || !stopTime) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+
+  try {
+    await saveParkingSession(spotId, totalTime, totalPrice, new Date(startTime), new Date(stopTime));
+    res.sendStatus(200);
+  } catch (error) {
+    console.error('Error saving parking session:', error);
+    res.status(500).json({ error: 'Failed to save parking session' });
+  }
+});
+
+
+
 
 // Start the server
 const PORT = process.env.PORT || 3000;

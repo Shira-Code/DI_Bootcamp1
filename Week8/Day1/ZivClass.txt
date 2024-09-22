@@ -1,0 +1,114 @@
+libraries:  tailwindcss, tachyons, react bootstrap, multi react, MUI - material UI.
+install react
+
+for mac users:
+will change permissions which will not require to use "sudo" run this in "w8d1" BEST to do it on DI_Bootcamp directory :
+
+sudo chown -R username folder
+sudo chown -R zivuch Desktop
+
+also may need to use "sudo"
+
+jsx combination of js, text, 
+
+nstructions for the Exercise:
+
+1. Create a new React app.
+2. Import the users.json file from the src folder.
+3. Create a User component.
+4. Send user information via props to the User component.
+5. Display the users, with each user showing their name, email, username, and user's image.
+6. For the image source, you can use: https://robohash.org/1?size=150x150.
+
+ */
+
+ Here's how you can approach this exercise step by step:
+
+### Step 1: Create a new React app
+1. Run the following command in your terminal to create a new React app:
+   ```bash
+   npx create-react-app user-display
+   ```
+2. Navigate to the app's folder:
+   ```bash
+   cd user-display
+   ```
+
+### Step 2: Import the `users.json` file
+1. Place your `users.json` file in the `src` folder.
+2. Import the JSON data in the `App.js` file:
+   ```javascript
+   import React from 'react';
+   import users from './users.json';
+   ```
+
+### Step 3: Create the `User` Component
+1. Create a new component called `User.js` in the `src` folder:
+   ```javascript
+   import React from 'react';
+
+   const User = ({ name, email, username, image }) => {
+     return (
+       <div className="user-card">
+         <img src={image} alt={name} />
+         <h2>{name}</h2>
+         <p>Email: {email}</p>
+         <p>Username: {username}</p>
+       </div>
+     );
+   };
+
+   export default User;
+   ```
+
+### Step 4: Send user information via props
+In `App.js`, map over the users from the `users.json` file and pass the data as props to the `User` component:
+
+```javascript
+import React from 'react';
+import User from './User';
+import users from './users.json';
+
+function App() {
+  return (
+    <div className="App">
+      {users.map((user) => (
+        <User
+          key={user.id}
+          name={user.name}
+          email={user.email}
+          username={user.username}
+          image={`https://robohash.org/${user.id}?size=150x150`}
+        />
+      ))}
+    </div>
+  );
+}
+
+export default App;
+```
+
+### Step 5: Styling (optional)
+You can add some styles to make the user cards look better by creating a `User.css` file:
+
+```css
+.user-card {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin: 10px;
+  text-align: center;
+}
+.user-card img {
+  border-radius: 50%;
+}
+```
+
+### Step 6: Run the app
+Run the app by running the following command in your terminal:
+```bash
+npm start
+```
+
+This will start the development server, and you should see each user's name, email, username, and profile picture displayed from the `users.json` file.
+
+Let me know if you need help with any specific part!

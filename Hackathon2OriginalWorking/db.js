@@ -1,19 +1,44 @@
+// // db.js
 // db.js
 const { Pool } = require('pg');
 require('dotenv').config();
 
 const pool = new Pool({
   user: 'ShiraTestNeon_owner',
-    host: 'ep-odd-sound-a2rg1w0j-pooler.eu-central-1.aws.neon.tech',
-    database: 'ShiraTestNeon',
-    password: 'SN4UO1AqlmvL',
-    port: 5432,  // standard PostgreSQL port
-    ssl: {
-              rejectUnauthorized: false  // Allow self-signed certificates
-        }
+  host: 'ep-odd-sound-a2rg1w0j-pooler.eu-central-1.aws.neon.tech',
+  database: 'ShiraTestNeon',
+  password: 'SN4UO1AqlmvL',
+  port: 5432,  // standard PostgreSQL port
+  ssl: {
+    rejectUnauthorized: false  // Allow self-signed certificates
+  }
 });
 
+// Test the database connection
+pool.connect()
+  .then(client => {
+    console.log("Connected to the database");
+    client.release(); // Release the client back to the pool
+  })
+  .catch(err => console.error('Connection error', err.stack));
+
 module.exports = pool;
+
+// const { Pool } = require('pg');
+// require('dotenv').config();
+
+// const pool = new Pool({
+//   user: 'ShiraTestNeon_owner',
+//     host: 'ep-odd-sound-a2rg1w0j-pooler.eu-central-1.aws.neon.tech',
+//     database: 'ShiraTestNeon',
+//     password: 'SN4UO1AqlmvL',
+//     port: 5432,  // standard PostgreSQL port
+//     ssl: {
+//               rejectUnauthorized: false  // Allow self-signed certificates
+//         }
+// });
+
+// module.exports = pool;
 
 // const { Pool } = require('pg');
 // require('dotenv').config();

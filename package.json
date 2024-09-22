@@ -9,6 +9,9 @@
   "author": "Shira Blum",
   "license": "ISC",
   "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/material": "^6.1.1",
     "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
@@ -18,6 +21,7 @@
     "node": "^22.9.0",
     "nodemon": "^3.1.7",
     "pg": "^8.13.0",
-    "slugify": "^1.6.6"
+    "slugify": "^1.6.6",
+    "tachyons": "^4.12.0"
   }
 }

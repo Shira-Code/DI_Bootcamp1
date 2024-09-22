@@ -1,0 +1,27 @@
+create table users (
+ id serial not null primary key,
+ email varchar(255) not null unique,
+ username varchar(50) not null ,
+ first_name varchar(50) not null, 
+ last_name varchar(50) not null
+)
+create table hashpwd  (
+ id serial not null primary key,
+ userid integer not null references users(id),
+ password varchar(1000) not null
+)
+
+
+for join don't need pk or fk, only need pk & fk for create, update,Development
+don't  need pk fk for join if just comparing 2 items  like username provided by user 2 tables
+
+
+
+
+salt
+
+const saltRounds = 10
+    const hashedPass = await bcrypt.hash(password, saltRounds)
+
+
+    
