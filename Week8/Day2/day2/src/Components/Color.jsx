@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from 'react';
 
 const Color = () => {
-    // Initialize state variable with the default color as "red"
+   
     const [favoriteColor, setFavoriteColor] = useState("red");
 
-    // useEffect hook that will run every time the favoriteColor state changes
     useEffect(() => {
         alert(`useEffect reached: My favorite color is ${favoriteColor}`);
-    }, [favoriteColor]); // Trigger effect whenever favoriteColor changes
+    }, [favoriteColor]); 
 
-    // Function to change the color to blue
     const changeColorToBlue = () => {
         setFavoriteColor("blue");
     };
 
-    // Function to change the color to yellow
     const changeColorToYellow = () => {
         setFavoriteColor("yellow");
     };

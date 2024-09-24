@@ -1,0 +1,29 @@
+demo challenge from yesterday 
+object and array is sent by reference
+
+can use 3 dots to make a copy creating a new reference for 
+the object so when it changes, it will render again
+setLanguages(...languages)
+
+in order to render the page, to change the reference, can do that by cloning using ...
+
+should not touch the state, always make a copy of the state and then reference it.
+only if using array and object which are both datatypes that are passed by reference
+
+in redux will always make copy of the state
+
+redux is state management in large scale applications
+
+App.jsx is managing components, components should be new components in components folder.  
+    return is a component
+
+when wrapping componennt inside component you have access to children of component
+    and becomes prop by default.
+
+{count} -- is a jsx element
+
+will wrap component
+
+componentDidCatch = (error, errorInfo) => {
+    this setState({ hasError: true});
+};
