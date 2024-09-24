@@ -1,0 +1,104 @@
+lifecycle of a component
+setting the state will render again
+
+this.state = {}
+
+placing items in this.state will re-render
+but limit the components in there, it will cause performance issues
+
+need to setState() to render again
+
+this.setState({users:data})
+
+3 states, mounting, updating, unmounting
+
+mounting - constructor - render -react updates dom and refs - componentDidMount
+
+
+props is a 2nd way to call render
+forceUpdate() - is a 3rd way to call a render but don't use it!
+
+unmounting - no longer rendered on
+
+class component, constuctor - don't place array in there bc it won't be re-rendered.
+
+optional stage:
+mounting componentDidMount
+
+
+main.jsx <strictMode>  won't run in prod, will cause constructor and render 
+
+
+componentDidUpdate - will run in UPDATING stage
+
+Unmounting stage - componentWillUnmount
+
+
+converting class component to function component was replaced with HOOKS.
+
+for function component hooks need:
+import { useState } from "react";
+
+const is for function, not method
+
+set state of users (or other) by using useState 
+
+https://jsonplaceholder.typicode.com/users
+
+useEffect 
+    listening
+
+
+ userState and useEffect are hooks  
+
+
+REMOVE STRICT MODE if having errors.  but won't display in prod.
+
+
+
+    import { useState, useEffect } from "react";
+
+const Example = (props) => {
+  const [users, setUsers] = useState([]);
+  const [text, setText] = useState("");
+  //   const [a, b] = useState()
+
+  useEffect(()=>{
+    console.log('useEfect ');
+  }, [])
+
+  const getUsers = async () => {
+    try {
+      const res = await fetch("https://jsonplaceholder.typicode.com/users");
+      const data = await res.json();
+      setUsers(data);
+      //   this.setState({ users: data });
+      //   this.users = data;
+      //   console.log("this.users=>", this.users);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleChange = (e) => {
+    setText(e.target.value);
+  };
+
+  const filtered = users.filter((item) => {
+    return item.name.toLowerCase().includes(text.toLowerCase());
+  });
+
+  return (
+    <>
+      <h2>{props.num}. Example of Function Component </h2>
+      <button onClick={() => getUsers()}>Get Users</button>
+      <div>
+        <input onChange={(e) => handleChange(e)} placeholder='Search...' />
+      </div>
+      {filtered.map((item) => {
+        return <div key={item.id}>{item.name}</div>;
+      })}
+    </>
+  );
+};
+export default Example;
