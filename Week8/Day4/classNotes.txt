@@ -1,0 +1,19 @@
+/**
+ * Create a Shop page/component with 2 products
+ * <div>
+        <h2>Product 1</h2>
+        <p>100$</p>
+        <Link>More Info</Link>
+      </div>
+  * ad this Shop to the menu
+        add a Product component /page
+ */
+
+ use api-server (node) from ziv for Products exercise using neon
+
+
+ CORS install, origin (whitelists domains allowed to access server)
+
+ react dev tool extension can record 
+
+ for react .env is built in, for vite need diff line for localhost vs react
