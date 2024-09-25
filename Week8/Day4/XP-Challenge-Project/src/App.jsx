@@ -96,50 +96,50 @@
 // export default App;
 
 //exercise 4
-import React from 'react';
+// import React from 'react';
 
-const App = () => {
-    const uniqueURL = "https://webhook.site/f57532a6-3299-4378-b81a-b933f2560f5d"; // Replace with your unique URL
+// const App = () => {
+//     const uniqueURL = "https://webhook.site/f57532a6-3299-4378-b81a-b933f2560f5d"; // Replace with your unique URL
 
-    const postData = async () => {
-        const data = {
-            key1: 'myusername',
-            email: 'mymail@gmail.com',
-            name: 'Isaac',
-            lastname: 'Doe',
-            age: 27
-        };
+//     const postData = async () => {
+//         const data = {
+//             key1: 'myusername',
+//             email: 'mymail@gmail.com',
+//             name: 'Isaac',
+//             lastname: 'Doe',
+//             age: 27
+//         };
 
-        try {
-            const response = await fetch(uniqueURL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
+//         try {
+//             const response = await fetch(uniqueURL, {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json'
+//                 },
+//                 body: JSON.stringify(data)
+//             });
 
-            const text = await response.text(); // Get the raw response text
-            console.log("Response status:", response.status);
-            console.log("Response text:", text);
+//             const text = await response.text(); 
+//             console.log("Response status:", response.status);
+//             console.log("Response text:", text);
 
-            // Handle the response text
-            if (response.ok) {
-                // The response is HTML, so we will not parse it as JSON
-                console.log("Received successful response but not JSON:", text);
-            } else {
-                console.error("Error: Response not OK", response.status);
-            }
-        } catch (error) {
-            console.error("Error posting data:", error);
-        }
-    };
+            
+//             if (response.ok) {
+                
+//                 console.log("Received successful response but not JSON:", text);
+//             } else {
+//                 console.error("Error: Response not OK", response.status);
+//             }
+//         } catch (error) {
+//             console.error("Error posting data:", error);
+//         }
+//     };
 
-    return (
-        <div>
-            <button onClick={postData}>Press Me to Post Some Data</button>
-        </div>
-    );
-};
+//     return (
+//         <div>
+//             <button onClick={postData}>Press Me to Post Some Data</button>
+//         </div>
+//     );
+// };
 
-export default App;
+// export default App;
