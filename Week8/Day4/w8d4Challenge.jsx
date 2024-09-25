@@ -1,5 +1,5 @@
-Daily challenge #1 : Data and Server
-Last Updated: September 22nd, 2023
+// Daily challenge #1 : Data and Server
+// Last Updated: September 22nd, 2023
 
 // What You will learn :
 // Express Server
