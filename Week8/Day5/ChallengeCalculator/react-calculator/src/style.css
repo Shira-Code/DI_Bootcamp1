@@ -1,0 +1,20 @@
+.calculator {
+  text-align: center;
+  margin: 20px;
+  background-color: blueviolet;
+}
+
+input {
+  margin: 5px;
+  padding: 10px;
+}
+
+button {
+  padding: 10px 15px;
+  margin: 10px;
+  background-color: indigo;
+}
+
+h2 {
+  margin-top: 20px;
+}
