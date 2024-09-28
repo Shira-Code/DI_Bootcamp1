@@ -1,0 +1,6 @@
+continued demo from yesterday,
+
+in neon db do this:
+alter table products add column description varchar(500)
+update products set description = (name || ' ' || id || ' ' || price)
+select * from products

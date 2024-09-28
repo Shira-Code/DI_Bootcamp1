@@ -45,201 +45,167 @@
 
 // Test your API using tools like Postman or curl.
 
-Here’s a detailed breakdown to build a User Management API with registration and login functionality using Express.js, Knex, Bcrypt, and PostgreSQL:
+// //app.js
+// const express = require("express");
+// const userRouter = require("./routes/userRouter.js");
+// const app = express();
 
-Requirements:
-Project Setup:
+// //body parser
+// app.use(express.urlencoded({ extended: true }));
+// app.use(express.json());
 
-Create a directory user-management-api and initialize the project:
-bash
-Copy code
-mkdir user-management-api
-cd user-management-api
-npm init -y
-Install the necessary dependencies:
-bash
-Copy code
-npm install express knex pg bcrypt
-Create Database:
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, () => {
+//     console.log(`run on ${PORT}`);
+// });
 
-Set up your PostgreSQL database and create the following tables:
-users table:
-sql
-Copy code
-CREATE TABLE users (
-  id SERIAL PRIMARY KEY,
-  email VARCHAR(255) UNIQUE NOT NULL,
-  username VARCHAR(100) UNIQUE NOT NULL,
-  first_name VARCHAR(100),
-  last_name VARCHAR(100)
-);
-hashpwd table:
-sql
-Copy code
-CREATE TABLE hashpwd (
-  id SERIAL PRIMARY KEY,
-  username VARCHAR(100) REFERENCES users(username) ON DELETE CASCADE,
-  password VARCHAR(255) NOT NULL
-);
-Directory Structure:
+// app.use("/user", userRouter);
 
-arduino
-Copy code
-server
-|_ config
-|_ controllers
-|_ models
-|_ routes
-Knex Configuration:
+//db.js
+// const knex = require("knex");
+// require("dotenv").config();
+// const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD, PGPORT } = process.env;
 
-Inside config/knex.js, configure Knex to connect to your PostgreSQL database:
-javascript
-Copy code
-const knex = require('knex')({
-  client: 'pg',
-  connection: {
-    host: '127.0.0.1',
-    user: 'your_db_user',
-    password: 'your_db_password',
-    database: 'your_db_name'
-  }
-});
+// module.exports = {
+//   db: knex({
+//     client: "pg",
+//     connection: {
+//        host: PGHOST,
+//        port: PGPORT,
+//        user: PGUSER,
+//        database: PGDATABASE,
+//        password: PGPASSWORD,
+//        ssl: { rejectUnauthorized: false },
+//         },
+//     })
+// };
 
-module.exports = knex;
-Controllers:
+//userModel.js
+// const { create } = require("domain");
+// const { db } = require("../config/db.js");
+// const bcrypt = require("bcrypt");
 
-In controllers/userController.js, implement the controller logic for handling user registration, login, and CRUD operations:
-javascript
-Copy code
-const bcrypt = require('bcrypt');
-const knex = require('../config/knex');
+// module.exports = {
+//     createUser: async (userinfo) => {
+//         const {username, password, email, first_name, last_name} = userinfo;
+//         const trx = await db.transaction();
 
-// Register a new user
-const registerUser = async (req, res) => {
-  const { email, username, first_name, last_name, password } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
+//         try {
+//             // insert user data into 'users' table
+//             const [user] = await trx("users").insert(
+//                 {email, username, first_name, last_name},
+//                 ["username", "id"]
+//             );
+//             //hash the pwd and insert into hashpwd table
+//             const hashPassword = await bcrypt.hash(password + "", 10);
 
-  try {
-    // Use transaction to ensure atomicity
-    await knex.transaction(async trx => {
-      const user = await trx('users').insert({
-        email, username, first_name, last_name
-      }).returning('*');
-      
-      await trx('hashpwd').insert({
-        username: user[0].username,
-        password: hashedPassword
-      });
-    });
+//             await trx("hashpwd").insert({
+//                     username: user.username,
+//                     password: hashPassword
+//                 });
+//             await trx.commit();
 
-    res.status(201).json({ message: 'User registered successfully' });
-  } catch (error) {
-    res.status(500).json({ error: 'Registration failed', details: error });
-  }
-};
+//             return user;
 
-// Login a user
-const loginUser = async (req, res) => {
-  const { username, password } = req.body;
+//         }   catch (error) {
+//             await trx.rollback();
+//             throw error;
+//         }
+           
+//     },
 
-  try {
-    const user = await knex('hashpwd').where({ username }).first();
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
+//     getUserByUserName: async (email, username) => {
+//         try {
+//             const user = await db("users")
+//                 .select('users.id', 'users.username', 'hashpwd.password')
+//                 .join("hashpwd", { 'users.username': 'hashpwd.username' })
+//                 .where('users.username', username)
+//                 .orWhere('users.email', email)
+//                 .first();
+//           return user;
+//         } catch (error) {
+//           throw error;
+//         }
+//     },
 
-    const validPassword = await bcrypt.compare(password, user.password);
-    if (!validPassword) {
-      return res.status(401).json({ error: 'Invalid password' });
-    }
+//     getAllUsers: async () => {
+//       try {
+//             const users = await db("users");
+//             return users
+//         } catch(error) {
+//             throw error 
+//             }
+//         }
+// };
 
-    res.status(200).json({ message: 'Login successful' });
-  } catch (error) {
-    res.status(500).json({ error: 'Login failed', details: error });
-  }
-};
+//userController.js
+// const userModel = require('../models/userModel');
+// const bcrypt = require('bcrypt');  
 
-// Retrieve all users
-const getAllUsers = async (req, res) => {
-  try {
-    const users = await knex('users').select('*');
-    res.status(200).json(users);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to retrieve users', details: error });
-  }
-};
+// module.exports = {
+//     registerUser: async (req, res) => {
+//         const { username, password, email, first_name, last_name } = req.body;
 
-// Retrieve a specific user by ID
-const getUserById = async (req, res) => {
-  const { id } = req.params;
+//         const user = { username, password, email, first_name, last_name };
 
-  try {
-    const user = await knex('users').where({ id }).first();
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-    res.status(200).json(user);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to retrieve user', details: error });
-  }
-};
+//         try {
+//             const userInfo = await userModel.createUser(user);
+//             res.status(201).json({
+//                 message: 'User created successfully',
+//                 user: userInfo,
+//             });
+//         } catch (error) {
+//             console.log(error.code);
+//             if (error.code == 23505) {
+//                 res.status(200).json({message: 'Email or Username already exist'});
+//             }
+//             res.status(500).json({error: 'internal server error'});
+            
+//         }
+//     },
+//     loginUser: async (req, res) => {    
+//         const { email, username, password } = req.body; 
 
-// Update user information by ID
-const updateUser = async (req, res) => {
-  const { id } = req.params;
-  const { email, first_name, last_name } = req.body;
+//         try {
+//             const user = await userModel.getUserByUserName(email, username);
+//             if (!user) {
+//                 return res.status(404).json({message: 'user not found...'});
+//             }
+//             const passwordMatch = await bcrypt.compare(password + "", user.password);
+//             if (!passwordMatch) {
+//                 return res.status(401).json({message: 'Wrong password...'});
+//             }
+//             res.json({
+//                 message: 'Login successfull',
+//                 user: {userid: user.id, username: user.username},
+//             });
+//         } catch (error) {
+//             console.log(error);
+//             res.status(500).json({error: 'internal server error'});
 
-  try {
-    await knex('users').where({ id }).update({ email, first_name, last_name });
-    res.status(200).json({ message: 'User updated successfully' });
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to update user', details: error });
-  }
-};
+//         }
+//     },
 
-module.exports = { registerUser, loginUser, getAllUsers, getUserById, updateUser };
-Routes:
+//     getAllUsers: async (req,resp) => {
+//         try {
+//             const users = await userModel.getAllUsers();
+//             resp.json(users);
+//         } catch (error) {
+            
+//         }
+// }, 
+// };  
 
-In routes/userRoutes.js, define routes for registration, login, and CRUD:
-javascript
-Copy code
-const express = require('express');
-const router = express.Router();
-const userController = require('../controllers/userController');
+//userRouter.js
+// const express = require("express");
+// const router = express.Router();
+// const userController = require("../controllers/userController.js");
 
-router.post('/register', userController.registerUser);
-router.post('/login', userController.loginUser);
-router.get('/users', userController.getAllUsers);
-router.get('/users/:id', userController.getUserById);
-router.put('/users/:id', userController.updateUser);
+// //register route = register a new user
 
-module.exports = router;
-Express App Setup:
+// router.post("/register", userController.registerUser);
+// router.post("/login", userController.loginUser);
 
-In server.js, set up the Express app to use these routes:
-javascript
-Copy code
-const express = require('express');
-const app = express();
-const userRoutes = require('./routes/userRoutes');
+// router.get("/all", userController.getAllUsers);
 
-app.use(express.json());
-app.use('/api', userRoutes);
-
-const port = 3000;
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
-Testing the API:
-
-Start your server by running:
-bash
-Copy code
-node server.js
-Use Postman to test the following routes:
-POST /api/register - Register a user (send JSON: { "email": "email", "username": "username", "password": "password" }).
-POST /api/login - Log in a user (send JSON: { "username": "username", "password": "password" }).
-GET /api/users - Get all users.
-GET /api/users/:id - Get a specific user by ID.
-PUT /api/users/:id - Update a user's information.
-This will give you a functional User Management API with registration, login, and user data retrieval using Express.js, Knex, Bcrypt, and PostgreSQL!
+// module.exports = router;
