@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+  padding: 20px; /* Adjust padding as needed */
+  background-color: #f8f8f8; /* Light background for better contrast */
+  font-family: 'Circular', sans-serif; /* Use your defined font */
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns */
+  grid-template-rows: repeat(6, 200px); /* 6 rows, adjust height as needed */
+  gap: 15px; /* Space between the photos */
+}
+
+.image-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px; /* Rounded corners for images */
+  transition: transform 0.3s ease; /* Smooth hover effect */
+}
+
+.image-card img {
+  width: 100%; /* Make images fill the card */
+  height: 100%; /* Make images fill the card */
+  object-fit: cover; /* Cover the area without distortion */
+}
+
+.image-card:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
