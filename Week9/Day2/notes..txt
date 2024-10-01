@@ -1,0 +1,31 @@
+useSelector will access the state
+state.counter.count    ((()))
+
+first value is the store, second value is the reducer, third value is state within the reducer
+
+state = store
+aaa, or = reducer
+count = the state in the reducer
+
+
+onClick ---- need to use dispatch to execute the action
+
+async should not be in the reducer, it should be in action.
+the action will already be in the store.
+
+in order to dispatch directly from the store, can write type: INCREMENT
+
+recommended to dispatch object directly from the store so it's less complicated
+
+class exercise:
+add 2 reducers:
+
+inputaction.js
+inputreducer.js
+
+so that user input changes the h2
+
+
+cannot use hooks in classes, so use "connect" from react-redux from store 
+if exercise needs to use "connect' use hooks instead
+can also use "connect from react-redux 
