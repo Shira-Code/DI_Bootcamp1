@@ -1,0 +1,47 @@
+<!-- ### **Daily Challenge: Age Tracker with Redux Toolkit and Thunk**  
+**Last Updated: October 6th, 2024**
+
+#### **What You Will Learn**:
+- Redux Toolkit  
+- Async Actions with Thunk  
+- React Form Handling  
+
+#### **Objective**:  
+Create a new "Age Tracker" app from scratch, utilizing Redux Toolkit with Thunk middleware to manage asynchronous actions such as age incrementing and decrementing.
+
+---
+
+### **What You Will Create**:  
+A React app called **Age Tracker** that allows users to asynchronously increase and decrease their age using Redux Toolkit and Thunk middleware. While performing these actions, a loading icon will appear, indicating an ongoing update.
+
+---
+
+### **Instructions**:
+
+#### **1. Setup Redux Toolkit**:
+- Initialize a new React project using Vite or Create React App.
+- Install Redux Toolkit and React-Redux (`npm install @reduxjs/toolkit react-redux`).
+- Set up Redux Toolkit by creating a store using `configureStore` from Redux Toolkit.
+
+#### **2. Redux Actions with Thunk**:
+- Define two asynchronous action creators, `ageUpAsync` and `ageDownAsync`, using Redux Toolkit's `createAsyncThunk`.
+  - `ageUpAsync`: Simulate a delay using `setTimeout`, then increment the user's age.
+  - `ageDownAsync`: Simulate a delay using `setTimeout`, then decrement the user's age.
+
+#### **3. Create the Age Reducer**:
+- Create a slice using `createSlice` that includes:
+  - An initial state with `age` and `loading` properties.
+  - Reducers to handle loading states and updating the age.
+  - Extra reducers for `ageUpAsync` and `ageDownAsync`, handling the asynchronous loading process.
+
+#### **4. Modify Components**:
+- **AgeDisplay Component**:
+  - Create a component that displays the current age from the Redux store.
+  - Show a loading icon (you can use a simple React logo or any spinner) while the age is being updated.
+  
+- **AgeControls Component**:
+  - Create a form with two buttons: "Age Up" and "Age Down" to trigger `ageUpAsync` and `ageDownAsync`.
+  
+#### **5. Applying Redux and Thunk**:
+- Use `Provider` from `react-redux` to wrap your app and pass the Redux store.
+- Apply the Thunk middleware (already included with Redux Toolkit) when configuring the store. -->

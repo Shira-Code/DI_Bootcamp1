@@ -1,0 +1,156 @@
+store.js
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+
+import counterReducer from "../features/counter/counterSlice";
+
+
+const appReducer = combineReducers({
+  counterReducer,
+});
+
+const store = configureStore({
+  reducer: appReducer,
+});
+
+export default store;
+Counter.jsx
+import { useSelector, useDispatch } from "react-redux";
+import { useRef } from "react";
+import {
+  increment,
+  decrement,
+  reset,
+  incrementByNum,
+  incrementBy2Nums,
+  incrementWithPrepare
+} from "./counterSlice";
+// import { actions } from "./counterSlice";
+
+const Counter = (props) => {
+  const dispatch = useDispatch();
+  const count = useSelector((state) => state.counterReducer.count);
+
+  const numRef = useRef();
+
+  const num1Ref = useRef();
+  const num2Ref = useRef();
+
+  const addNum = () => {
+    const num = numRef.current.value;
+    dispatch(incrementByNum(Number(num)));
+  };
+
+  const add2Nums = () => {
+    const num1 = num1Ref.current.value;
+    const num2 = num2Ref.current.value;
+    // dispatch(incrementBy2Nums([Number(num1), Number(num2)]));
+    // dispatch(incrementBy2Nums({num1: Number(num1), num2: Number(num2)}));
+    dispatch(incrementWithPrepare(Number(num1), Number(num2)));
+  };
+
+  return (
+    <>
+      <h2>Count: {count}</h2>
+      <button onClick={() => dispatch(increment())}> + </button>
+      <button onClick={() => dispatch(decrement())}> - </button>
+      <button onClick={() => dispatch(reset())}> Reset </button>
+      <div>
+        <h2>Increment By Number</h2>
+        <input ref={numRef} />
+        <button onClick={() => addNum()}> Add Number</button>
+      </div>
+      <div>
+        <h2>Increment By 2 Number</h2>
+        <input ref={num1Ref} />
+        <input ref={num2Ref} />
+        <button onClick={() => add2Nums()}> Add 2 Number</button>
+      </div>
+    </>
+  );
+};
+export default Counter;
+counterSlice.js
+import { createSlice } from "@reduxjs/toolkit";
+
+const initialState = {
+  count: 0,
+};
+
+const counterSlice = createSlice({
+  name: "counter",
+  initialState,
+  reducers: {
+    // counter/increment
+    increment: (state) => {
+      state.count += 1;
+    },
+    decrement: (state) => {
+      state.count -= 1;
+    },
+    reset: (state) => {
+      state.count = initialState.count;
+    },
+    incrementByNum: (state, action) => {
+      //   console.log(action);
+      state.count += action.payload;
+    },
+    incrementBy2Nums: (state, action) => {
+      console.log(action.payload);
+      state.count += action.payload.num1 + action.payload.num2;
+      //   state.count = action.payload.reduce((total,item) => {
+      //     return total + item
+      //   }, state.count)
+    },
+    incrementWithPrepare: {
+      reducer(state, action) {
+        console.log(action);
+      },
+      prepare(num1, num2) {
+        return { payload: num1 + num2 };
+      },
+    },
+  },
+});
+
+// export const actions =  counterSlice.actions;
+
+export const {
+  increment,
+  decrement,
+  reset,
+  incrementByNum,
+  incrementBy2Nums,
+  incrementWithPrepare,
+} = counterSlice.actions;
+
+export default counterSlice.reducer;
+main.jsx
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+import "./index.css";
+import { Provider } from "react-redux";
+import store from "./app/store.js";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </React.StrictMode>
+);
+App.jsx
+import Counter from "./features/counter/Counter";
+
+import "./App.css";
+
+function App() {
+  return (
+    <>
+      <Counter />
+
+    </>
+  );
+}
+
+export default App;

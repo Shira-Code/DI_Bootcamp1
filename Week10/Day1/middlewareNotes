@@ -1,0 +1,42 @@
+middleware is a function
+request & response
+will need middleware w/autthentication verfy token
+
+redux, mw between action & reducer
+
+redux-thunk is piece of code that will be executed in future.
+
+view and logic in separate file 
+if dispatch an action, action will do logic of fetching
+waiting for fetching to be resolved
+bc redux is synchornized, it won't wait for the answer
+
+resolved proise or resolved answer need redux-thunk
+
+can download it
+it's already installed in redux toolkit it's already installed in slices
+
+need to install redux-logger middleware
+npm i redux-logger
+npm run dev
+
+import logger from redux-logger
+
+import { createSlice, createAshyncThunk }from reduxjs/toolkit";
+
+    action is (counter/delay) and will need to return a promise
+    async by default resolves a promise
+    if the function is async, then it will always return the promise.
+    extraReducers is a function with a builder, the builder has caese
+    extrareducers(builder) {
+        builder.addCase(delay2secAsyc.fulfilled, (state, action) => {
+            state.count +=1;
+        }
+    }
+
+    labeling a function 'async" automatically returns the promise without having to spell it 
+        out explicity
+        don't need to use try and catch bc it will be caught in the extrareducers builder section
+
+    Classroom exercise:
+    https://jsonplaceholder.typicode.com/users

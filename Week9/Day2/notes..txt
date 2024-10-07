@@ -29,3 +29,39 @@ so that user input changes the h2
 cannot use hooks in classes, so use "connect" from react-redux from store 
 if exercise needs to use "connect' use hooks instead
 can also use "connect from react-redux 
+
+OCTOBER 1, 2024
+
+CONNECT
+Must use "connect" if using class components,
+cannot use 
+
+connect(mapStatesToProps)
+
+will likely not use connect, will end up using hooks
+
+npm create vite@latest my-react-app -- --template react
+cd my-react-app
+npm install
+npm run dev
+
+npm install redux react-redux
+npm install @reduxjs/toolkit
+
+TOOLKIT
+does not require to make a clone of state. 
+ tookit automatically usses th e immer library creates the next 
+immutable state tree by modifying the current tree
+
+SLICE
+going to create 
+next week each slice will have it's own group of components or individual components
+will be in same folder, same slice, same hooks that organize
+slice will contain action and reducer in same file
+can do async performance inside the slice itself
+
+first create the slice
+then create store
+connect store to ap
+
+
