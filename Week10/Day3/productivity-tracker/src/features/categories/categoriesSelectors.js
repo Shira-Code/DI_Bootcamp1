@@ -1,22 +1,10 @@
-// src/features/CategorySelector.jsx
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { addCategory } from '.features/categories/categoriesSlice'; 
+// src/features/categories/categoriesSelectors.js
+// import { createSelector } from '@reduxjs/toolkit';
 
-const CategorySelector = () => {
-  const dispatch = useDispatch();
+// export const selectCategories = (state) => state.categories.categories;
 
-  const handleAddCategory = (category) => {
-    dispatch(addCategory(category));
-  };
-
-  return (
-    <div>
-      <button onClick={() => handleAddCategory({ id: 'newId', name: 'New Category' })}>
-        Add Category
-      </button>
-    </div>
-  );
-};
-
-export default CategorySelector;
+// export const selectCategoryById = (categoryId) =>
+//   createSelector(
+//     [selectCategories],
+//     (categories) => categories.find((cat) => cat.id === categoryId)
+//   );
