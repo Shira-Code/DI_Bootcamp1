@@ -1,0 +1,4 @@
+interface vs type
+
+interface cannot use union type eg:  strint | number | boolean
+use interfaces for classes
